@@ -7,8 +7,8 @@ describe("UserCreateService", () => {
   let clientsCreateService = null;
   let user = {};
   beforeEach(() => {
-    clientsrRepositoryInMemory = new UserRepositoryInMemory();
-    clientsCreateService = new UserCreateService(clientsRepositoryInMemory);
+    clientsRepositoryInMemory = new ClientsRepositoryInMemory();
+    clientsCreateService = new ClientsCreateService(clientsRepositoryInMemory);
     user = {
       name: "teste",
       email: "teste@gmail.com",
