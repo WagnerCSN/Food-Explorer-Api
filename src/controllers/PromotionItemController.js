@@ -19,3 +19,5 @@ class PromotionItemController{
       
     }
 }
+
+module.exports = PromotionItemController;

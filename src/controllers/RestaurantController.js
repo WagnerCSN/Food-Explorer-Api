@@ -19,3 +19,5 @@ class RestaurantController{
       
     }
 }
+
+module.exports = RestaurantController;

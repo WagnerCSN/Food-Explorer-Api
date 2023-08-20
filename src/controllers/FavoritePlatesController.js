@@ -19,3 +19,5 @@ class FavoritePlatesController{
       
     }
 }
+
+module.exports = FavoritePlatesController;

@@ -19,3 +19,5 @@ class TypeOfPlatesController{
       
     }
 }
+
+module.exports = TypeOfPlatesController;

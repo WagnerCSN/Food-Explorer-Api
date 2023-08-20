@@ -19,3 +19,5 @@ class AdministratorController{
       
     }
 }
+
+module.exports = AdministratorController;

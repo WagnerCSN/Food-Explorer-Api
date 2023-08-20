@@ -19,3 +19,5 @@ class PromotionController{
       
     }
 }
+
+module.exports = PromotionController;
