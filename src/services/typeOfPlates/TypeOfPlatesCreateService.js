@@ -5,7 +5,7 @@ class TypeOfPlatesCreateService{
         this.typeOfPlatesRepository = typeOfPlatesRepository;
     }
 
-    async create({name}){
+    async execute({name}){
         const checkTypePlateExist = await this.typeOfPlatesRepository.findByName(name);
 
         if(checkTypePlateExist){

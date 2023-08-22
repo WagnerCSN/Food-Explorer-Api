@@ -1,10 +1,11 @@
 class OrderController {
   async create(request, response) {
-    const {status, qtdeOfItems} = request.body;
+    const {status, qtdeOfItems, totalOrderValue} = request.body;
+    const { orderedItemId, clientsId } = request.params;
 
     orderRepository = new OrderRepository();
     orderCreateService = new OrderCreateService(orderRepository);
-    await orderCreateService.execute({status, qtdeOfItems});
+    await orderCreateService.execute({status, qtdeOfItems, totalOrderValue, orderedItemId, clientsId});
 
     response.json();
   }

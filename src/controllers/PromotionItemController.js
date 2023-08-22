@@ -1,10 +1,10 @@
 class PromotionItemController{
     async create(request, response) {
         const { discount } = request.body;
-
+        const { platesId } = request.params;
         promotionItemRepository = new PromotionItemRepository();
         promotionItemCreateService = new PromotionItemCreateService(promotionItemRepository);
-        await promotionItemCreateService.execute({discount});
+        await promotionItemCreateService.execute({discount, platesId});
 
         response.json();
 
