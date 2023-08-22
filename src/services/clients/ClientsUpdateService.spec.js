@@ -1,4 +1,4 @@
-const AppError = require("../utils/AppError");
+const AppError = require("../../utils/AppError");
 const ClientsUpdateService = require("./ClientsUpdateService");
 const ClientsUpdateRepositoryInMemory = require("../repositories/ClientsUpdateRepositoryInMemory");
 

@@ -1,7 +1,7 @@
-const ClientsRepository = require("../repositories/ClientsRepository");
-const ClientsCreateService = require("../services/ClientsCreateService");
-const ClientsUpdateService = require("../services/ClientsUpdateService");
-const ClientsUpdateRepository = require("../repositories/ClientsUpdateRepository");
+const ClientsRepository = require("../repositories/clients/ClientsRepository");
+const ClientsCreateService = require("../services/clients/ClientsCreateService");
+const ClientsUpdateService = require("../services/clients/ClientsUpdateService");
+const ClientsUpdateRepository = require("../repositories/clients/ClientsUpdateRepository");
 
 class ClientsController {
   async create(request, response) {
@@ -15,8 +15,8 @@ class ClientsController {
 
   async update(request, response) {
     const { name, email, password, old_password } = request.body;
-    const id = request.user.id;
-
+    // const id = request.user.id;
+    const { id } = request.params;
     const clientsUpdateRepository = new ClientsUpdateRepository();
     const clientsUpdateService = new ClientsUpdateService(
       clientsUpdateRepository

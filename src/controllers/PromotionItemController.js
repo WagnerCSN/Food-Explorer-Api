@@ -1,5 +1,12 @@
 class PromotionItemController{
     async create(request, response) {
+        const { discount } = request.body;
+
+        promotionItemRepository = new PromotionItemRepository();
+        promotionItemCreateService = new PromotionItemCreateService(promotionItemRepository);
+        await promotionItemCreateService.execute({discount});
+
+        response.json();
 
     }
   

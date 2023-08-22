@@ -1,5 +1,12 @@
 class OrderedItemController{
     async create(request, response){
+        const {value, discount, amount} = request.body;
+
+        orderedItemRepository = new OrderedItemRepository();
+        orderedItemCreateService = new OrderedItemCreateService(orderedItemRepository);
+        await orderedItemCreateService.execute({value, discount, amount});
+
+        response.json();
 
     }
 

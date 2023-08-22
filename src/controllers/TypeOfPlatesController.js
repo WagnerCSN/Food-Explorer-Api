@@ -1,5 +1,12 @@
 class TypeOfPlatesController{
     async create(request, response) {
+        const { name } = request.body;
+
+        typeOfPlatesRepository = new TypeOfPlatesRepository();
+        typeOfPlatesCreateService = new TypeOfPlatesCreateService(typeOfPlatesRepository);
+        await typeOfPlatesCreateService.execute({name});
+
+        response.json();
 
     }
   

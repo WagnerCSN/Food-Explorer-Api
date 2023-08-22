@@ -5,6 +5,6 @@ const clientsController = new ClientsController();
 const clientsRoutes = Router();
 
 clientsRoutes.post("/", clientsController.create);
-clientsRoutes.put("/", clientsController.update);
+clientsRoutes.put("/:id", clientsController.update);
 
 module.exports = clientsRoutes;

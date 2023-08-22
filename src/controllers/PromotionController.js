@@ -1,5 +1,12 @@
 class PromotionController{
     async create(request, response) {
+        const { initialDate, finalDate, name} = request.body;
+
+        promotionRepository = new PromotionRepository();
+        promotionCreateService = new PromotionCreateService(promotionRepository);
+        await promotionCreateService.execute({initialDate, finalDate, name});
+
+        response.json();
 
     }
   

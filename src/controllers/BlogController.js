@@ -1,5 +1,12 @@
 class BlogController{
     async create(request, response) {
+        const { name, email, comments } = request.body;
+
+        blogRepository = new BlogRepository();
+        blogCreateService = new BlogCreateService(blogRepository);
+        await blogCreateService.execute({name, email, comments});
+
+        response.json();
 
     }
   
