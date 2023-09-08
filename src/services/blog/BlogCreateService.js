@@ -5,7 +5,7 @@ class BlogCreateService{
         this.blogRepository = blogRepository;
     }
 
-    async execute({name, email, comments, platesId}){
+    async execute({name, email, comments, platesId, rating}){
         const checkPlateExist = await this.platesRepository.findByName(platesId);
         const checkUserExist = await this.clientsRepository.findByName(name);
         const checkEmailExist = await this.clientsRepository.findByEmail(email);
