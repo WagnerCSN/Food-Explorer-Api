@@ -3,14 +3,16 @@ class OrderCreateService{
         this.orderRepository = orderRepository;
     }
 
-    async execute({status, qtdeOfItems, orderedItemId, clientsId}){
+    async execute({status, qtdeOfItems, totalOrderValue, date, orderedItemId, clientsId}){
         const checkOrderedItemExist = await this.orderRepository.findByOrderedItem(orderedItemId);
         const checkEmailExist = await this.orderRepository.findByClients(clientsId);
-        const handleQtdeOfItems = await this.orderRepository.findByQtdeOfItems(qtdeOfItems);
+        const handleQtdeOfItems = await this.orderRepository.findByQtdeOfItems(qtdeOfItems);//consultar a quantidade de intens no pedido
 
         if(!checkOrderedItemExist){
             throw new AppError("There is no plate on the ordered item!");
         }
+
+        //status: em processamento, enviado, entregue
 
         if(!checkEmailExist){
             throw new AppError("Unregistered customer!");
@@ -22,8 +24,9 @@ class OrderCreateService{
 
         const orderCreated = await this.orderRepository.create({
             status, 
-            qtdeOfItems,
-            totalOrderValue
+            qtdeOfItems: handleQtdeOfItems,
+            totalOrderValue,
+            date,
         })
 
         return orderCreated;
