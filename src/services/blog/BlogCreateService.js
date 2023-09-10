@@ -26,7 +26,8 @@ class BlogCreateService{
         const postCreated = await this.blogRepository.create({
             name, 
             email, 
-            comments
+            comments,
+            rating,
         });
 
         return postCreated;
