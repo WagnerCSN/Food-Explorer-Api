@@ -1,4 +1,4 @@
-class ClientsUpdateRepositoryInMemory {
+class UsersUpdateRepositoryInMemory {
   users = [
     {
       id: "1",
@@ -35,4 +35,4 @@ class ClientsUpdateRepositoryInMemory {
     return user;
   }
 }
-module.exports = ClientsUpdateRepositoryInMemory;
+module.exports = UsersUpdateRepositoryInMemory;

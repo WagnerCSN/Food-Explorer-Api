@@ -1,13 +1,12 @@
-exports.up = knex => knex.schema.createTable("clients", table => {
+exports.up = knex => knex.schema.createTable("users", table => {
     table.increments("id");
     table.text("name").notNullable();
     table.text("email").notNullable().unique();
-    table.text("fone");
     table.text("password").notNullable().unique();
     table.text("avatar").Null;
-    table.text("date_of_birth");
+    table.enum("role", ["admin", "customer"], {useNative: true, enumName: "roles" }).notNullable().default("customer")
     table.timestamp("created_at").default(knex.fn.now());
     table.timestamp("updated_at").default(knex.fn.now());
 }); 
 
-exports.down = knex => knex.schema.dropTable("clients");
+exports.down = knex => knex.schema.dropTable("users");

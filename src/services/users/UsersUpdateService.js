@@ -1,20 +1,20 @@
 const { hash, compare } = require("bcryptjs");
 const AppError = require("../../utils/AppError");
 
-class ClientsUpdateService {
-  constructor(userUpdateRepository) {
-    this.userUpdateRepository = userUpdateRepository;
+class UsersUpdateService {
+  constructor(usersUpdateRepository) {
+    this.usersUpdateRepository = usersUpdateRepository;
   }
 
   async execute({ name, email, password, old_password, id }) {
-    const user = await this.userUpdateRepository.findByUser(id);
+    const user = await this.usersUpdateRepository.findByUser(id);
 
     if (!user) {
       throw new AppError("User not found");
     }
 
-    const userWithEamilExist = await this.userUpdateRepository.findByUsers();
-    const result = userWithEamilExist.find((mail) => mail.email === email);
+    const usersWithEmaililExist = await this.usersUpdateRepository.findByUsers();
+    const result = usersWithEmaililExist.find((mail) => mail.email === email);
 
     if (result && result.id !== user.id) {
       throw new AppError("This email is already in use!");
@@ -36,7 +36,7 @@ class ClientsUpdateService {
       user.password = await hash(password, 8);
     }
 
-    const updateuser = await this.userUpdateRepository.update({
+    const updateuser = await this.usersUpdateRepository.update({
       name: user.name,
       email: user.email,
       password: user.password,
@@ -47,4 +47,4 @@ class ClientsUpdateService {
   }
 }
 
-module.exports = ClientsUpdateService;
+module.exports = UsersUpdateService;

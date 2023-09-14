@@ -1,14 +1,14 @@
-const ClientsCreateService = require("./ClientsCreateService");
-const ClientsRepositoryInMemory = require("../repositories/ClientsRepositoryInMemory");
+const UsersCreateService = require("./UsersCreateService");
+const UsersRepositoryInMemory = require("../../repositories/users/UsersRepositoryInMemory");
 const AppError = require("../../utils/AppError");
 
 describe("UserCreateService", () => {
-  let clientsRepositoryInMemory = null;
-  let clientsCreateService = null;
+  let usersRepositoryInMemory = null;
+  let usersCreateService = null;
   let user = {};
   beforeEach(() => {
-    clientsRepositoryInMemory = new ClientsRepositoryInMemory();
-    clientsCreateService = new ClientsCreateService(clientsRepositoryInMemory);
+    usersRepositoryInMemory = new UsersRepositoryInMemory();
+    usersCreateService = new UsersCreateService(usersRepositoryInMemory);
     user = {
       name: "teste",
       email: "teste@gmail.com",
@@ -17,7 +17,7 @@ describe("UserCreateService", () => {
   });
 
   it("user should be create", async () => {
-    const userCreated = await clientsCreateService.execute(user);
+    const userCreated = await usersCreateService.execute(user);
     expect(userCreated).toHaveProperty("id");
   });
 
@@ -27,8 +27,8 @@ describe("UserCreateService", () => {
       email: "teste@gmail.com",
       password: "123",
     };
-    await clientsCreateService.execute(user);
-    await expect(clientsCreateService.execute(user2)).rejects.toEqual(
+    await usersCreateService.execute(user);
+    await expect(usersCreateService.execute(user2)).rejects.toEqual(
       new AppError("Email not allowed")
     );
   });
@@ -39,8 +39,8 @@ describe("UserCreateService", () => {
       email: "user2@gmail.com",
       password: "123",
     };
-    await clientsCreateService.execute(user);
-    await expect(clientsCreateService.execute(user2)).rejects.toEqual(
+    await usersCreateService.execute(user);
+    await expect(usersCreateService.execute(user2)).rejects.toEqual(
       new AppError("User already exists!")
     );
   });

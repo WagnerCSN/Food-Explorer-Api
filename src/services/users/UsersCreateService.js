@@ -1,14 +1,14 @@
 const { hash } = require("bcryptjs");
 const AppError = require("../../utils/AppError");
 
-class ClientsCreateService {
-  constructor(clientsRepository) {
-    this.clientsRepository = clientsRepository;
+class UsersCreateService {
+  constructor(usersRepository) {
+    this.usersRepository = usersRepository;
   }
   async execute({ name, email, password }) {
     const hashedpassword = await hash(password, 8);
-    const checkUserExist = await this.clientsRepository.findByName(name);
-    const checkEmailExist = await this.clientsRepository.findByEmail(email);
+    const checkUserExist = await this.usersRepository.findByName(name);
+    const checkEmailExist = await this.usersRepository.findByEmail(email);
 
     if (checkUserExist) {
       throw new AppError("User already exists!");
@@ -18,7 +18,7 @@ class ClientsCreateService {
       throw new AppError("Email not allowed");
     }
 
-    const userCreated = await this.clientsRepository.create({
+    const userCreated = await this.usersRepository.create({
       name,
       email,
       password: hashedpassword,
@@ -28,4 +28,4 @@ class ClientsCreateService {
   }
 }
 
-module.exports = ClientsCreateService;
+module.exports = UsersCreateService;

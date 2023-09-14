@@ -1,16 +1,14 @@
 const AppError = require("../../utils/AppError");
-const ClientsUpdateService = require("./ClientsUpdateService");
-const ClientsUpdateRepositoryInMemory = require("../repositories/ClientsUpdateRepositoryInMemory");
+const UsersUpdateService = require("./UsersUpdateService");
+const UsersUpdateRepositoryInMemory = require("../../repositories/users/UsersUpdateRepositoryInMemory");
 
-describe("ClientsUpdateService", () => {
-  let clientsUpdateRepositoryInMemory = null;
-  let clientsUpdateService = null;
+describe("UsersUpdateService", () => {
+  let usersUpdateRepositoryInMemory = null;
+  let usersUpdateService = null;
   let user = {};
   beforeEach(() => {
-    clientsUpdateRepositoryInMemory = new ClientsUpdateRepositoryInMemory();
-    clientsUpdateService = new ClientsUpdateService(
-      clientsUpdateRepositoryInMemory
-    );
+    usersUpdateRepositoryInMemory = new UsersUpdateRepositoryInMemory();
+    usersUpdateService = new UsersUpdateService(usersUpdateRepositoryInMemory);
   });
 
   it("user should exist", async () => {
@@ -19,7 +17,7 @@ describe("ClientsUpdateService", () => {
       name: "teste",
       email: "teste@gmail.com",
     };
-    const userCreated = await clientsUpdateService.execute(user);
+    const userCreated = await usersUpdateService.execute(user);
     expect(userCreated).toHaveProperty("id");
   });
 
@@ -32,7 +30,7 @@ describe("ClientsUpdateService", () => {
       old_password: "1234",
     };
 
-    await expect(clientsUpdateService.execute(user)).rejects.toEqual(
+    await expect(usersUpdateService.execute(user)).rejects.toEqual(
       new AppError("Current password is incorrect!")
     );
   });
@@ -46,7 +44,7 @@ describe("ClientsUpdateService", () => {
       // old_password: "1234",
     };
 
-    await expect(clientsUpdateService.execute(user)).rejects.toEqual(
+    await expect(usersUpdateService.execute(user)).rejects.toEqual(
       new AppError("Enter current password!")
     );
   });
@@ -60,7 +58,7 @@ describe("ClientsUpdateService", () => {
       // old_password: "1234",
     };
 
-    await expect(clientsUpdateService.execute(user)).rejects.toEqual(
+    await expect(usersUpdateService.execute(user)).rejects.toEqual(
       new AppError("This email is already in use!")
     );
   });

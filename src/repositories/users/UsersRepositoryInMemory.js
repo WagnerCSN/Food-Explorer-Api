@@ -1,4 +1,4 @@
-class ClientsRepositoryInMemory {
+class UsersRepositoryInMemory {
   users = [];
 
   async findByName(name) {
@@ -23,4 +23,4 @@ class ClientsRepositoryInMemory {
   }
 }
 
-module.exports = ClientsRepositoryInMemory;
+module.exports = UsersRepositoryInMemory;

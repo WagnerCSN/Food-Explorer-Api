@@ -1,8 +1,8 @@
 const knex = require("../../database/knex");
 
-class ClientsRepository {
+class UsersRepository {
   async findByName(name) {
-    const checkUserExist = await knex("clients")
+    const checkUserExist = await knex("users")
       .select("*")
       .where("name", name)
       .first();
@@ -11,7 +11,7 @@ class ClientsRepository {
   }
 
   async findByEmail(email) {
-    const checkEmailExist = await knex("clients")
+    const checkEmailExist = await knex("users")
       .select("*")
       .where("email", email)
       .first();
@@ -20,7 +20,7 @@ class ClientsRepository {
   }
 
   async create({ name, email, password }) {
-    const userId = await knex("clients").insert({
+    const userId = await knex("users").insert({
       name,
       email,
       password,
@@ -30,4 +30,4 @@ class ClientsRepository {
   }
 }
 
-module.exports = ClientsRepository;
+module.exports = UsersRepository;
