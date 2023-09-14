@@ -1,4 +1,4 @@
-exports.up = knex => knex.shema.createTable("orderedItem", table => {
+exports.up = knex => knex.schema.createTable("orderedItem", table => {
     table.increments("id");
     table.integer("amount");
     table.text("value");

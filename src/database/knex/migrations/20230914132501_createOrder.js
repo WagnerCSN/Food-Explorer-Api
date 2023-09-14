@@ -1,4 +1,4 @@
-exports.up = knex => knex.shema.createTable("order", table => {
+exports.up = knex => knex.schema.createTable("order", table => {
     table.increments("id");
     table.text("status").notNullable();
     table.integer("qtdeOfItems");
@@ -9,6 +9,6 @@ exports.up = knex => knex.shema.createTable("order", table => {
 });
 
 
-exports.down = knex => knex.shema.dropTable("order");
+exports.down = knex => knex.schema.dropTable("order");
 
 

@@ -1,4 +1,4 @@
-exports.up = knex => knex.shema.createTable("blog", table => {
+exports.up = knex => knex.schema.createTable("blog", table => {
     table.increments("id");
     table.text("name");
     table.text("email").unique();
@@ -8,4 +8,4 @@ exports.up = knex => knex.shema.createTable("blog", table => {
 });
 
 
-exports.down = knex => knex.shema.dropTable("blog");
+exports.down = knex => knex.schema.dropTable("blog");

@@ -1,13 +1,13 @@
-exports.up = knex => knex.shema.createTable("restaurant", table => {
+exports.up = knex => knex.schema.createTable("restaurant", table => {
     table.increments("id");
-    table.text("name");
-    table.text("fone");
-    table.text("email");
-    table.text("address");
-    table.text("image");
-    table.text("cnpj");
-    table.text("city");
-    table.text("state");
+    table.text("name").notNullable();
+    table.text("fone").notNullable();
+    table.text("email").notNullable();
+    table.text("address").notNullable();
+    table.text("image").Null;
+    table.text("cnpj").notNullable();
+    table.text("city").notNullable();
+    table.text("state").notNullable();
  
 });
-exports.down = knex => knex.shema.dropTable("restaurant");
+exports.down = knex => knex.schema.dropTable("restaurant");
