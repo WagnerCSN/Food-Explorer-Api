@@ -20,9 +20,7 @@ class UsersController {
     // const id = request.user.id;
     const { id } = request.params;
     const usersUpdateRepository = new UsersUpdateRepository();
-    const usersUpdateService = new UsersUpdateService(
-      usersUpdateRepository
-    );
+    const usersUpdateService = new UsersUpdateService(usersUpdateRepository);
     await usersUpdateService.execute({
       name,
       email,
@@ -33,10 +31,7 @@ class UsersController {
 
     response.json();
   }
-
-  async show(request, response){
-    
-  }
+  
   async delete(request, response){
     const {id} = request.params;
 
