@@ -1,18 +1,18 @@
 const AppError = require("../../utils/AppError");
 
 class IngredientsCreateService{
-    constructor(ingredientsReposirory){
-        this.ingredientsReposirory = ingredientsReposirory;
+    constructor(ingredientsRepository){
+        this.ingredientsRepository = ingredientsRepository;
     }
 
     async execute({name, image}){
-        const checkIngredientExist = await this.ingredientsReposirory.findByName(name);
+        const checkIngredientExist = await this.ingredientsRepository.findByName(name);
 
         if(checkIngredientExist){
             throw new AppError("Existing ingredient!")
         }
 
-        const ingredientCreated = await this.ingredientsReposirory.create({
+        const ingredientCreated = await this.ingredientsRepository.create({
             name,
             image
         })
