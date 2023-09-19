@@ -4,6 +4,10 @@ const UsersUpdateService = require("../services/users/UsersUpdateService");
 const UsersUpdateRepository = require("../repositories/users/UsersUpdateRepository");
 const UsersDeleteRepository = require("../repositories/users/UsersDeleteRepository");
 const UsersDeleteService = require("../services/users/UsersDeleteService");
+const UsersShowRepository = require("../repositories/users/UsersShowRepository");
+const UsersShowService = require("../services/users/UsersShowService");
+const UsersIndexRepository = require("../repositories/users/UsersIndexRepository");
+const UsersIndexService = require("../services/users/UsersIndexService");
 
 class UsersController {
   async create(request, response) {
@@ -13,6 +17,26 @@ class UsersController {
     const usersCreateService = new UsersCreateService(usersRepository);
     await usersCreateService.execute({ name, email, password });
     response.json();
+  }
+
+  async show(request, response){
+    const { id } = request.params;
+
+    const usersShowRepository = new UsersShowRepository();
+    const usersShowService = new UsersShowService(usersShowRepository);
+    const userShow = await usersShowService.execute({id});
+    response.json(userShow);
+
+  }
+
+  async index(request, response){
+    const { id, name } = request.query;
+
+    const usersIndexRepository = new UsersIndexRepository();
+    const usersIndexService = new UsersIndexService(usersIndexRepository);
+    const userSearch = await usersIndexService.execute({id, name});
+    response.json(userSearch);
+
   }
 
   async update(request, response) {

@@ -9,7 +9,7 @@ class TypeOfPlatesCreateService{
         const checkTypePlateExist = await this.typeOfPlatesRepository.findByName(name);
 
         if(checkTypePlateExist){
-            throw new AppError("Existing plate type!");
+            throw new AppError("Existing plate type!"); 
         }
 
         const typePlateCreated = await this.typeOfPlatesRepository.create({

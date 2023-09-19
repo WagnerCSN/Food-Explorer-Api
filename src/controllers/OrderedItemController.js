@@ -39,4 +39,4 @@ class OrderedItemController{
       }
 }
 
-mocule.exports = OrderedItemController;
+module.exports = OrderedItemController;

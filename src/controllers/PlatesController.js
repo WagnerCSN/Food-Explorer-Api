@@ -38,3 +38,5 @@ class PlatesController {
     return response.json();
   }
 }
+
+module.exports = PlatesController;
