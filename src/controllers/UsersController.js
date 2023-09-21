@@ -30,11 +30,11 @@ class UsersController {
   }
 
   async index(request, response){
-    const { id, name } = request.query;
+    const { id, name, role } = request.query;
 
     const usersIndexRepository = new UsersIndexRepository();
     const usersIndexService = new UsersIndexService(usersIndexRepository);
-    const userSearch = await usersIndexService.execute({id, name});
+    const userSearch = await usersIndexService.execute({id, name, role});
     response.json(userSearch);
 
   }

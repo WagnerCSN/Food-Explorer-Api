@@ -1,10 +1,16 @@
 const knex = require("../../database/knex");
 
 class UsersIndexRepository{
-    async index(name){
-        const usersIndex = await knex("users").whereLike("name", `%${name}%`);
+    async indexByName(name){
+        const usersIndexName = await knex("users").whereLike("name", `%${name}%`);
 
-        return usersIndex;
+        return usersIndexName;
+    }
+
+    async indexByRole(role){
+        const usersIndexRole = await knex("users").whereLike("role", `%${role}%`);
+
+        return usersIndexRole;
     }
 }
 

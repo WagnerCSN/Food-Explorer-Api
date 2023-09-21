@@ -3,10 +3,10 @@ class OrderCreateService{
         this.orderRepository = orderRepository;
     }
 
-    async execute({status, qtdeOfItems, totalOrderValue, date, orderedItemId, clientsId}){
-        const checkOrderedItemExist = await this.orderRepository.findByOrderedItem(orderedItemId);
-        const checkEmailExist = await this.orderRepository.findByClients(clientsId);
-        const handleQtdeOfItems = await this.orderRepository.findByQtdeOfItems(qtdeOfItems);//consultar a quantidade de intens no pedido
+    async execute({status, qtdeOfItems, totalOrderValue, date, orderedItem_id, users_id}){
+        const checkOrderedItemExist = await this.orderRepository.findByOrderedItem(orderedItem_id);
+        const checkEmailExist = await this.orderRepository.findByClients(users_id);
+        const handleQtdeOfItems = await this.orderRepository.findByQtdeOfItems(orderedItem_id);//consultar a quantidade de intens no pedido
 
         if(!checkOrderedItemExist){
             throw new AppError("There is no plate on the ordered item!");
@@ -18,8 +18,8 @@ class OrderCreateService{
             throw new AppError("Unregistered customer!");
         }
 
-        if(handleQtdeOfItems>1){
-            const totalOrderValue =  totalOrderValue+valueOrderItem //somar todos os itens
+        if(!handleQtdeOfItems){
+            throw new AppError("There are no items in the order!");
         }
 
         const orderCreated = await this.orderRepository.create({

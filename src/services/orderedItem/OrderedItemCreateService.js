@@ -26,6 +26,21 @@ class OrderedItemCreateService {
       value = valueOfPlate*amount;
     }
 
+    /*var arr = [{"name": "produto 1", "valueOfPlate": 15}, {"name": "produto 2", "valueOfPlate": 10}]
+
+const discount=10;//em %
+const amount=2;
+const arrValor = arr.map(prod => {
+  
+  return{
+    ...prod,
+    valor: ((prod.valueOfPlate*(100 - discount))/100)*amount 
+    }
+  });
+console.log(arrValor)
+
+*/
+
     const createdOrderedItem = await this.orderedItemRepository.create({
       value,
       amount,
