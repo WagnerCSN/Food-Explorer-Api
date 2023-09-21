@@ -1,5 +1,13 @@
 const TypeOfPlatesRepository = require("../repositories/typeOfPlates/typeOfPlatesRepository");
 const TypeOfPlatesCreateService = require("../services/typeOfPlates/TypeOfPlatesCreateService");
+const TypeOfPlatesUpdateService = require("../services/TypeOfPlates/TypeOfPlatesUpdateService");
+const TypeOfPlatesUpdateRepository = require("../repositories/typeOfPlates/TypeOfPlatesUpdateRepository");
+const TypeOfPlatesDeleteRepository = require("../repositories/typeOfPlates/TypeOfPlatesDeleteRepository");
+const TypeOfPlatesDeleteService = require("../services/typeOfPlates/TypeOfPlatesDeleteService");
+const TypeOfPlatesShowRepository = require("../repositories/typeOfPlates/TypeOfPlatesShowRepository");
+const TypeOfPlatesShowService = require("../services/typeOfPlates/TypeOfPlatesShowService");
+const TypeOfPlatesIndexRepository = require("../repositories/typeOfPlates/TypeOfPlatesIndexRepository");
+const TypeOfPlatesIndexService = require("../services/typeOfPlates/TypeOfPlatesIndexService");
 
 class TypeOfPlatesController{
     async create(request, response) {
@@ -12,33 +20,47 @@ class TypeOfPlatesController{
         response.json();
 
     }
-  
-    // async update(request, response) {
-    //     const { name, email, password, old_password } = request.body;
-    //     // const id = request.user.id;
-    //     const { id } = request.params;
-    //     const usersUpdateRepository = new UsersUpdateRepository();
-    //     const usersUpdateService = new UsersUpdateService(usersUpdateRepository);
-    //     await usersUpdateService.execute({
-    //       name,
-    //       email,
-    //       password,
-    //       old_password,
-    //       id,
-    //     });
     
-    //     response.json();
-    //   }
+    async show(request, response){
+        const { id } = request.params;
+    
+        const typeOfPlatesShowRepository = new TypeOfPlatesShowRepository();
+        const typeOfPlatesShowService = new TypeOfPlatesShowService(typeOfPlatesShowRepository);
+        const typeOfPlateShow = await typeOfPlatesShowService.execute({id});
+        response.json(typeOfPlateShow);
+    
+      }
+    
+      async index(request, response){
+        const { id, name} = request.query;
+    
+        const typeOfPlatesIndexRepository = new TypeOfPlatesIndexRepository();
+        const typeOfPlatesIndexService = new TypeOfPlatesIndexService(typeOfPlatesIndexRepository);
+        const typeOfPlateSearch = await typeOfPlatesIndexService.execute({id, name});
+        response.json(typeOfPlateSearch);
+    
+      }
+
+    async update(request, response) {
+        const { name } = request.body;
+        // const id = request.user.id;
+        const { id } = request.params;
+        const typeOfPlatesUpdateRepository = new TypeOfPlatesUpdateRepository();
+        const typeOfPlatesUpdateService = new TypeOfPlatesUpdateService(typeOfPlatesUpdateRepository);
+        await typeOfPlatesUpdateService.execute({name, id});
+    
+        response.json();
+      }
       
-    //   async delete(request, response){
-    //     const {id} = request.params;
+      async delete(request, response){
+        const {id} = request.params;
     
-    //     const usersDeleteRepository = new UsersDeleteRepository();
-    //     const usersDeleteService = new UsersDeleteService(usersDeleteRepository);
-    //     await usersDeleteService.execute({id});
+        const typeOfPlatesDeleteRepository = new TypeOfPlatesDeleteRepository();
+        const typeOfPlatesDeleteService = new TypeOfPlatesDeleteService(typeOfPlatesDeleteRepository);
+        await typeOfPlatesDeleteService.execute({id});
     
-    //     return response.json();
-    //   }
+        return response.json();
+      }
 }
 
 module.exports = TypeOfPlatesController;
