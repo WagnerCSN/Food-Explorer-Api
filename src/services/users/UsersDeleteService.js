@@ -6,8 +6,18 @@ class UsersDeleteService{
     }
 
     async execute({id}){
+        const checkUserExist = await this.usersDeleteRepository.findByUser(id);
+
+        if(!checkUserExist){
+            throw new AppError("This user is not registered!");
+        }
         
-        await this.usersDeleteRepository.delete(id);
+        const deletedUser = await this.usersDeleteRepository.delete(id);
+
+        if(deletedUser){
+            throw new AppError("Successfully deleted");
+        }
+
     }
 }
 
