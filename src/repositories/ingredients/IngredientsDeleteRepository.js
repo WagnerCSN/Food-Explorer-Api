@@ -1,4 +1,4 @@
-const knex = require("../../database/knex;")
+const knex = require("../../database/knex")
 
 class IngredientsDeleteRepository{
     async findByIngredient(id){

@@ -19,8 +19,8 @@ class PlatesRepository{
         return checkExistIngredient;
     }
     
-    async create({name, description, cost, image})
-        const plateCreated = await knex("")
+    // async create({name, description, cost, image})
+    //     const plateCreated = await knex("")
 
-        return plateCreated;
+    //     return plateCreated;
 }

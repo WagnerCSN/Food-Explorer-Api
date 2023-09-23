@@ -6,7 +6,6 @@ class TypeOfPlatesShowRepository{
 
         return checkTypeOfPlatesWithId;
     }
-    
 }
 
 module.exports = TypeOfPlatesShowRepository;

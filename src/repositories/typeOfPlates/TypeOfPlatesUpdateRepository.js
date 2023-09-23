@@ -7,7 +7,7 @@ class TypeOfPlatesUpdateRepository {
     return typeOfPlates;
   }
 
-  async findByTypeOfPlates() {
+  async findByTypeOfPlatesWithNameExist() {
     const typeOfPlatesWithNameExist = await knex("typeOfPlates").select("*");
 
     return typeOfPlatesWithNameExist;

@@ -6,13 +6,13 @@ class TypeOfPlatesUpdateService {
   }
 
   async execute({ name, id }) {
-    const typeOfPlates = await this.typeOfPlatesUpdateRepository.findBytypeOfPlates(id);
+    const typeOfPlates = await this.typeOfPlatesUpdateRepository.findByTypeOfPlates(id);
 
     if (!typeOfPlates) {
       throw new AppError("Type Of Plates not found!");
     }
 
-    const typeOfPlatesWithNameExist = await this.typeOfPlatesUpdateRepository.findByTypeOfPlates(name);
+    const typeOfPlatesWithNameExist = await this.typeOfPlatesUpdateRepository.findByTypeOfPlatesWithNameExist();
     const result = typeOfPlatesWithNameExist.find((typeOfPlates) => typeOfPlates.name === name);
 
     if (result && result.id !== typeOfPlates.id) {
