@@ -7,10 +7,10 @@ class TypeOfPlatesUpdateRepository {
     return typeOfPlates;
   }
 
-  async findByUsers() {
-    const userWithEamilExist = await knex("users").select("*");
+  async findByTypeOfPlates() {
+    const typeOfPlatesWithNameExist = await knex("typeOfPlates").select("*");
 
-    return userWithEamilExist;
+    return typeOfPlatesWithNameExist;
   }
 
   async update({ name, id }) {
