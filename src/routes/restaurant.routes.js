@@ -5,7 +5,7 @@ const restaurantController = new RestaurantController();
 const restaurantRoutes = Router();
 
 restaurantRoutes.post("/", restaurantController.create);
-// restaurantRoutes.put("/:id", restaurantController.update);
-// restaurantRoutes.delete("/:id", restaurantController.delete);
+restaurantRoutes.get("/:id", restaurantController.show);
+restaurantRoutes.put("/:id", restaurantController.update);
 
 module.exports = restaurantRoutes;

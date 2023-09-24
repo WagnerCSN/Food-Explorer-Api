@@ -4,7 +4,7 @@ class RestaurantCreatService{
     }
 
     async execute({name, fone, email, address, image, cnpj, city, state}){
-        const restaurantCreated = await this.restaurantRepository({
+        const restaurantCreated = await this.restaurantRepository.create({
             name, 
             fone, 
             email, 
