@@ -9,7 +9,9 @@ class UsersDeleteRepository{
     }
     
     async delete(id){
-        await knex("users").where({id}).delete();
+        const deletedUser = await knex("users").where({id}).delete();
+
+        return deletedUser;
     }
 }
 

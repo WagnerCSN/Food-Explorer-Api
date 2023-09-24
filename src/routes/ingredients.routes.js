@@ -5,7 +5,9 @@ const ingredientsController = new IngredientsController();
 const ingredientsRoutes = Router();
 
 ingredientsRoutes.post("/", ingredientsController.create);
-// usersRoutes.put("/:id", usersController.update);
-// usersRoutes.delete("/:id", usersController.delete);
+ingredientsRoutes.put("/:id", ingredientsController.update);
+ingredientsRoutes.delete("/:id", ingredientsController.delete);
+ingredientsRoutes.get("/:id", ingredientsController.show);
+ingredientsRoutes.get("/", ingredientsController.index);
 
 module.exports = ingredientsRoutes;

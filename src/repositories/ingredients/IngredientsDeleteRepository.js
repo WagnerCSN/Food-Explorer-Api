@@ -8,7 +8,9 @@ class IngredientsDeleteRepository{
     }
 
     async deleteIngredient(id){
-        await knex("ingredients").where({id}).delete();
+        const deletedIngredient = await knex("ingredients").where({id}).delete();
+
+        return deletedIngredient;
     }
 }
 
