@@ -33,11 +33,11 @@ class PlatesController {
   }
 
   async index(request, response){
-    const { id, name, role } = request.query;
+    const { id, name, cost, typeOfPlate_id, ingredient_id } = request.query;
 
     const platesIndexRepository = new PlatesIndexRepository();
     const platesIndexService = new PlatesIndexService(platesIndexRepository);
-    const platesSearch = await platesIndexService.execute({id, name, role});
+    const platesSearch = await platesIndexService.execute({id, name, cost, typeOfPlate_id, ingredient_id});
     response.json(platesSearch);
 
   }
