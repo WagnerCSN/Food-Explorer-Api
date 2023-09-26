@@ -12,7 +12,7 @@ const PlatesIndexService = require("../services/plates/PlatesIndexService");
 class PlatesController {
   async create(request, response) {
     const { name, description, cost, image } = request.body;
-    const { typeOfPlate_id, ingredient_id } = request.params;
+    const { typeOfPlate_id, ingredient_id } = request.query;
 
     const platesRepository = new PlatesRepository();
     const platesCreateService = new PlatesCreateService(platesRepository);
@@ -32,32 +32,27 @@ class PlatesController {
 
   }
 
-  // async index(request, response){
-  //   const { id, name, role } = request.query;
+  async index(request, response){
+    const { id, name, role } = request.query;
 
-  //   const platesIndexRepository = new PlatesIndexRepository();
-  //   const platesIndexService = new PlatesIndexService(platesIndexRepository);
-  //   const plateSearch = await platesIndexService.execute({id, name, role});
-  //   response.json(plateSearch);
+    const platesIndexRepository = new PlatesIndexRepository();
+    const platesIndexService = new PlatesIndexService(platesIndexRepository);
+    const platesSearch = await platesIndexService.execute({id, name, role});
+    response.json(platesSearch);
 
-  // }
+  }
 
-  // async update(request, response) {
-  //   const { name, email, password, old_password } = request.body;
-  //   // const id = request.user.id;
-  //   const { id } = request.params;
-  //   const usersUpdateRepository = new UsersUpdateRepository();
-  //   const usersUpdateService = new UsersUpdateService(usersUpdateRepository);
-  //   await usersUpdateService.execute({
-  //     name,
-  //     email,
-  //     password,
-  //     old_password,
-  //     id,
-  //   });
+  async update(request, response) {
+    const { name, description, cost, image, typeOfPlate_id, ingredient_id } = request.body;
+    // const id = request.user.id;
+    const { id } = request.params;
 
-  //   response.json();
-  // }
+    const platesUpdateRepository = new PlatesUpdateRepository();
+    const platesUpdateService = new PlatesUpdateService(platesUpdateRepository);
+    await platesUpdateService.execute({name, description, cost, image, typeOfPlate_id, ingredient_id, id});
+
+    response.json();
+  }
   
   async delete(request, response){
     const {id} = request.params;

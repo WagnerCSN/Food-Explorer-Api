@@ -8,7 +8,9 @@ class PlatesDeleteRepository{
     }
 
     async deletePlates(id){
-        await knex("plates").where({id}).delete();
+        const deletedPlates = await knex("plates").where({id}).delete();
+
+        return deletedPlates;
     }
 }
 

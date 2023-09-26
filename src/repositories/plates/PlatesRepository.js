@@ -8,19 +8,21 @@ class PlatesRepository{
     }
     
     async findByTypePlate(typeOfPlate_id){
-        const checkExistTypeOfPlate = await knex("typeOfPlate").where(typeOfPlate_id).firt();
+        const checkExistTypeOfPlate = await knex("typeOfPlates").select("*").where("id", typeOfPlate_id).first();
 
         return checkExistTypeOfPlate;
     }    
         
     async findByIngredient(ingredient_id){
-        const checkExistIngredient = await knex("ingredients").where({ingredients_id})
+        const checkExistIngredient = await knex("ingredients").select("*").where("id", ingredient_id).first();
 
         return checkExistIngredient;
     }
     
-    // async create({name, description, cost, image})
-    //     const plateCreated = await knex("")
+    async create({name, description, cost, image, typeOfPlate_id, ingredient_id}){
+        const plateCreated = await knex("plates").insert({name, description, cost, image, typeOfPlate_id, ingredient_id})
 
-    //     return plateCreated;
+        return plateCreated;
+   }
 }
+module.exports = PlatesRepository;
