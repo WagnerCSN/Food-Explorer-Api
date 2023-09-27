@@ -23,8 +23,11 @@ class PlatesIndexService{
                 const platetype = typeid.filter(type => type.id ===plate.typeOfPlate_id);
                 
             return{
-                ...plate,
-                platetype
+                name: plate.name, 
+                description: plate.description, 
+                cost: plate.cost, 
+                image: plate.image,
+                type: platetype.map(platetype => platetype.name).toString()
             }
             });
            
