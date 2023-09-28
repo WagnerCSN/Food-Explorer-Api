@@ -6,7 +6,7 @@ class PlatesIndexService{
         this.platesIndexRepository = platesIndexRepository;
     }
 
-    async execute({id, name, cost, typeOfPlate_id, ingredient_id}){
+    async execute({id, name, typeOfPlate_name, ingredients_name}){
         let plates;
         if(name){
             // const platesIndexName = await this.platesIndexRepository.indexByName(name);
@@ -16,50 +16,81 @@ class PlatesIndexService{
 
             
            const filter = name.split(",").map(nome=>nome.trim());
-             plates = await knex("typeOfPlates").select().innerJoin("plates", "plates.typeOfPlate_id", "typeOfPlates.id").whereLike("typeOfPlates.name", `%${name}%`); //whereIn("typeOfPlates.name", filter).where("plates.id",id).whereLike("plates.name", `%${name}%`);
+             plates = await knex("plates").select().whereLike("name", `%${name}%`); 
           
             const typeid = await knex("typeofplates").select();
+            const ingredient = await knex("ingredients").select();
             const plateswithtype = plates.map(plate => {
                 const platetype = typeid.filter(type => type.id ===plate.typeOfPlate_id);
-                
+                const plateIngredient = ingredient.filter(ingredient => ingredient.id ===plate.ingredient_id);
             return{
                 name: plate.name, 
                 description: plate.description, 
                 cost: plate.cost, 
                 image: plate.image,
-                type: platetype.map(platetype => platetype.name).toString()
+                typeOfPlate: platetype.map(platetype => platetype.name).toString(),
+                ingredients: plateIngredient.map(plateIngredient => plateIngredient.name).toString()
             }
             });
            
              return plateswithtype;
         }
             
-        if(cost){
-            const platesIndexCost = await this.platesIndexRepository.indexByCost(cost);
-            if(platesIndexCost.length ===0){
-                throw new AppError("Enter a valid cost!");
+       
+        if(typeOfPlate_name){
+            // const platesIndexTypeOfPlate = await this.platesIndexRepository.indexByTypeOfPlates(typeOfPlate_id);
+           
+            // if(platesIndexTypeOfPlate.length ===0){
+            //     throw new AppError("Enter a valid type Of Plate!");
+            // }
+
+            plates = await knex("typeOfPlates").select().innerJoin("plates", "plates.typeOfPlate_id", "typeOfPlates.id").whereLike("typeOfPlates.name", `%${typeOfPlate_name}%`); 
+          console.log(plates);
+            const typeid = await knex("typeofplates").select();
+            const ingredient = await knex("ingredients").select();
+            const plateswithtype = plates.map(plate => {
+                const platetype = typeid.filter(type => type.id ===plate.typeOfPlate_id);
+                const plateIngredient = ingredient.filter(ingredient => ingredient.id ===plate.ingredient_id);
+            return{
+                name: plate.name, 
+                description: plate.description, 
+                cost: plate.cost, 
+                image: plate.image,
+                typeOfPlate: platetype.map(platetype => platetype.name).toString(),
+                ingredients: plateIngredient.map(plateIngredient => plateIngredient.name).toString()
             }
-            return platesIndexCost;
+            });
+           
+             return plateswithtype;
+
+           // return platesIndexTypeOfPlate;
         }
 
-        // if(typeOfPlate_id){
-        //     const platesIndexTypeOfPlate = await this.platesIndexRepository.indexByTypeOfPlates(typeOfPlate_id);
-           
-        //     if(platesIndexTypeOfPlate.length ===0){
-        //         throw new AppError("Enter a valid type Of Plate!");
-        //     }
+        if(ingredients_name){
+            //const platesIndexIngredient = await this.platesIndexRepository.indexByIngredients(ingredient_id);
+            // if(platesIndexIngredient.length ===0){
+            //     throw new AppError("Enter a valid ingredient!");
+            // }
 
- 
-
-        //     return platesIndexTypeOfPlate;
-        // }
-
-        if(ingredient_id){
-            const platesIndexIngredient = await this.platesIndexRepository.indexByIngredients(ingredient_id);
-            if(platesIndexIngredient.length ===0){
-                throw new AppError("Enter a valid ingredient!");
+            plates = await knex("ingredients").select().innerJoin("plates", "plates.ingredient_id", "ingredients.id").whereLike("ingredients.name", `%${ingredients_name}%`); //whereIn("typeOfPlates.name", filter).where("plates.id",id).whereLike("plates.name", `%${name}%`);
+          
+            const typeid = await knex("typeofplates").select();
+            const ingredient = await knex("ingredients").select();
+            const plateswithtype = plates.map(plate => {
+                const platetype = typeid.filter(type => type.id ===plate.typeOfPlate_id);
+                const plateIngredient = ingredient.filter(ingredient => ingredient.id ===plate.ingredient_id);
+            return{
+                name: plate.name, 
+                description: plate.description, 
+                cost: plate.cost, 
+                image: plate.image,
+                typeOfPlate: platetype.map(platetype => platetype.name).toString(),
+                ingredients: plateIngredient.map(plateIngredient => plateIngredient.name).toString()
             }
-            return platesIndexIngredient;
+            });
+           
+             return plateswithtype;
+           // return platesIndexIngredient;
         }
     }
 }

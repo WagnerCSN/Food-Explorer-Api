@@ -26,11 +26,7 @@ class PlatesIndexRepository{
         return platesWithType;
     }
 
-    async indexByIngredients(ingredient_id){
-        const platesIndexIngredient_id = await knex("plates").whereLike("ingredient_id", `%${ingredient_id}%`);
 
-        return platesIndexIngredient_id;
-    }
 }
 
 module.exports = PlatesIndexRepository;
