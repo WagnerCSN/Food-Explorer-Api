@@ -33,18 +33,17 @@ class PlatesController {
   }
 
   async index(request, response){
-    const { id, name, typeOfPlate_name, ingredients_name} = request.query;
+    const { name, typeOfPlate_name, ingredients_name} = request.query;
 
     const platesIndexRepository = new PlatesIndexRepository();
     const platesIndexService = new PlatesIndexService(platesIndexRepository);
-    const platesSearch = await platesIndexService.execute({id, name, typeOfPlate_name, ingredients_name});
+    const platesSearch = await platesIndexService.execute({name, typeOfPlate_name, ingredients_name});
     response.json(platesSearch);
 
   }
 
   async update(request, response) {
     const { name, description, cost, image, typeOfPlate_id, ingredient_id } = request.body;
-    // const id = request.user.id;
     const { id } = request.params;
 
     const platesUpdateRepository = new PlatesUpdateRepository();

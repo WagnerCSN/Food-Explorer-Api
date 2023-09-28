@@ -2,31 +2,36 @@ const knex = require("../../database/knex");
 
 class PlatesIndexRepository{
     async indexByName(name){
-        const platesIndexName = await knex("plates").whereLike("name", `%${name}%`);
+        const platesIndexName = await knex("plates").select().whereLike("name", `%${name}%`);
 
         return platesIndexName;
     }
 
-    async indexByCost(cost){
-        const platesIndexcost = await knex("plates").whereLike("cost", `%${cost}%`);
+    async selectByTypeOfPlates(){
+        const typeid = await knex("typeofplates").select();
 
-        return platesIndexcost;
+        return typeid;
     }
 
-    async indexByTypeOfPlates(typeOfPlate_id){
-        // const plates = await knex("plates").select(["id", "name", "description", "cost", "image"]).where({id}).first();
-        const platesIndexTypeOfPlate_id = await knex("plates").select(["typeOfPlates.name"]).where("typeOfPlates.id",typeOfPlate_id).whereLike("typeOfPlate_id", `%${typeOfPlate_id}%`).innerJoin("typeOfPlates", "typeOfPlate_id", "plates.typeOfPlate_id");
+    async selectByIngredients(){
+        const ingredient = await knex("ingredients").select();
 
-        const platesWithType = platesIndexTypeOfPlate_id.map(TypeOfPlate =>{
-            return {
-                    // ...plates,
-                    "tipo de plato": TypeOfPlate.name
-            }
-        })
-        return platesWithType;
+        return ingredient;
+    }
+    
+    async indexByTypeOfPlates(typeOfPlate_name){
+        
+        const platesIndexTypeOfPlate = await knex("typeOfPlates").select().innerJoin("plates", "plates.typeOfPlate_id", "typeOfPlates.id").whereLike("typeOfPlates.name", `%${typeOfPlate_name}%`); 
+
+        return platesIndexTypeOfPlate;
     }
 
+    async indexByIngredients(ingredients_name){
+        
+        const platesIndexIngredients = await knex("ingredients").select().innerJoin("plates", "plates.ingredient_id", "ingredients.id").whereLike("ingredients.name", `%${ingredients_name}%`);
 
+        return platesIndexIngredients;
+    }
 }
 
 module.exports = PlatesIndexRepository;
