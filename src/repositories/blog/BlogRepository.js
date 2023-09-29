@@ -20,13 +20,13 @@ class BlogRepository{
     }
 
     async create({name, email, comments, rating, plate_id}){
-        const blogCreated = await knex("blog").insert({
+        const blogCreated = await knex("blog").where({plate_id}).insert({
             name,
             email, 
             comments, 
             rating,
             plate_id
-        })
+        });
 
         return blogCreated;
     }

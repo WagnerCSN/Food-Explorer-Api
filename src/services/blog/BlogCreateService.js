@@ -14,7 +14,9 @@ class BlogCreateService{
             throw new AppError("The plate does not exist!");
         }
 
-        if(checkUserExist&&checkEmailExist||checkEmailExist) {
+        const checkPlateWithCommentsByUser = checkPlateExist&&checkUserExist&&checkEmailExist||checkPlateExist&&checkEmailExist;
+
+        if(checkPlateWithCommentsByUser) {
             throw new AppError("This dish has already been reviewed by this user!");
         }
         
