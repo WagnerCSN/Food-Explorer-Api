@@ -5,29 +5,25 @@ class BlogCreateService{
         this.blogRepository = blogRepository;
     }
 
-    async execute({name, email, comments, platesId, rating}){
-        const checkPlateExist = await this.platesRepository.findByName(platesId);
-        const checkUserExist = await this.clientsRepository.findByName(name);
-        const checkEmailExist = await this.clientsRepository.findByEmail(email);
-        const checkCommentsExist = await this.clientsRepository.findByComments(comments);
+    async execute({name, email, comments, plate_id, rating}){
+        const checkPlateExist = await this.blogRepository.findByPlate(plate_id);
+        const checkEmailExist = await this.blogRepository.findByEmail(email);
+        const checkUserExist = await this.blogRepository.findByName(name);
 
-        if(checkUserExist&&checkEmailExist) {
-            throw new AppError("This dish has already been reviewed by this user!");
-        }
-        
         if(!checkPlateExist){
             throw new AppError("The plate does not exist!");
         }
 
-        if(!checkCommentsExist){
-            throw new AppError("No comment was added!");
+        if(checkUserExist&&checkEmailExist||checkEmailExist) {
+            throw new AppError("This dish has already been reviewed by this user!");
         }
-
+        
         const postCreated = await this.blogRepository.create({
             name, 
             email, 
             comments,
             rating,
+            plate_id
         });
 
         return postCreated;

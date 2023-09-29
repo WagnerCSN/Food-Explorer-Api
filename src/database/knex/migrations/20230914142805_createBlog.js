@@ -5,6 +5,7 @@ exports.up = knex => knex.schema.createTable("blog", table => {
     table.text("comments").notNullable();
     table.text("rating").notNullable();
     table.integer("plate_id").references("id").inTable("plates");
+    table.timestamp("created_at").default(knex.fn.now());
 });
 
 
