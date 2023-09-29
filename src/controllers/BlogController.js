@@ -25,7 +25,7 @@ class BlogController{
   
       const blogIndexRepository = new BlogIndexRepository();
       const blogIndexService = new BlogIndexService(blogIndexRepository);
-      const blogSearch = await blogIndexService.execute({id, plate_name, rating});
+      const blogSearch = await blogIndexService.execute({plate_name, rating});
       response.json(blogSearch);
   
     }
