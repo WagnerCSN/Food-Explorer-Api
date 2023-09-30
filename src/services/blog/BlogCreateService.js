@@ -9,12 +9,14 @@ class BlogCreateService{
         const checkPlateExist = await this.blogRepository.findByPlate(plate_id);
         const checkEmailExist = await this.blogRepository.findByEmail(email);
         const checkUserExist = await this.blogRepository.findByName(name);
+        const checkCommentByPlate = await this.blogRepository.findByCommentByPlate(plate_id);
+
 
         if(!checkPlateExist){
             throw new AppError("The plate does not exist!");
         }
 
-        const checkPlateWithCommentsByUser = checkPlateExist&&checkUserExist&&checkEmailExist||checkPlateExist&&checkEmailExist;
+        const checkPlateWithCommentsByUser = checkCommentByPlate&&checkUserExist&&checkEmailExist||checkCommentByPlate&&checkEmailExist;
 
         if(checkPlateWithCommentsByUser) {
             throw new AppError("This dish has already been reviewed by this user!");

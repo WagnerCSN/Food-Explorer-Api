@@ -19,6 +19,13 @@ class BlogRepository{
         return checkNameExist;
     }
 
+    async findByCommentByPlate(plate_id){
+        const checkCommentByPlate = await knex("blog").where({plate_id}).first();
+        
+        return checkCommentByPlate;
+       
+    }
+
     async create({name, email, comments, rating, plate_id}){
         const blogCreated = await knex("blog").where({plate_id}).insert({
             name,
