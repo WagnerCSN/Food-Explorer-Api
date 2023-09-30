@@ -11,7 +11,6 @@ class BlogCreateService{
         const checkUserExist = await this.blogRepository.findByName(name);
         const checkCommentByPlate = await this.blogRepository.findByCommentByPlate(plate_id);
 
-
         if(!checkPlateExist){
             throw new AppError("The plate does not exist!");
         }
