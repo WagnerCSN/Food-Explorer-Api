@@ -7,27 +7,15 @@ class BlogRepository{
         return checkPlateExist;
     }
 
-    async findByEmail(email){
-        const checkEmailExist = await knex("blog").where({email}).first();
-        
-        return checkEmailExist;
-    }
-
-    async findByName(name){
-        const checkNameExist = await knex("blog").where({name}).first();
-        
-        return checkNameExist;
-    }
-
     async findByCommentByPlate(plate_id){
-        const checkCommentByPlate = await knex("blog").where({plate_id}).first();
+        const checkCommentByPlate = await knex("blog").where({plate_id});
         
         return checkCommentByPlate;
        
     }
 
     async create({name, email, comments, rating, plate_id}){
-        const blogCreated = await knex("blog").where({plate_id}).insert({
+        const blogCreated = await knex("blog").where({email}).insert({
             name,
             email, 
             comments, 

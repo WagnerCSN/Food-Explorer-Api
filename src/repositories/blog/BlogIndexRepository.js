@@ -8,18 +8,18 @@ class BlogIndexRepository{
     }
 
     async selectByPlate(plate_name){
-        let plate = await knex("blog").select(['plates.name']).innerJoin("plates", "blog.plate_id", "plates.id").whereLike("plates.name", `%${plate_name}%`).orderBy("created_at"); 
-        const blogs = await knex("blog").select('*');
+        let plate = await knex("blog").select(['plates.id', 'plates.name']).innerJoin("plates", "blog.plate_id", "plates.id").whereLike("plates.name", `%${plate_name}%`).orderBy("created_at"); 
+        const blogs = await knex("blog").select();
      
         const plates = plate.map(plate => {
             const blogWithPlate = blogs.filter(blog => blog.plate_id===plate.id)
-            console.log(blogs);
+        
             return{
                 namePlato: plate.name,
-                name: blogWithPlate.map(b =>b.name),
-                // comments: blogWithPlate.comments,
-                // rating: blogWithPlate.rating,
-                // date: blogWithPlate.created_at  typeOfPlate: platesWithType.map(platesWithType => platesWithType.name)
+                name: blogWithPlate.map(blog => blog.name).toString(),
+                comments: blogWithPlate.map(blog => blog.comments).toString(),
+                rating: blogWithPlate.map(blog => blog.rating).toString(),
+                date: blogWithPlate.map(blog => blog.created_at).toString()  
             }
         });
         return plates;
