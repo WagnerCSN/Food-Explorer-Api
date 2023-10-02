@@ -5,7 +5,8 @@ const favoritePlatesController = new FavoritePlatesController();
 const favoritePlatesRoutes = Router();
 
 favoritePlatesRoutes.post("/", favoritePlatesController.create);
-// favoritePlatesRoutes.put("/:id", favoritePlatesController.update);
-// favoritePlatesRoutes.delete("/:id", favoritePlatesController.delete);
+favoritePlatesRoutes.get("/:user_id", favoritePlatesController.show);
+favoritePlatesRoutes.get("/", favoritePlatesController.index);
+favoritePlatesRoutes.delete("/:id", favoritePlatesController.delete);
 
 module.exports = favoritePlatesRoutes;

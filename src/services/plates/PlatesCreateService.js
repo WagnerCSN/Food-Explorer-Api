@@ -33,7 +33,7 @@ class PlatesCreateService {
       throw new AppError("No ingredient registered!");
     }
 
-    const [plateCreated] = await this.platesRepository.create({
+    const plateCreated = await this.platesRepository.create({
       name,
       description,
       cost,

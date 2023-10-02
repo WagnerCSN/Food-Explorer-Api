@@ -15,7 +15,7 @@ const routes = Router();
 routes.use("/users", usersRoutes);
 routes.use("/ingredients", ingredientsRoutes);
 routes.use("/blog", blogRoutes);
-routes.use("/favoritePlates", favoritePlatesRoutes);
+routes.use("/favorites", favoritePlatesRoutes);
 routes.use("/order", orderRoutes);
 routes.use("/orderedItem", orderedItemRoutes);
 routes.use("/plates", platesRoutes);

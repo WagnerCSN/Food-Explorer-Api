@@ -2,27 +2,39 @@ const FavoritePlatesRepository = require("../repositories/favoritePlates/Favorit
 const FavoritePlatesCreateService = require("../services/favoritePlates/FavoritePlatesCreateService");
 const FavoritePlatesDeleteRepository = require("../repositories/favoritePlates/FavoritePlatesDeleteRepository");
 const FavoritePlatesDeleteService = require("../services/favoritePlates/FavoritePlatesDeleteService");
+const FavoritePlatesShowRepository = require("../repositories/favoritePlates/FavoritePlatesShowRepository");
+const FavoritePlatesShowService = require("../services/favoritePlates/FavoritePlatesShowService");
 const FavoritePlatesIndexRepository = require("../repositories/favoritePlates/FavoritePlatesIndexRepository");
 const FavoritePlatesIndexService = require("../services/favoritePlates/FavoritePlatesIndexService");
 
 class FavoritePlatesController{
     async create(request, response) {
-        const { favorite } = request.body;
-        const { client_id, plate_id} = request.query;
+     
+        const {user_id, plate_id} = request.query;
+    
         const favoritePlatesReporitory = new FavoritePlatesRepository();
         const favoritePlatesCreateService = new FavoritePlatesCreateService(favoritePlatesReporitory);
-        await favoritePlatesCreateService.execute({favorite, client_id, plate_id})
-
+        await favoritePlatesCreateService.execute({user_id, plate_id});
         response.json();
-
+     
     }
 
+    async show(request, response){
+        const { user_id } = request.params;
+    
+        const favoritePlatesShowRepository = new FavoritePlatesShowRepository();
+        const favoritePlatesShowService = new FavoritePlatesShowService(favoritePlatesShowRepository);
+        const favoritePlateshow = await favoritePlatesShowService.execute({user_id});
+        response.json(favoritePlateshow);
+    
+      }
+
     async index(request, response){
-      const { name_user, name_plates, favorite} = request.query;
+      const { name_plates } = request.query;
   
       const favoritePlatesIndexRepository = new FavoritePlatesIndexRepository();
       const favoritePlatesIndexService = new FavoritePlatesIndexService(favoritePlatesIndexRepository);
-      const favoritePlatesSearch = await favoritePlatesIndexService.execute({name_user, name_plates, favorite});
+      const favoritePlatesSearch = await favoritePlatesIndexService.execute({name_plates});
       response.json(favoritePlatesSearch);
   
     }
