@@ -8,11 +8,17 @@ class PromotionRepository{
     //     return checkPromotionActive;
     // }
 
-    // async findByName(name){
-    //     const checkPromotionNameExist = await knex("promotion").where({name}).first();
+    async findByPlate(plate_id){
+        const checkPlateExist = await knex("plates").where({"id": plate_id}).first();
 
-    //     return checkPromotionNameExist;
-    // }
+        return checkPlateExist;
+    }
+
+    async findByName(name){
+        const checkPromotionNameExist = await knex("promotion").where({name}).first();
+
+        return checkPromotionNameExist;
+    }
 
     async create({initialDate, finalDate, name}){
         const promotionCreated = await knex("promotion").insert({initialDate, finalDate, name})
