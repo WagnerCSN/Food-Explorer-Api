@@ -12,24 +12,46 @@ class PromotionCreateService{
         if(checkPromotionNameExist){
             throw new AppError("There is a promotion with that name active!")
         }
+
+        if(!checkPlateExist){
+            throw new AppError("Dish not found!")
+        }
     //verificar se a data de criação está antes de initialDate e finalDate && initialDate está antes de finalDate
+     //initialDate>=d3 && finalDate >=d3&& initialDate<finalDate
         // Format - MM/DD/YYYY
-        var D1 = initialDate;
-        var D2 = finalDate;
-        var D3 = '20/10/2023';
-  
-       
-            D1 = new Date(D1);
-            D2 = new Date(D2);
-            D3 = new Date(D3);
+        var Date_1 = initialDate;
+        var Date_2 = finalDate;
+        let Date_3 = new Date();
+        let Date_to_check = Date_3.t
+        
+          let  D_1 = Date_1.split("/");
+           let D_2 = Date_2.split("/");
+           let D_3 = Date_to_check.split("/");
               
-            if (D3.getTime() <= D2.getTime()
-                && D3.getTime() >= D1.getTime()) {
-                console.log("Date is in between"
-                        + " the Date 1 and Date 2"); 
+            var d1 = new Date(D_1[2], parseInt(D_1[1]) - 1, D_1[0]);
+            var d2 = new Date(D_2[2], parseInt(D_2[1]) - 1, D_2[0]);
+            var d3 = new Date(D_3[2], parseInt(D_3[1]) - 1, D_3[0]);
+              
+            if (d1>=d3 && d2 >=d3&& d1<=d2) {
+                const [promotion_id] = await this.promotionRepository.create({
+                    initialDate, 
+                    finalDate, 
+                    name
+                });
+        
+                const handlePromotionItens = promotionItens.split();
+                
+                const insertPromotionItem = handlePromotionItens.map(promotionItens => {
+                    return{
+                        promotion_id,
+                        plate_id,
+                        discount: promotionItens
+                    }
+                });
+        
+                await this.promotionRepository.insertPromotionItem(insertPromotionItem)
             } else {
-                console.log("Date is not in"
-                    + " between the Date 1 and Date 2");
+                throw new AppError("Fill in the dates correctly!")
             }
 
 
@@ -46,27 +68,9 @@ class PromotionCreateService{
 // var date = new Date(arraydatai);
 // var result = date.toLocaleDateString()
 
-        if(!checkPlateExist){
-            throw new AppError("Dish not found!")
-        }
-
-        const [promotion_id] = await this.promotionRepository.create({
-            initialDate, 
-            finalDate, 
-            name
-        });
-
-        const handlePromotionItens = promotionItens.split();
         
-        const insertPromotionItem = handlePromotionItens.map(promotionItens => {
-            return{
-                promotion_id,
-                plate_id,
-                discount: promotionItens
-            }
-        });
 
-        await this.promotionRepository.insertPromotionItem(insertPromotionItem)
+        
     }
 }
 
