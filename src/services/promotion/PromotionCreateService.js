@@ -22,7 +22,7 @@ class PromotionCreateService{
         var Date_1 = initialDate;
         var Date_2 = finalDate;
         let Date_3 = new Date();
-        let Date_to_check = Date_3.t
+        let Date_to_check = Date_3.toLocaleDateString()
         
           let  D_1 = Date_1.split("/");
            let D_2 = Date_2.split("/");
