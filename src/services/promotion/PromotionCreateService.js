@@ -8,6 +8,7 @@ class PromotionCreateService{
     async execute({initialDate, finalDate, name, promotionItens, plate_id}){
         //const checkPromotionActive = await this.promotionRepository.findByActive(finalDate);
         const checkPromotionNameExist = await this.promotionRepository.findByName(name);
+        console.log(checkPromotionNameExist)
         const checkPlateExist = await this.promotionRepository.findByPlate(plate_id);
         if(checkPromotionNameExist){
             throw new AppError("There is a promotion with that name active!")

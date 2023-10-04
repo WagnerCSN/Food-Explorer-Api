@@ -15,7 +15,9 @@ class PromotionRepository{
     }
 
     async findByName(name){
-        const checkPromotionNameExist = await knex("promotion").where({name}).first();
+        const checkPromotionNameExist = await knex("promotion").where({name});
+
+        const checkPromotionActive = checkPromotionNameExist.filter(promotion => promotion.finalDate<=new Date());
 
         return checkPromotionNameExist;
     }
