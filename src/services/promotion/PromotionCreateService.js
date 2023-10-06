@@ -6,14 +6,11 @@ class PromotionCreateService{
     }
 
     async execute({initialDate, finalDate, name, promotionItens, plate_id}){
-        //consultar se na tabela item_promoção tem o codigo do produto
         const checkPromotionActive = await this.promotionRepository.findByDishWithPromotion(plate_id);
-        const checkPromotionNameExist = await this.promotionRepository.findByName(name);
         const checkPlateExist = await this.promotionRepository.findByPlate(plate_id);
-        console.log(checkPromotionActive)
         const checkDish = checkPromotionActive.map(promotion => {
 
-            let Date_1 = initialDate;  //a data inicial da nova promoção tem que ser maior que a data final da existente
+            let Date_1 = initialDate;  
             let Date_2 = promotion.finalDate;
             let Date_3 = new Date();
             let Date_to_check = Date_3.toLocaleDateString()
@@ -26,15 +23,10 @@ class PromotionCreateService{
             let d2 = new Date(D_2[2], parseInt(D_2[1]) - 1, D_2[0]);
             let d3 = new Date(D_3[2], parseInt(D_3[1]) - 1, D_3[0]);
                   
-            if(d1>d2&&d1>=d3) {
+            if(d1<=d2&&d1>=d3) {
                throw new AppError("este plato já está em promoção");
             }
-
-       })
-
-        if(checkPromotionNameExist){
-            throw new AppError("There is a promotion with that name active!")
-        }
+        })
 
         if(!checkPlateExist){
             throw new AppError("Dish not found!")
