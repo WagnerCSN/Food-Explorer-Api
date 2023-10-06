@@ -1,37 +1,37 @@
 const knex = require("../../database/knex");
 
 class PromotionIndexRepository{
-    async indexByName(name){
-        const promotionIndexName = await knex("promotion").select().whereLike("name", `%${name}%`);
-
+    async indexByNamePromotion(name_promotion){
+        const promotionIndexName = await knex("promotionItem").join("promotion", "promotion.id", "=", "promotionItem.promotion_id").whereLike("promotion.name", `%${name_promotion}%`).select('*');
+      
         return promotionIndexName;
     }
 
-    async selectByTypeOfpromotion(){
-        const typeid = await knex("typeofpromotion").select();
-
-        return typeid;
+    async indexByPromotion(name_dish){
+        const promotionIndexPromotionWithNameDish = await knex("promotionItem").join("plates", "plates.id", "=", "promotionItem.plate_id").whereLike("plates.name", `%${name_dish}%`).select('*');
+      
+        return promotionIndexPromotionWithNameDish;
     }
 
-    async selectByIngredients(){
-        const ingredient = await knex("ingredients").select();
+    // async selectByIngredients(){
+    //     const ingredient = await knex("ingredients").select();
 
-        return ingredient;
-    }
+    //     return ingredient;
+    // }
     
-    async indexByTypeOfpromotion(typeOfPlate_name){
+    // async indexByTypeOfpromotion(name_dish){
         
-        const promotionIndexTypeOfPlate = await knex("typeOfpromotion").select().innerJoin("promotion", "promotion.typeOfPlate_id", "typeOfpromotion.id").whereLike("typeOfpromotion.name", `%${typeOfPlate_name}%`); 
+    //     const promotionIndexTypeOfPlate = await knex("typeOfpromotion").select().innerJoin("promotion", "promotion.typeOfPlate_id", "typeOfpromotion.id").whereLike("typeOfpromotion.name", `%${name_dish}%`); 
 
-        return promotionIndexTypeOfPlate;
-    }
+    //     return promotionIndexTypeOfPlate;
+    // }
 
-    async indexByIngredients(ingredients_name){
+    // async indexByIngredients(ingredients_name){
         
-        const promotionIndexIngredients = await knex("ingredients").select().innerJoin("promotion", "promotion.ingredient_id", "ingredients.id").whereLike("ingredients.name", `%${ingredients_name}%`);
+    //     const promotionIndexIngredients = await knex("ingredients").select().innerJoin("promotion", "promotion.ingredient_id", "ingredients.id").whereLike("ingredients.name", `%${ingredients_name}%`);
 
-        return promotionIndexIngredients;
-    }
+    //     return promotionIndexIngredients;
+    // }
 }
 
 module.exports = PromotionIndexRepository;
