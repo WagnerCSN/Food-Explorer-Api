@@ -6,8 +6,8 @@ const PromotionDeleteRepository = require("../repositories/promotion/PromotionDe
 const PromotionDeleteService = require("../services/promotion/PromotionDeleteService");
 const PromotionShowRepository = require("../repositories/promotion/PromotionShowRepository");
 const PromotionShowService = require("../services/promotion/PromotionShowService");
-// const PromotionIndexRepository = require("../repositories/promotion/PromotionIndexRepository");
-// const PromotionIndexService = require("../services/promotion/PromotionIndexService");
+const PromotionIndexRepository = require("../repositories/promotion/PromotionIndexRepository");
+const PromotionIndexService = require("../services/promotion/PromotionIndexService");
 
 class PromotionController{
     async create(request, response) {
@@ -32,15 +32,15 @@ class PromotionController{
   
     }
   
-    // async index(request, response){
-    //   const { id, name} = request.query;
+    async index(request, response){
+      const { id, name_promotion, name_dish} = request.query;
   
-    //   const promotionIndexRepository = new PromotionIndexRepository();
-    //   const promotionIndexService = new PromotionIndexService(promotionIndexRepository);
-    //   const promotionSearch = await promotionIndexService.execute({id, name});
-    //   response.json(promotionSearch);
+      const promotionIndexRepository = new PromotionIndexRepository();
+      const promotionIndexService = new PromotionIndexService(promotionIndexRepository);
+      const promotionSearch = await promotionIndexService.execute({ id, name_promotion, name_dish});
+      response.json(promotionSearch);
   
-    // }
+    }
 
     async update(request, response) {
         const { name, promotionItens } = request.body;
