@@ -2,6 +2,12 @@ const knex = require("../../database/knex");
 
 class PromotionRepository{
 
+    async findByDishWithPromotion(plate_id){
+        const checkPromotionActive = await knex("promotionItem").where({plate_id}).join("promotion", "promotion.id", "=", "promotionItem.promotion_id").select('*');
+        knex("favorites").join("plates", "plates.id", "=", "favorites.plate_id")
+        return checkPromotionActive;
+    }
+
     async findByPlate(plate_id){
         const checkPlateExist = await knex("plates").where({"id": plate_id}).first();
 
