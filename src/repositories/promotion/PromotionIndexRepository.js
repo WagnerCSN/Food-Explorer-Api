@@ -2,15 +2,15 @@ const knex = require("../../database/knex");
 
 class PromotionIndexRepository{
     async indexByNamePromotion(name_promotion){
-        const promotionIndexName = await knex("promotionItem").join("promotion", "promotion.id", "=", "promotionItem.promotion_id").whereLike("promotion.name", `%${name_promotion}%`).select('*');
+        const promotionIndexPromotionWithName_promotion = await knex("promotionItem").join("promotion", "promotion.id", "=", "promotionItem.promotion_id").whereLike("promotion.name", `%${name_promotion}%`).select('*').join("plates", "plates.id", "=", "promotionItem.plate_id");
       
-        return promotionIndexName;
+        return promotionIndexPromotionWithName_promotion;
     }
 
     async searchPromotionItem(){
-        const promotionIndexp = await knex("promotionItem").join("promotion", "promotion.id", "=", "promotionItem.promotion_id").select('*');
+        const findPromotionWithPromotionItem = await knex("promotionItem").join("promotion", "promotion.id", "=", "promotionItem.promotion_id").select('*');
       
-        return promotionIndexp;
+        return findPromotionWithPromotionItem;
     }
 
     async indexByPromotion(name_dish){
@@ -18,26 +18,6 @@ class PromotionIndexRepository{
       
         return promotionIndexPromotionWithNameDish;
     }
-
-    // async selectByIngredients(){
-    //     const ingredient = await knex("ingredients").select();
-
-    //     return ingredient;
-    // }
-    
-    // async indexByTypeOfpromotion(name_dish){
-        
-    //     const promotionIndexTypeOfPlate = await knex("typeOfpromotion").select().innerJoin("promotion", "promotion.typeOfPlate_id", "typeOfpromotion.id").whereLike("typeOfpromotion.name", `%${name_dish}%`); 
-
-    //     return promotionIndexTypeOfPlate;
-    // }
-
-    // async indexByIngredients(ingredients_name){
-        
-    //     const promotionIndexIngredients = await knex("ingredients").select().innerJoin("promotion", "promotion.ingredient_id", "ingredients.id").whereLike("ingredients.name", `%${ingredients_name}%`);
-
-    //     return promotionIndexIngredients;
-    // }
 }
 
 module.exports = PromotionIndexRepository;

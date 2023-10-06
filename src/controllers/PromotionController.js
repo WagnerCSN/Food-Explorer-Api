@@ -33,11 +33,11 @@ class PromotionController{
     }
   
     async index(request, response){
-      const { id, name_promotion, name_dish} = request.query;
+      const { name_promotion, name_dish} = request.query;
   
       const promotionIndexRepository = new PromotionIndexRepository();
       const promotionIndexService = new PromotionIndexService(promotionIndexRepository);
-      const promotionSearch = await promotionIndexService.execute({ id, name_promotion, name_dish});
+      const promotionSearch = await promotionIndexService.execute({ name_promotion, name_dish});
       response.json(promotionSearch);
   
     }

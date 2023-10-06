@@ -5,46 +5,60 @@ class PromotionIndexService{
         this.promotionIndexRepository = promotionIndexRepository;
     }
 
-    async execute({id, name_promotion, name_dish}){
+    async execute({name_promotion, name_dish}){
 
+        const findPromotionWithPromotionItems = await this.promotionIndexRepository.searchPromotionItem()
+     
         if(name_promotion){
-            const promotionIndexName = await this.promotionIndexRepository.indexByNamePromotion(name_promotion);
-            if(promotionIndexName.length ===0){
+            const promotionIndexPromotionWithName_promotion = await this.promotionIndexRepository.indexByNamePromotion(name_promotion);
+            if(promotionIndexPromotionWithName_promotion.length ===0){
                 throw new AppError("Enter a valid name!");
             }
- 
-            return promotionIndexName
-        }
-            
-       
-        if(name_dish){
-            const promotionIndexPromotion = await this.promotionIndexRepository.indexByPromotion(name_dish);
-            const promo = await this.promotionIndexRepository.searchPromotionItem()
-            if(promotionIndexPromotion.length ===0){
-                throw new AppError("Enter a valid type Of Plate!");
-            }
 
-          console.log(promotionIndexPromotion)
-            const result = promotionIndexPromotion.map(promotion => {
-                const a = promo.filter(b => b.promotion_id===promotion.promotion_id)
+            const result = promotionIndexPromotionWithName_promotion.map(promotion => {
+                const handlePromotionWithPromotionItem = findPromotionWithPromotionItems.filter(findPromotionWithPromotionItem => findPromotionWithPromotionItem.promotion_id===promotion.promotion_id)
                 
                 return{
-                    id: a.map(id => id.id).toString(),
-                    namePromotion: a.map(name => name.name).toString(),
+                    id: handlePromotionWithPromotionItem.map(id => id.id).toString(),
+                    namePromotion: handlePromotionWithPromotionItem.map(name => name.name).toString(),
                     nameDish: promotion.name,
-                    discount: a.map(discount => discount.discount).toString(),
-                    initialDate: a.map(initialDate => initialDate.initialDate).toString(),
-                    finalDate: a.map(finalDate => finalDate.finalDate).toString(),
+                    discount: handlePromotionWithPromotionItem.map(discount => discount.discount).toString(),
                     descriptionDish: promotion.description,
                     costDish: promotion.cost,
                     imageDish: promotion.image,
+                    initialDate: handlePromotionWithPromotionItem.map(initialDate => initialDate.initialDate).toString(),
+                    finalDate: handlePromotionWithPromotionItem.map(finalDate => finalDate.finalDate).toString()
+                }
+            })
+ 
+            return result
+        }
+            
+        if(name_dish){
+            const promotionIndexPromotion = await this.promotionIndexRepository.indexByPromotion(name_dish);
+            
+            if(promotionIndexPromotion.length ===0){
+                throw new AppError("Enter a valid name of dish!");
+            }
+      
+            const result = promotionIndexPromotion.map(promotion => {
+                const handlePromotionWithPromotionItem = findPromotionWithPromotionItems.filter(findPromotionWithPromotionItem => findPromotionWithPromotionItem.promotion_id===promotion.promotion_id)
+                
+                return{
+                    id: handlePromotionWithPromotionItem.map(id => id.id).toString(),
+                    namePromotion: handlePromotionWithPromotionItem.map(name => name.name).toString(),
+                    nameDish: promotion.name,
+                    discount: handlePromotionWithPromotionItem.map(discount => discount.discount).toString(),
+                    descriptionDish: promotion.description,
+                    costDish: promotion.cost,
+                    imageDish: promotion.image,
+                    initialDate: handlePromotionWithPromotionItem.map(initialDate => initialDate.initialDate).toString(),
+                    finalDate: handlePromotionWithPromotionItem.map(finalDate => finalDate.finalDate).toString()
                 }
             })
            
              return result;
         }
-
-        
     }
 }
 
