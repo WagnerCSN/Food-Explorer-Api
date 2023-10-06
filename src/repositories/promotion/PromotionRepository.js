@@ -2,12 +2,6 @@ const knex = require("../../database/knex");
 
 class PromotionRepository{
 
-    // async findByActive(finalDate){
-    //     const checkPromotionActive = await knex("promotion").where({finalDate}).first();
-
-    //     return checkPromotionActive;
-    // }
-
     async findByPlate(plate_id){
         const checkPlateExist = await knex("plates").where({"id": plate_id}).first();
 
@@ -15,9 +9,7 @@ class PromotionRepository{
     }
 
     async findByName(name){
-        const checkPromotionNameExist = await knex("promotion").where({name});
-
-        const checkPromotionActive = checkPromotionNameExist.filter(promotion => promotion.finalDate<=new Date());
+        const checkPromotionNameExist = await knex("promotion").where({name}).first();
 
         return checkPromotionNameExist;
     }
