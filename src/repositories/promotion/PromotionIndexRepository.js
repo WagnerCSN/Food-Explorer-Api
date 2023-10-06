@@ -7,6 +7,12 @@ class PromotionIndexRepository{
         return promotionIndexName;
     }
 
+    async searchPromotionItem(){
+        const promotionIndexp = await knex("promotionItem").join("promotion", "promotion.id", "=", "promotionItem.promotion_id").select('*');
+      
+        return promotionIndexp;
+    }
+
     async indexByPromotion(name_dish){
         const promotionIndexPromotionWithNameDish = await knex("promotionItem").join("plates", "plates.id", "=", "promotionItem.plate_id").whereLike("plates.name", `%${name_dish}%`).select('*');
       
