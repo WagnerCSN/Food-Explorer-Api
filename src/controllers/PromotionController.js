@@ -43,13 +43,13 @@ class PromotionController{
     // }
 
     async update(request, response) {
-        const { initialDate, finalDate, name, promotionItens } = request.body;
+        const { name, promotionItens } = request.body;
         // const id = request.user.id;
         const { id } = request.params;
 
         const promotionUpdateRepository = new PromotionUpdateRepository();
         const promotionUpdateService = new PromotionUpdateService(promotionUpdateRepository);
-        await promotionUpdateService.execute({initialDate, finalDate, name, promotionItens});
+        await promotionUpdateService.execute({name, promotionItens, id});
     
         response.json();
       }
