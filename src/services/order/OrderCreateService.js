@@ -36,13 +36,13 @@ class OrderCreateService{
         //consultar se o plato está em promoção, se estiver retorna o valor da promoção
         //consultar o valor do prato
         
-        const handleOrderedItens = orderedItem.split();
-        const insertOrderedItem = handleOrderedItens.map(OrderItens => {
+        console.log(orderedItem);
+        const insertOrderedItem = orderedItem.map(OrderItens => {
             return{
                 order_id,
                 plate_id: OrderItens.id,
                 unitary_value: OrderItens.value,
-                amount,
+                amount: OrderItens.amount,
             }
         });
     
