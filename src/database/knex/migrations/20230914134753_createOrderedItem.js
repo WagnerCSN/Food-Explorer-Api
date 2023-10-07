@@ -1,8 +1,9 @@
 exports.up = knex => knex.schema.createTable("orderedItem", table => {
     table.increments("id");
     table.integer("amount");
-    table.text("value");
-    table.integer("client_id").references("id").inTable("clients");
+    table.integer("discount");
+    table.text("unitary_value");
+    table.integer("order_id").references("id").inTable("order").onDelete("CASCADE");
     table.integer("plate_id").references("id").inTable("plates");
 });
   

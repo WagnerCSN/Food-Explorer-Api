@@ -5,7 +5,7 @@ exports.up = knex => knex.schema.createTable("order", table => {
     table.text("totalOrderValue");
 
     table.timestamp("created_at").default(knex.fn.now());
-    table.integer("client_id").references("id").inTable("clients");
+    table.integer("client_id").references("id").inTable("clients").onDelete("CASCADE");
 });
 
 
