@@ -3,48 +3,50 @@ class OrderCreateService{
         this.orderRepository = orderRepository;
     }
 
-    async execute({status, qtdeOfItems, totalOrderValue, orderedItem, plate_id, users_id}){
+    async execute({status, qtdeOfItems, totalOrderValue, orderedItem, plate_id, user_id}){
        // const checkOrderedItemExist = await this.orderRepository.findByOrderedItem(orderedItem_id);
-        const checkEmailExist = await this.orderRepository.findByClients(users_id);
-        const handleQtdeOfItems = await this.orderRepository.findByQtdeOfItems(orderedItem_id);//consultar a quantidade de intens no pedido
+        //const checkEmailExist = await this.orderRepository.findByClients(user_id);
+       // const handleQtdeOfItems = await this.orderRepository.findByQtdeOfItems(orderedItem_id);//consultar a quantidade de intens no pedido
 
-        if(!checkOrderedItemExist){
-            throw new AppError("There is no plate on the ordered item!");
-        }
+        // if(!checkOrderedItemExist){
+        //     throw new AppError("There is no plate on the ordered item!");
+        // }
 
-        //status: em processamento, enviado, entregue
+        // //status: em processamento, enviado, entregue
 
-        if(!checkEmailExist){
-            throw new AppError("Unregistered customer!");
-        }
+        // if(!checkEmailExist){
+        //     throw new AppError("Unregistered customer!");
+        // }
 
-        if(!handleQtdeOfItems){
-            throw new AppError("There are no items in the order!");
-        }
+        // if(!handleQtdeOfItems){
+        //     throw new AppError("There are no items in the order!");
+        // }
 
-        const [order_id] = await this.orderRepository.create({
+        const [order_id] = await this.orderRepository.createOrder({
             status, 
-            qtdeOfItems: handleQtdeOfItems,
+            qtdeOfItems,
             totalOrderValue,
+            user_id
         })
 
-        const handleOrderedItens = orderedItem.split();
-
+        //dentro do orderedItem terá um array com o id dos platos a serem adicionados;
+        
         //verificar se usuário está autenticado
         //verificar se o plato existe
         //consultar se o plato está em promoção, se estiver retorna o valor da promoção
         //consultar o valor do prato
-            
+        
+        const handleOrderedItens = orderedItem.split();
         const insertOrderedItem = handleOrderedItens.map(OrderItens => {
             return{
                 order_id,
-                plate_id,
-                value,
+                plate_id: OrderItens.id,
+                unitary_value: OrderItens.value,
                 amount,
             }
         });
     
-        await this.promotionRepository.insertPromotionItem(insertPromotionItem)
+        await this.orderRepository.insertOrderItem(insertOrderedItem)
         
         
         

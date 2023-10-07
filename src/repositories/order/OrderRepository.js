@@ -18,11 +18,16 @@ class OrderRepository{
         return handleQtdeOfItems;
     }
 
-    async create({status, qtdeOfItems, totalOrderValue, date, users_id}){
-        const orderCreated = await knex("order").where({users_id})
-                                    .insert({status, qtdeOfItems,totalOrderValue, date, users_id});
+    async createOrder({status, qtdeOfItems, totalOrderValue, user_id}){
+        const order_id = await knex("order").insert({status, qtdeOfItems, totalOrderValue, user_id});
 
-        return orderCreated;
+        return order_id;
+    }
+
+    async insertOrderItem(insertOrderedItem){
+        const orderItemCreated = await knex(insertOrderedItem);
+
+        return orderItemCreated;
     }
 }
 

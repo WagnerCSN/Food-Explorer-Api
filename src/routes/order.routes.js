@@ -4,7 +4,7 @@ const orderController = new OrderController();
 
 const orderRoutes = Router();
 
-orderRoutes.post("/", orderController.create);
+orderRoutes.post("/:user_id", orderController.create);
 // orderRoutes.put("/:id", orderController.update);
 // orderRoutes.delete("/:id", orderController.delete);
 

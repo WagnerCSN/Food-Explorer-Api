@@ -1,22 +1,22 @@
 const OrderRepository = require("../repositories/order/OrderRepository");
 const OrderCreateService = require("../services/order/OrderCreateService");
-const OrderUpdateService = require("../services/order/OrderUpdateService");
-const OrderUpdateRepository = require("../repositories/order/OrderUpdateRepository");
-const OrderDeleteRepository = require("../repositories/order/OrderDeleteRepository");
-const OrderDeleteService = require("../services/order/OrderDeleteService");
-const OrderShowRepository = require("../repositories/order/OrderShowRepository");
-const OrderShowService = require("../services/order/OrderShowService");
-const OrderIndexRepository = require("../repositories/order/OrderIndexRepository");
-const OrderIndexService = require("../services/order/OrderIndexService");
+// const OrderUpdateService = require("../services/order/OrderUpdateService");
+// const OrderUpdateRepository = require("../repositories/order/OrderUpdateRepository");
+// const OrderDeleteRepository = require("../repositories/order/OrderDeleteRepository");
+// const OrderDeleteService = require("../services/order/OrderDeleteService");
+// const OrderShowRepository = require("../repositories/order/OrderShowRepository");
+// const OrderShowService = require("../services/order/OrderShowService");
+// const OrderIndexRepository = require("../repositories/order/OrderIndexRepository");
+// const OrderIndexService = require("../services/order/OrderIndexService");
 
 class OrderController {
   async create(request, response) {
     const {status, qtdeOfItems, totalOrderValue, orderedItem} = request.body;
-    const { plate_id, users_id } = request.params;
+    const { users_id } = request.params;
 
     const orderRepository = new OrderRepository();
     const orderCreateService = new OrderCreateService(orderRepository);
-    await orderCreateService.execute({status, qtdeOfItems, totalOrderValue, orderedItem, plate_id, users_id});
+    await orderCreateService.execute({status, qtdeOfItems, totalOrderValue, orderedItem, users_id});
 
     response.json();
   }

@@ -3,6 +3,7 @@ exports.up = knex => knex.schema.createTable("plates", table => {
     table.text("name");
     table.text("description");
     table.text("cost");
+    table.text("value");
     table.text("image").Null;
     table.integer("typeOfPlate_id").references("id").inTable("typeOfPlates");
     table.integer("ingredient_id").references("id").inTable("ingredients").onDelete("CASCADE");
