@@ -12,6 +12,12 @@ class OrderRepository{
         return checkEmailExist ;
     }
 
+    async findByOrderedItem(orderedItem){
+        const selectOrderedItem = await knex("users").where({users_id}).first();
+
+        return selectOrderedItem ;
+    }
+
     async findByQtdeOfItems(order_id){
         const handleQtdeOfItems = await knex("orderedItem").where({order_id}).count('id');
 

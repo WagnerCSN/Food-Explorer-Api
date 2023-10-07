@@ -37,6 +37,7 @@ class OrderCreateService{
         //consultar o valor do prato
         
         console.log(orderedItem);
+        const selectOrderedItem = await this.orderRepository.findByOrderedItem(orderedItem)
         const insertOrderedItem = orderedItem.map(OrderItens => {
             return{
                 order_id,
