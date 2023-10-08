@@ -1,13 +1,15 @@
+const AppError = require("../../utils/AppError");
+
 class OrderCreateService{
     constructor(orderRepository){
         this.orderRepository = orderRepository;
     }
 
-    async execute({status, qtdeOfItems, totalOrderValue, orderedItem, plate_id, user_id}){
+    async execute({status, totalOrderValue, orderedItem, amount, user_id}){
        // const checkOrderedItemExist = await this.orderRepository.findByOrderedItem(orderedItem_id);
         //const checkEmailExist = await this.orderRepository.findByClients(user_id);
-       // const handleQtdeOfItems = await this.orderRepository.findByQtdeOfItems(orderedItem_id);//consultar a quantidade de intens no pedido
-
+        var handleQtdeOfItems;
+       
         // if(!checkOrderedItemExist){
         //     throw new AppError("There is no plate on the ordered item!");
         // }
@@ -24,36 +26,94 @@ class OrderCreateService{
 
         const [order_id] = await this.orderRepository.createOrder({
             status, 
-            qtdeOfItems,
+            qtdeOfItems: handleQtdeOfItems, 
             totalOrderValue,
             user_id
         })
 
+       
+       
         //dentro do orderedItem terá um array com o id dos platos a serem adicionados;
         
         //verificar se usuário está autenticado
         //verificar se o plato existe
-        //consultar se o plato está em promoção, se estiver retorna o valor da promoção
+        //XXXXXXXXXXconsultar se o plato está em promoção, se estiver retorna o valor da promoção
         //consultar o valor do prato
         
-        console.log(orderedItem);
-        const selectOrderedItem = await this.orderRepository.findByOrderedItem(orderedItem)
-        const insertOrderedItem = orderedItem.map(OrderItens => {
+        const selectOrderedItem = await this.orderRepository.findByOrderedItem(orderedItem);
+       
+        const promotions = await this.orderRepository.findByPromotion(orderedItem)
+        const a = promotions.map(d =>d.discount)
+        const b = parseInt(a)
+      
+        
+       // const checkPlateExist = await this.promotionRepository.findByPlate(plate_id);
+      
+        var insertOrderedItem;
+        const checkDish = promotions.map(promotion => {
+
+            let Date_1 = promotion.initialDate;  
+            let Date_2 = promotion.finalDate;
+            let Date_3 = new Date();
+            let Date_to_check = Date_3.toLocaleDateString()
+            
+            let D_1 = Date_1.split("/");
+            let D_2 = Date_2.split("/");
+            let D_3 = Date_to_check.split("/");
+                  
+            let d1 = new Date(D_1[2], parseInt(D_1[1]) - 1, D_1[0]);
+            let d2 = new Date(D_2[2], parseInt(D_2[1]) - 1, D_2[0]);
+            let d3 = new Date(D_3[2], parseInt(D_3[1]) - 1, D_3[0]);
+                  
+            if(d1<=d2&&d1>=d3) {
+               //throw new AppError("este plato já está em promoção");
+               insertOrderedItem = selectOrderedItem.map(OrderItens => {
+                   const value = ((OrderItens.value*(100 - parseInt(a)))/100)*amount;//valorTotalComDesconto
+                   console.log(value)
+                return{
+                    order_id,
+                    plate_id: OrderItens.id,
+                    unitary_value: OrderItens.value,
+                    amount,
+                    discount: parseInt(a)
+                }
+                
+            });
+            }
+        })
+        /*
+       if (discount) {
+      value = ((valueOfPlate*(100 - discount))/100)*amount; //amount=quantidade (valordoproduto*(100-desconto))/100
+    } else {
+      value = valueOfPlate*amount;
+    }
+*/
+        const insertOrderedItem2 = selectOrderedItem.map(OrderItens => {
             return{
                 order_id,
                 plate_id: OrderItens.id,
-                unitary_value: OrderItens.value,
-                amount: OrderItens.amount,
+                unitary_value: OrderItens.cost,
+                amount: OrderItens.id,
             }
         });
-    
-        await this.orderRepository.insertOrderItem(insertOrderedItem)
+        
+        if(insertOrderedItem){
+            await this.orderRepository.insertOrderItem(insertOrderedItem)
+        }else{
+            await this.orderRepository.insertOrderItem(insertOrderedItem2)
+        }
         
         
+        // const updateOrder =  await this.orderRepository.updateOrder({
+        //     order_id,
+        //     qtdeOfItems: handleQtdeOfItems, 
+        //     totalOrderValue,
+           
+        // })  
         
-        
-        
-        return orderCreated;
+        handleQtdeOfItems = await this.orderRepository.findByQtdeOfItems(order_id);//consultar a quantidade de intens no pedido
+       
+        //console.log(handleQtdeOfItems)
 
     }
 }

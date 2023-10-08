@@ -13,7 +13,7 @@ class OrderRepository{
     }
 
     async findByOrderedItem(orderedItem){
-        const selectOrderedItem = await knex("users").where({users_id}).first();
+        const selectOrderedItem = await knex("plates").where({"id": orderedItem});
 
         return selectOrderedItem ;
     }
@@ -24,17 +24,32 @@ class OrderRepository{
         return handleQtdeOfItems;
     }
 
-    async createOrder({status, qtdeOfItems, totalOrderValue, user_id}){
-        const order_id = await knex("order").insert({status, qtdeOfItems, totalOrderValue, user_id});
+    async createOrder({status, user_id}){
+        const order_id = await knex("order").where({user_id}).insert({status, user_id});
 
         return order_id;
     }
 
+    async findByPromotion(orderedItem){
+        const promotion = await knex("promotionItem").where({"plate_id": orderedItem}).join("promotion", "promotion.id", "=", "promotionItem.promotion_id").select('*');
+
+        return promotion;
+    }
+
     async insertOrderItem(insertOrderedItem){
-        const orderItemCreated = await knex(insertOrderedItem);
+        const orderItemCreated = await knex("orderedItem").insert(insertOrderedItem);
 
         return orderItemCreated;
     }
+
+    // async updateOrder(order_id, qtdeOfItems, totalOrderValue ){
+    //     const orderUpdate = await knex("order").where({"id": order_id}).insert({qtdeOfItems, totalOrderValue});
+
+    //     return orderUpdate;
+    // }
+
+    
 }
 
 module.exports = OrderRepository;
+

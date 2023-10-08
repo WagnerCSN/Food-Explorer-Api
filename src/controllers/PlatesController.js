@@ -11,12 +11,12 @@ const PlatesIndexService = require("../services/plates/PlatesIndexService");
 
 class PlatesController {
   async create(request, response) {
-    const { name, description, cost, image } = request.body;
+    const { name, description, cost, value, image } = request.body;
     const { typeOfPlate_id, ingredient_id } = request.query;
 
     const platesRepository = new PlatesRepository();
     const platesCreateService = new PlatesCreateService(platesRepository);
-    await platesCreateService.execute({ name, description, cost, image, typeOfPlate_id, ingredient_id });
+    await platesCreateService.execute({ name, description, cost, value, image, typeOfPlate_id, ingredient_id });
 
     response.json();
 
