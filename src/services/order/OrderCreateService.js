@@ -69,11 +69,13 @@ class OrderCreateService{
                //throw new AppError("este plato já está em promoção");
                insertOrderedItem = selectOrderedItem.map(OrderItens => {
                    const value = ((OrderItens.value*(100 - parseInt(a)))/100)*amount;//valorTotalComDesconto
+                   const valueWithDiscount = ((OrderItens.value*(100 - parseInt(a)))/100)
                    console.log(value)
                 return{
                     order_id,
                     plate_id: OrderItens.id,
-                    unitary_value: OrderItens.value,
+                    unitary_value: valueWithDiscount,
+                    total_value: value,
                     amount,
                     discount: parseInt(a)
                 }
@@ -89,11 +91,13 @@ class OrderCreateService{
     }
 */
         const insertOrderedItem2 = selectOrderedItem.map(OrderItens => {
+            const value = OrderItens.value*amount;
             return{
                 order_id,
                 plate_id: OrderItens.id,
-                unitary_value: OrderItens.cost,
-                amount: OrderItens.id,
+                unitary_value: OrderItens.value,
+                total_value: value,
+                amount,
             }
         });
         
