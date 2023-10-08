@@ -37,8 +37,12 @@ class OrderCreateService{
         
         //verificar se usuário está autenticado
         //verificar se o plato existe
+        //somar a quantidade de itens no order
+        //somar a o valor total da nota
+        //comocar mais de um plato no order
+        
         //XXXXXXXXXXconsultar se o plato está em promoção, se estiver retorna o valor da promoção
-        //consultar o valor do prato
+        //xxxxxxxxxxconsultar o valor do prato
         
         const selectOrderedItem = await this.orderRepository.findByOrderedItem(orderedItem);
        
@@ -83,13 +87,7 @@ class OrderCreateService{
             });
             }
         })
-        /*
-       if (discount) {
-      value = ((valueOfPlate*(100 - discount))/100)*amount; //amount=quantidade (valordoproduto*(100-desconto))/100
-    } else {
-      value = valueOfPlate*amount;
-    }
-*/
+      
         const insertOrderedItem2 = selectOrderedItem.map(OrderItens => {
             const value = OrderItens.value*amount;
             return{
