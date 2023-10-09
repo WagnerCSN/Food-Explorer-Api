@@ -5,7 +5,7 @@ class OrderCreateService{
         this.orderRepository = orderRepository;
     }
 
-    async execute({status, totalOrderValue, qtdeOfItems, orderedItem, amount, user_id}){
+    async execute({status, orderedItem, amount, user_id}){
        // const checkOrderedItemExist = await this.orderRepository.findByOrderedItem(orderedItem_id);
         const checkUserExist = await this.orderRepository.findByUser(user_id);
         var handleQtdeOfItems;
@@ -23,10 +23,11 @@ class OrderCreateService{
         // if(!handleQtdeOfItems){
         //     throw new AppError("There are no items in the order!");
         // }
-
+       let qtdeOfItems=0;
+        let    totalOrderValue='0';
         const [order_id] = await this.orderRepository.createOrder({
             status, 
-            qtdeOfItems, 
+            qtdeOfItems,
             totalOrderValue,
             user_id
         })
@@ -115,7 +116,7 @@ class OrderCreateService{
         order.status = status;
         order.user_id = user_id; 
         order.qtdeOfItems= u.toString(); 
-        console.log(qtdeOfItems)
+        console.log(order.qtdeOfItems)
         order.totalOrderValue=totalOrderValue;
         const updateOrder =  await this.orderRepository.updateOrder({
             order_id,
@@ -124,8 +125,8 @@ class OrderCreateService{
             totalOrderValue: order.totalOrderValue
            
         })  
-        console.log(updateOrder)
-        return updateOrder
+        // console.log(updateOrder)
+        // return updateOrder
 
     }
 }
