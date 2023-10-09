@@ -26,7 +26,7 @@ class PromotionUpdateService {
         const promotionItemUpdated = await this.promotionUpdateRepository.updateItem({
             discount: promotionItens,
             promotion_id
-      });
+      }); 
 
     return promotionItemUpdated;}
   } 

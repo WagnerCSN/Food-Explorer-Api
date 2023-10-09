@@ -6,10 +6,10 @@ class OrderRepository{
 
         return checkOrderedItemExist ;
     }
-    async findByClients(users_id){
-        const checkEmailExist = await knex("users").where({users_id}).first();
+    async findByUser(user_id){
+        const checkUserExist = await knex("users").where({"id": user_id}).first();
 
-        return checkEmailExist ;
+        return checkUserExist ;
     }
 
     async findByOrderedItem(orderedItem){
@@ -19,13 +19,13 @@ class OrderRepository{
     }
 
     async findByQtdeOfItems(order_id){
-        const handleQtdeOfItems = await knex("orderedItem").where({order_id}).count('id');
+        const handleQtdeOfItems = await knex("orderedItem").where({order_id}).count({sum: 'id'});
 
         return handleQtdeOfItems;
     }
 
-    async createOrder({status, user_id}){
-        const order_id = await knex("order").where({user_id}).insert({status, user_id});
+    async createOrder({status, qtdeOfItems, totalOrderValue, user_id}){
+        const order_id = await knex("order").where({user_id}).insert({status, qtdeOfItems, totalOrderValue, user_id});
 
         return order_id;
     }
@@ -42,11 +42,17 @@ class OrderRepository{
         return orderItemCreated;
     }
 
-    // async updateOrder(order_id, qtdeOfItems, totalOrderValue ){
-    //     const orderUpdate = await knex("order").where({"id": order_id}).insert({qtdeOfItems, totalOrderValue});
+    async findByOrder(order_id){
+        const order = await knex("order").where({"id": order_id});
 
-    //     return orderUpdate;
-    // }
+        return order;
+    }
+
+    async updateOrder(order_id, qtdeOfItems, totalOrderValue){
+        const orderUpdate = await knex("order").where({"id": order_id}).update({qtdeOfItems, totalOrderValue});
+
+        return orderUpdate;
+    }
 
     
 }

@@ -5,9 +5,9 @@ class OrderCreateService{
         this.orderRepository = orderRepository;
     }
 
-    async execute({status, totalOrderValue, orderedItem, amount, user_id}){
+    async execute({status, totalOrderValue, qtdeOfItems, orderedItem, amount, user_id}){
        // const checkOrderedItemExist = await this.orderRepository.findByOrderedItem(orderedItem_id);
-        //const checkEmailExist = await this.orderRepository.findByClients(user_id);
+        const checkUserExist = await this.orderRepository.findByUser(user_id);
         var handleQtdeOfItems;
        
         // if(!checkOrderedItemExist){
@@ -16,9 +16,9 @@ class OrderCreateService{
 
         // //status: em processamento, enviado, entregue
 
-        // if(!checkEmailExist){
-        //     throw new AppError("Unregistered customer!");
-        // }
+        if(!checkUserExist){
+            throw new AppError("Unregistered customer!");
+        }
 
         // if(!handleQtdeOfItems){
         //     throw new AppError("There are no items in the order!");
@@ -26,7 +26,7 @@ class OrderCreateService{
 
         const [order_id] = await this.orderRepository.createOrder({
             status, 
-            qtdeOfItems: handleQtdeOfItems, 
+            qtdeOfItems, 
             totalOrderValue,
             user_id
         })
@@ -38,7 +38,7 @@ class OrderCreateService{
         //verificar se usuário está autenticado
         //verificar se o plato existe
         //somar a quantidade de itens no order
-        //somar a o valor total da nota
+        //somar a o valor total da nota => fazer um array com todos os totais e usar o metodo reduce() para somar
         //comocar mais de um plato no order
         
         //XXXXXXXXXXconsultar se o plato está em promoção, se estiver retorna o valor da promoção
@@ -105,17 +105,27 @@ class OrderCreateService{
             await this.orderRepository.insertOrderItem(insertOrderedItem2)
         }
         
-        
-        // const updateOrder =  await this.orderRepository.updateOrder({
-        //     order_id,
-        //     qtdeOfItems: handleQtdeOfItems, 
-        //     totalOrderValue,
-           
-        // })  
-        
         handleQtdeOfItems = await this.orderRepository.findByQtdeOfItems(order_id);//consultar a quantidade de intens no pedido
-       
-        //console.log(handleQtdeOfItems)
+       const u = handleQtdeOfItems.map(a =>a.sum)
+        console.log(u.toString())
+
+        const order = await this.orderRepository.findByOrder(order_id)
+        console.log(order)
+
+        order.status = status;
+        order.user_id = user_id; 
+        order.qtdeOfItems= u.toString(); 
+        console.log(qtdeOfItems)
+        order.totalOrderValue=totalOrderValue;
+        const updateOrder =  await this.orderRepository.updateOrder({
+            order_id,
+            
+            qtdeOfItems: order.qtdeOfItems, 
+            totalOrderValue: order.totalOrderValue
+           
+        })  
+        console.log(updateOrder)
+        return updateOrder
 
     }
 }
