@@ -1,4 +1,5 @@
 const AppError = require("../../utils/AppError");
+const knex = require("../../database/knex");
 
 class OrderCreateService{
     constructor(orderRepository){
@@ -23,16 +24,38 @@ class OrderCreateService{
         // if(!handleQtdeOfItems){
         //     throw new AppError("There are no items in the order!");
         // }
-       let qtdeOfItems=0;
-        let    totalOrderValue='0';
-        const [order_id] = await this.orderRepository.createOrder({
-            status, 
-            qtdeOfItems,
-            totalOrderValue,
-            user_id
-        })
+        let qtdeOfItems = 0;
+        let totalOrderValue = '0';
 
-       
+        try{
+        await knex.transaction(async (trx) => {
+
+            const [order_id] = await knex('order').insert({status, qtdeOfItems,
+                     totalOrderValue,user_id}).returning('id').transacting(trx);
+                const id = order_id
+                const ord = await knex('order').where({"id": order_id}).transacting(trx);
+                console.log(ord.map(a =>a))
+                ord.status = status;
+                ord.qtdeOfItems = qtdeOfItems; 
+                ord.totalOrderValue = totalOrderValue; 
+                ord.user_id = user_id;
+            const update = await knex('order').where({"id": order_id}).update({status: 'concluido'}).transacting(trx);
+        // const [order_id] = await this.orderRepository.createOrder({
+        //     status, 
+        //     qtdeOfItems,
+        //     totalOrderValue,
+        //     user_id
+        // })
+
+       console.log(update);
+       await trx.commit();
+    })
+}catch(error) {
+        console.error(error);
+        // Rollback em caso de erro
+       // knex.rollback(err);
+      }
+      
        
         //dentro do orderedItem terá um array com o id dos platos a serem adicionados;
         
@@ -45,7 +68,7 @@ class OrderCreateService{
         //XXXXXXXXXXconsultar se o plato está em promoção, se estiver retorna o valor da promoção
         //xxxxxxxxxxconsultar o valor do prato
         
-        const selectOrderedItem = await this.orderRepository.findByOrderedItem(orderedItem);
+       /* const selectOrderedItem = await this.orderRepository.findByOrderedItem(orderedItem);
        
         const promotions = await this.orderRepository.findByPromotion(orderedItem)
         const a = promotions.map(d =>d.discount)
@@ -118,16 +141,20 @@ class OrderCreateService{
         order.qtdeOfItems= u.toString(); 
         console.log(order.qtdeOfItems)
         order.totalOrderValue=totalOrderValue;
-        const updateOrder =  await this.orderRepository.updateOrder({
-            order_id,
-            
-            qtdeOfItems: order.qtdeOfItems, 
-            totalOrderValue: order.totalOrderValue
+        
+       
+        // const updateOrder =  await this.orderRepository.updateOrder({
+        //     id: order_id,
+        //     status: order.status,
+        //     user_id: order.user_id,
+        //     qtdeOfItems: order.qtdeOfItems, 
+        //     totalOrderValue: order.totalOrderValue,
            
-        })  
-        // console.log(updateOrder)
+        // })  
+        //  console.log("a",updateOrder)
         // return updateOrder
-
+   */
+        
     }
 }
 

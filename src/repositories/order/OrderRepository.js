@@ -24,11 +24,7 @@ class OrderRepository{
         return handleQtdeOfItems;
     }
 
-    async createOrder({status, qtdeOfItems, totalOrderValue, user_id}){
-        const order_id = await knex("order").where({user_id}).insert({status, qtdeOfItems, totalOrderValue, user_id});
-
-        return order_id;
-    }
+    
 
     async findByPromotion(orderedItem){
         const promotion = await knex("promotionItem").where({"plate_id": orderedItem}).join("promotion", "promotion.id", "=", "promotionItem.promotion_id").select('*');
@@ -48,8 +44,16 @@ class OrderRepository{
         return order;
     }
 
-    async updateOrder(order_id, qtdeOfItems, totalOrderValue){
-        const orderUpdate = await knex("order").where({"id": order_id}).update({qtdeOfItems, totalOrderValue});
+    async createOrder({status, qtdeOfItems, totalOrderValue, user_id}){
+        const order_id = await knex("order").where({user_id}).insert({status, qtdeOfItems, totalOrderValue, user_id});
+
+        return order_id;
+    }
+
+    async updateOrder(id, status, user_id, qtdeOfItems, totalOrderValue){
+        const orderUpdate = await knex("order").insert({status, user_id, qtdeOfItems, totalOrderValue}).onConflict('id')
+        .merge();
+       
 
         return orderUpdate;
     }
