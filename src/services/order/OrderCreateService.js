@@ -39,7 +39,7 @@ class OrderCreateService{
                 ord.qtdeOfItems = qtdeOfItems; 
                 ord.totalOrderValue = totalOrderValue; 
                 ord.user_id = user_id;
-            const update = await trans('order').where({"id": order_id}).update({status: 'concluido'});
+            const update = await trans('order').where({"id": order_id}).update({status: 'concluido', qtdeOfItems: 2, totalOrderValue: '10' });
             const ord2 = await trans('order').where({"id": order_id});
         // const [order_id] = await this.orderRepository.createOrder({
         //     status, 
@@ -49,12 +49,12 @@ class OrderCreateService{
         // })
 
        console.log("u", ord2.map(a =>a));
-       //await trx.commit();
+       await trans.commit();
     });
 }catch(err) {
         console.log(err);
         // Rollback em caso de erro
-       // knex.rollback(err);
+        knex.rollback(err);
       }
       
        
