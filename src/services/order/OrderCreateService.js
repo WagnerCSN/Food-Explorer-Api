@@ -28,18 +28,19 @@ class OrderCreateService{
         let totalOrderValue = '0';
 
         try{
-        await knex.transaction(async (trx) => {
+        await knex.transaction(async trans => {
 
-            const [order_id] = await knex('order').insert({status, qtdeOfItems,
-                     totalOrderValue,user_id}).returning('id').transacting(trx);
+            const [order_id] = await trans('order').insert({status, qtdeOfItems,
+                     totalOrderValue,user_id});
                 const id = order_id
-                const ord = await knex('order').where({"id": order_id}).transacting(trx);
+                const ord = await trans('order').where({"id": order_id});
                 console.log(ord.map(a =>a))
                 ord.status = status;
                 ord.qtdeOfItems = qtdeOfItems; 
                 ord.totalOrderValue = totalOrderValue; 
                 ord.user_id = user_id;
-            const update = await knex('order').where({"id": order_id}).update({status: 'concluido'}).transacting(trx);
+            const update = await trans('order').where({"id": order_id}).update({status: 'concluido'});
+            const ord2 = await trans('order').where({"id": order_id});
         // const [order_id] = await this.orderRepository.createOrder({
         //     status, 
         //     qtdeOfItems,
@@ -47,11 +48,11 @@ class OrderCreateService{
         //     user_id
         // })
 
-       console.log(update);
-       await trx.commit();
-    })
-}catch(error) {
-        console.error(error);
+       console.log("u", ord2.map(a =>a));
+       //await trx.commit();
+    });
+}catch(err) {
+        console.log(err);
         // Rollback em caso de erro
        // knex.rollback(err);
       }
