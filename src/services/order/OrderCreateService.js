@@ -98,29 +98,19 @@ class OrderCreateService{
     let result2;
     let insertOrderedItem;
     let insertOrderedItem2;  
-    let promotions = await this.orderRepository.findByPromotion(plate_id)//todas as promoçoes
-        //console.log("todas as promoçoes", promotions)//precisa verificar os platos se tem plato com promoção ativa
+    let promotions = await this.orderRepository.findByPromotion(plate_id)//platos com promoção
+    console.log("platos com promoção ", promotions);
 
-        // const sempromotions = promotions.map(a => {
-        //     const filt = selectOrderedItem.filter(c => c.id !== a.plate_id)
-        //     console.log("plato sem promocao", filt)
-        // })
-
-        console.log("platos com promoção", promotions)
-
-        //  let u = selectOrderedItem.map(async k => {
-        //      const sempromotions = promotions.filter(l => l.plate_id !== k.id); 
-
-             //console.log("plato adicionado para verificar se esta com promoçao ativa", promotions);
-             //console.log("plato adicionado sem promoçao ", sempromotions);
-         
-
-            
+    const promotions_id = promotions.map( promotion => promotion.plate_id)
+    
+    let plate_idWithOutPromotion = plate_id.filter( a => !promotions_id.includes( a ) );//compara os platos adicionados com os platos com promoção
+    const plateWithOutPromotion = await this.orderRepository.findByPlatesWithOutPromotion(plate_idWithOutPromotion);//platos sem promoção
+  
+    console.log("plato sem promoção", plateWithOutPromotion.map(a =>a))
+          
     //         if(promotions){
     //         const a = promotions.map(d =>d.discount)
     //         const b = parseInt(a)
-            
-            
         
     //    // const checkPlateExist = await this.promotionRepository.findByPlate(plate_id);
       
@@ -143,6 +133,7 @@ class OrderCreateService{
         
             if(d1<=d2&&d1>=d3) {
                result = "este plato está em promoção";
+               console.log("id do plato em promoção:", promotion.plate_id)
             //    insertOrderedItem = promotions.map(OrderItens => {
             //        const value = ((OrderItens.value*(100 - parseInt(a)))/100)*amount;//valorTotalComDesconto
             //        const valueWithDiscount = ((OrderItens.value*(100 - parseInt(a)))/100)
@@ -160,11 +151,8 @@ class OrderCreateService{
             
         
       
-            
-            const sempromotion = promotions.map(a => {
-                result2  = selectOrderedItem.filter(c => c.id !== a.plate_id)
-                
-            })
+            result2 = "este plato está sem promoção";
+           
         // insertOrderedItem2 = k.map(OrderItens => {//sem promoção
             // const value = OrderItens.value*amount;
             // return{
@@ -179,13 +167,14 @@ class OrderCreateService{
         if(result){
             console.log(result)
             //await this.orderRepository.insertOrderItem(insertOrderedItem)
-        }
-        if(result2){
-           
-            console.log("plato sem promocao", result2)
+        }else{
+            
+            console.log(result2)
             //await this.orderRepository.insertOrderItem(insertOrderedItem2)
         }
     });//});
+
+    //console.log("platos sem promoção", sempromotion)
     //     handleQtdeOfItems = await this.orderRepository.findByQtdeOfItems(order_id);//consultar a quantidade de intens no pedido
     //    const u = handleQtdeOfItems.map(a =>a.sum)
     //     console.log(u.toString())

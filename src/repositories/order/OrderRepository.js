@@ -17,6 +17,12 @@ class OrderRepository{
         const selectOrderedItem = await knex("plates").whereIn('id', plate_id).select('*');
 
         return selectOrderedItem ;
+    } 
+
+    async findByPlatesWithOutPromotion(plate_idWithOutPromotion){
+        const plateWithOutPromotion = await knex("plates").whereIn("id", plate_idWithOutPromotion).select('*')
+
+        return plateWithOutPromotion ;
     }
 
     async findByQtdeOfItems(order_id){
