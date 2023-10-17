@@ -1,6 +1,7 @@
 const knex = require("../../database/knex");
 
 class OrderRepository{
+    
     async findByOrderedItem(orderedItem_id){
         const checkOrderedItemExist = await knex("orderedItem").where({orderedItem_id}).first();
 
@@ -12,8 +13,8 @@ class OrderRepository{
         return checkUserExist ;
     }
 
-    async findByOrderedItem(orderedItem){
-        const selectOrderedItem = await knex("plates").where({"id": orderedItem});
+    async findByOrderedItem(plate_id){
+        const selectOrderedItem = await knex("plates").whereIn('id', plate_id).select('*');
 
         return selectOrderedItem ;
     }
@@ -26,8 +27,8 @@ class OrderRepository{
 
     
 
-    async findByPromotion(orderedItem){
-        const promotion = await knex("promotionItem").where({"plate_id": orderedItem}).join("promotion", "promotion.id", "=", "promotionItem.promotion_id").select('*');
+    async findByPromotion(plate_id){
+        const promotion = await knex("promotionItem").whereIn('plate_id', plate_id).join("promotion", "promotion.id", "=", "promotionItem.promotion_id").select('*');
 
         return promotion;
     }
@@ -45,21 +46,36 @@ class OrderRepository{
     }
 
     async createOrder({status, qtdeOfItems, totalOrderValue, user_id}){
-        const order_id = await knex("order").where({user_id}).insert({status, qtdeOfItems, totalOrderValue, user_id});
-
-        return order_id;
+        let order;
+    try{
+                 await knex.transaction(async trans => {
+                        
+        
+                        [order] = await trans("order").insert({status, qtdeOfItems, totalOrderValue, user_id}).returning('id');
+                        
+                        
+                       
+                        
+                       await trans.commit();
+                        
+    });
+}catch(err) {
+        console.log(err);
+        // Rollback em caso de erro
+        knex.rollback(err);
+      }
+      return(order);
     }
-
-    async updateOrder(id, status, user_id, qtdeOfItems, totalOrderValue){
-        const orderUpdate = await knex("order").insert({status, user_id, qtdeOfItems, totalOrderValue}).onConflict('id')
-        .merge();
+    // async updateOrder(id, status, user_id, qtdeOfItems, totalOrderValue){
+    //     const orderUpdate = await knex("order").insert({status, user_id, qtdeOfItems, totalOrderValue}).onConflict('id')
+    //     .merge();
        
 
-        return orderUpdate;
-    }
-
-    
+    //     return orderUpdate;
+    // }
 }
+    
+
 
 module.exports = OrderRepository;
 

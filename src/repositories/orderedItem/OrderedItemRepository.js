@@ -78,3 +78,25 @@
      .catch(function(e) {
       // it failed
      });*/
+
+
+
+//      try{
+//       await knex.transaction(async trans => {
+//           const [order_id] = await trans('order').insert({qtdeOfItems,
+//                    totalOrderValue,user_id});
+//               const id = order_id
+//               const order = await trans('order').where({id});
+//               console.log("Order", order.map(a =>a));
+//               order.qtdeOfItems = qtdeOfItems; 
+//               order.totalOrderValue = totalOrderValue; 
+//               order.user_id = user_id;
+//           const update = await trans('order').where({"id": order_id}).update({qtdeOfItems: 2, totalOrderValue: '10' });
+//           const orderUpdate = await trans('order').where({"id": order_id});
+//      console.log("OrderUpdate", orderUpdate.map(a =>a));
+//      await trans.commit();
+//   });
+// }catch(err) {
+//       console.log(err);
+//       knex.rollback(err);
+//     }

@@ -11,12 +11,12 @@ const OrderCreateService = require("../services/order/OrderCreateService");
 
 class OrderController {
   async create(request, response) {
-    const {status, orderedItem, amount} = request.body;
+    const {status, orderedItem} = request.body;
     const { user_id } = request.params;
 
     const orderRepository = new OrderRepository();
     const orderCreateService = new OrderCreateService(orderRepository);
-    await orderCreateService.execute({status, orderedItem,amount, user_id});
+    await orderCreateService.execute({status, orderedItem, user_id});
 
     response.json();
   }
