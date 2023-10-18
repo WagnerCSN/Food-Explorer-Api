@@ -10,11 +10,10 @@ const SessionsCreateService = require("../services/sessions/SessionsCreateServic
 class SessionsController{
     async create(request, response) {
         const { email, password } = request.body;
-        const { plate_id } = request.params;
 
         const sessionsRepository = new SessionsRepository();
         const sessionsCreateService = new SessionsCreateService(sessionsRepository);
-        await sessionsCreateService.execute({name, email, comments, rating, plate_id});
+        await sessionsCreateService.execute({email, password});
 
         return response.json();
 

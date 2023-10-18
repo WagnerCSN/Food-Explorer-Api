@@ -1,6 +1,6 @@
-const AppError = require("../utils/AppError.js");
+const AppError = require("../../utils/AppError");
 const { compare } = require("bcryptjs");
-const authConfig = require("../configs/auth");
+const authConfig = require("../../configs/auth");
 const { sign } = require("jsonwebtoken");
 
 class SessionsCreateService{
