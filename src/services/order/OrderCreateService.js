@@ -1,5 +1,4 @@
 const AppError = require("../../utils/AppError");
-const knex = require("../../database/knex");
 
 class OrderCreateService{
     constructor(orderRepository){
@@ -27,35 +26,6 @@ class OrderCreateService{
         let qtdeOfItems = 0;
         let totalOrderValue = '0';
 
-       
-
-//         try{
-//         await knex.transaction(async trans => {
-
-//             const [order_id] = await trans('order').insert({status, qtdeOfItems,
-//                      totalOrderValue,user_id});
-                
-//                 const ord = await trans('order').where({"id": order_id});
-//                 console.log(ord.map(a =>a))
-//                 ord.status = status;
-//                 ord.qtdeOfItems = qtdeOfItems; 
-//                 ord.totalOrderValue = totalOrderValue; 
-//                 ord.user_id = user_id;
-//             const update = await trans('order').where({"id": order_id}).update({status: 'concluido', qtdeOfItems: 2, totalOrderValue: '10' });
-//             const ord2 = await trans('order').where({"id": order_id});
-        
-
-//        console.log("u", ord2.map(a =>a));
-//        await trans.commit();
-//     });
-// }catch(err) {
-//         console.log(err);
-//         // Rollback em caso de erro
-//         knex.rollback(err);
-//       }
-
-
-
         // const order = await this.orderRepository.createOrder({status, qtdeOfItems, totalOrderValue, user_id});
         // let order_id = order.id;
         // console.log(order_id)
@@ -76,25 +46,8 @@ class OrderCreateService{
 
 
         const plate_id = orderedItem.map(a =>a.plate_id)
-       
-        
      const selectOrderedItem = await this.orderRepository.findByOrderedItem(plate_id);
-     console.log("platos adicionados", selectOrderedItem)
-    
-    
-    //  let t = orderedItem.map(g =>{
-    //     const x = selectOrderedItem.filter(h =>h.id === g)
-    //     return{
-    //         id: x.map(x => x.id).toString(),
-    //         name: x.map(x => x.name).toString(),
-    //         description: x.map(x => x.description).toString(),
-    //         cost: x.map(x => x.cost).toString(),
-    //         value:x.map(x => x.value).toString(),
-    //         image: x.map(x => x.image).toString()
-    //     }
-    // })
-    // const result = t.map(t =>t)
-    // console.log(result)
+
     let order_id;
     let insertOrderedItem;
     let insertOrderedItem2;  
@@ -105,10 +58,6 @@ class OrderCreateService{
     
     let plate_idWithOutPromotion = plate_id.filter( a => !promotions_id.includes( a ) );//compara os platos adicionados com os platos com promoção
     const plateWithOutPromotion = await this.orderRepository.findByPlatesWithOutPromotion(plate_idWithOutPromotion);//platos sem promoção
-  
-    console.log("plato sem promoção", plateWithOutPromotion.map(a =>a))
-          
-   
             const a = promotions.map(d =>d.discount)
             const b = parseInt(a)
         
@@ -129,16 +78,12 @@ class OrderCreateService{
             let d1 = new Date(D_1[2], parseInt(D_1[1]) - 1, D_1[0]);
             let d2 = new Date(D_2[2], parseInt(D_2[1]) - 1, D_2[0]);
             let d3 = new Date(D_3[2], parseInt(D_3[1]) - 1, D_3[0]);
-          
-        
+
             let amounts = orderedItem.map(a =>a)
             
             if(d1<=d2&&d1>=d3) {
-            //    result = "este plato está em promoção";
-            //    console.log("id do plato em promoção:", promotion.plate_id)
                insertOrderedItem = promotions.map(OrderItens => {
                    const handleAmount = amounts.filter(amount =>amount.plate_id ===OrderItens.plate_id);
-                   
                    const value = ((parseInt(OrderItens.value)*(100 - parseInt(a)))/100)*handleAmount.map(a =>a.amount).toString();//valorTotalComDesconto
                    const valueWithDiscount = ((OrderItens.value*(100 - parseInt(a)))/100)
                         return{
@@ -154,7 +99,6 @@ class OrderCreateService{
          
         insertOrderedItem2 = plateWithOutPromotion.map(OrderItens => {//sem promoção
             const handleAmount = amounts.filter(amount =>amount.plate_id ===OrderItens.id)
-            
             const value = parseInt(OrderItens.value)*handleAmount.map(a =>a.amount).toString();
             return{
                 order_id,
@@ -167,48 +111,6 @@ class OrderCreateService{
     })
         
     const order = await this.orderRepository.createOrder({status, qtdeOfItems, totalOrderValue, user_id, insertOrderedItem, insertOrderedItem2});
-       // let order_id = order.id;
-        // console.log(order_id)
-        // const ord = await knex('order').where({"id": order.id});
-        // if(insertOrderedItem){
-        //    await this.orderRepository.insertOrderItem(insertOrderedItem)
-        // }
-        // // else{
-        // //     await this.orderRepository.insertOrderItem(insertOrderedItem2)
-        // // }
-
-        // if(insertOrderedItem2){
-        //     await this.orderRepository.insertOrderItem2(insertOrderedItem2)
-        // }
-    
-
-    //console.log("platos sem promoção", sempromotion)
-    //     handleQtdeOfItems = await this.orderRepository.findByQtdeOfItems(order_id);//consultar a quantidade de intens no pedido
-    //    const u = handleQtdeOfItems.map(a =>a.sum)
-    //     console.log(u.toString())
-
-    //     const order = await this.orderRepository.findByOrder(order_id)
-    //     console.log(order)
-
-    //     order.status = status;
-    //     order.user_id = user_id; 
-    //     order.qtdeOfItems= u.toString(); 
-    //     console.log(order.qtdeOfItems)
-    //     order.totalOrderValue=totalOrderValue;
-        
-       
-    //     const updateOrder =  await this.orderRepository.updateOrder({
-    //         id: order_id,
-    //         status: order.status,
-    //         user_id: order.user_id,
-    //         qtdeOfItems: order.qtdeOfItems, 
-    //         totalOrderValue: order.totalOrderValue,
-           
-    //     })  
-    //      console.log("a",updateOrder)
-    //     return updateOrder
-   
-   
     }
 }
 

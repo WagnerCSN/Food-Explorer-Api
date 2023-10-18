@@ -59,65 +59,49 @@ class OrderRepository{
 
     async createOrder({status, qtdeOfItems, totalOrderValue, user_id, insertOrderedItem, insertOrderedItem2}){
         let order;
-    try{
-                 await knex.transaction(async trans => {
-                        
-        
-                        [order] = await trans("order").insert({status, qtdeOfItems, totalOrderValue, user_id}).returning('id');
-                        const order_id = order.id;
-                      
-                        const b = insertOrderedItem.map(a => {
-                            return{
-                                ...a,
-                                order_id: order_id
-                            }});
-
-                        const c = insertOrderedItem2.map(a => {
-                            return{
-                                ...a,
-                                order_id: order_id
-                            }})
+        try{
+            await knex.transaction(async trans => {
+                    [order] = await trans("order").insert({status, qtdeOfItems, totalOrderValue, user_id}).returning('id');
+                    const order_id = order.id;
+                    const item1 = insertOrderedItem.map(a => {
+                        return{
+                            ...a,
+                            order_id: order_id
+                        }
+                    });
+                    const item2 = insertOrderedItem2.map(a => {
+                        return{
+                            ...a,
+                            order_id: order_id
+                        }
+                    })
                        
-                        await trans("orderedItem").insert(b);
-                        await trans("orderedItem").insert(c);
-                       
+                    await trans("orderedItem").insert(item1);
+                    await trans("orderedItem").insert(item2);
                         
-                        const ord = await trans('order').where({"id": order_id});
-                        const handleItems = await trans("orderedItem").where({order_id}).count({sum: 'id'});
-                        const handleTotalOrderValue = await trans("orderedItem").where({order_id});
-                        const qtdeOfItem = handleItems.map(handleItem =>handleItem.sum).toString();
+                    const ord = await trans('order').where({"id": order_id});
+                    const handleItems = await trans("orderedItem").where({order_id}).count({sum: 'id'});
+                    const handleTotalOrderValue = await trans("orderedItem").where({order_id});
+                    const qtdeOfItem = handleItems.map(handleItem =>handleItem.sum).toString();
                         
-                        const totalOrder = handleTotalOrderValue.reduce((acc, item) => {
-                            return acc + parseInt(item.total_value);
-                          }, 0);
+                    const totalOrder = handleTotalOrderValue.reduce((acc, item) => {
+                        return acc + parseInt(item.total_value);
+                        }, 0);
                        
-                        ord.status = status;
-                        ord.qtdeOfItems = qtdeOfItems; 
-                        ord.totalOrderValue = totalOrderValue; 
-                        ord.user_id = user_id;
+                    ord.status = status;
+                    ord.qtdeOfItems = qtdeOfItems; 
+                    ord.totalOrderValue = totalOrderValue; 
+                    ord.user_id = user_id;
                     const update = await trans('order').where({"id": order_id}).update({status: 'concluido', qtdeOfItems: qtdeOfItem, totalOrderValue: totalOrder })
-                       
-                        
-                       await trans.commit();
-                        
-    });
-}catch(err) {
-        console.log(err);
-        // Rollback em caso de erro
-        knex.rollback(err);
+                    await trans.commit();
+            });
+        }catch(err) {
+            console.log(err);
+            // Rollback em caso de erro
+            knex.rollback(err);
       }
       return(order);
     }
-    // async updateOrder(id, status, user_id, qtdeOfItems, totalOrderValue){
-    //     const orderUpdate = await knex("order").insert({status, user_id, qtdeOfItems, totalOrderValue}).onConflict('id')
-    //     .merge();
-       
-
-    //     return orderUpdate;
-    // }
 }
-    
-
-
 module.exports = OrderRepository;
 
