@@ -13,9 +13,9 @@ class SessionsController{
 
         const sessionsRepository = new SessionsRepository();
         const sessionsCreateService = new SessionsCreateService(sessionsRepository);
-        await sessionsCreateService.execute({email, password});
+        const result = await sessionsCreateService.execute({email, password});
 
-        return response.json();
+        return response.json(result);
 
     }
 

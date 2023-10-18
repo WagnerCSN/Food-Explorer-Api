@@ -10,8 +10,9 @@ class SessionsCreateService{
 
     async execute({email, password}){
     
-        const user = this.sessionsRepository.findByUser(email);
+        const user = await this.sessionsRepository.findByUser(email);
         
+       
         if(!user){
             throw new AppError('E-mail e/ou senha incorreta', 401);
         }
@@ -28,8 +29,12 @@ class SessionsCreateService{
             subject: String(user.id),
             expiresIn   
         });
+
+        const result = {
+            token, user
+        }
     
-        return response.json({user, token});
+        return (result);
     }
 }
 module.exports = SessionsCreateService;

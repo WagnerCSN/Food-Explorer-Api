@@ -1,6 +1,5 @@
 const knex = require("../../database/knex");
 
-
 class SessionsRepository{
 
     async findByUser(email){
