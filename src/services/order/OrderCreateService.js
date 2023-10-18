@@ -52,7 +52,6 @@ class OrderCreateService{
     let insertOrderedItem;
     let insertOrderedItem2;  
     let promotions = await this.orderRepository.findByPromotion(plate_id)//platos com promoção
-    console.log("platos com promoção ", promotions);
 
     const promotions_id = promotions.map( promotion => promotion.plate_id)
     
@@ -109,7 +108,19 @@ class OrderCreateService{
             }
         });
     })
-        
+    let amounts = orderedItem.map(a =>a)
+    insertOrderedItem2 = plateWithOutPromotion.map(OrderItens => {//sem promoção
+        const handleAmount = amounts.filter(amount =>amount.plate_id ===OrderItens.id)
+        const value = parseInt(OrderItens.value)*handleAmount.map(a =>a.amount).toString();
+        return{
+            order_id,
+            plate_id: OrderItens.id,
+            unitary_value: OrderItens.value,
+            total_value: value,
+            amount: handleAmount.map(a =>a.amount).toString(),
+        }
+    });
+
     const order = await this.orderRepository.createOrder({status, qtdeOfItems, totalOrderValue, user_id, insertOrderedItem, insertOrderedItem2});
     }
 }

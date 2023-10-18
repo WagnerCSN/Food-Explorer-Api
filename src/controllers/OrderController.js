@@ -1,13 +1,11 @@
 const OrderRepository = require("../repositories/order/OrderRepository");
 const OrderCreateService = require("../services/order/OrderCreateService");
-// const OrderUpdateService = require("../services/order/OrderUpdateService");
-// const OrderUpdateRepository = require("../repositories/order/OrderUpdateRepository");
-// const OrderDeleteRepository = require("../repositories/order/OrderDeleteRepository");
-// const OrderDeleteService = require("../services/order/OrderDeleteService");
-// const OrderShowRepository = require("../repositories/order/OrderShowRepository");
-// const OrderShowService = require("../services/order/OrderShowService");
-// const OrderIndexRepository = require("../repositories/order/OrderIndexRepository");
-// const OrderIndexService = require("../services/order/OrderIndexService");
+const OrderDeleteRepository = require("../repositories/order/OrderDeleteRepository");
+const OrderDeleteService = require("../services/order/OrderDeleteService");
+const OrderShowRepository = require("../repositories/order/OrderShowRepository");
+const OrderShowService = require("../services/order/OrderShowService");
+const OrderIndexRepository = require("../repositories/order/OrderIndexRepository");
+const OrderIndexService = require("../services/order/OrderIndexService");
 
 class OrderController {
   async create(request, response) {
@@ -21,32 +19,35 @@ class OrderController {
     response.json();
   }
 
-  // async update(request, response) {
-  //   const { name, email, password, old_password } = request.body;
-  //   // const id = request.user.id;
-  //   const { id } = request.params;
-  //   const usersUpdateRepository = new UsersUpdateRepository();
-  //   const usersUpdateService = new UsersUpdateService(usersUpdateRepository);
-  //   await usersUpdateService.execute({
-  //     name,
-  //     email,
-  //     password,
-  //     old_password,
-  //     id,
-  //   });
+  async show(request, response){
+    const { id } = request.params;
 
-  //   response.json();
-  // }
+    const orderShowRepository = new OrderShowRepository();
+    const orderShowService = new OrderShowService(orderShowRepository);
+    const orderShow = await orderShowService.execute({id});
+    response.json(orderShow);
+
+  }
+
+  async index(request, response){
+    const { name_user, bestSellingDish } = request.query;
+
+    const orderIndexRepository = new OrderIndexRepository();
+    const orderIndexService = new OrderIndexService(orderIndexRepository);
+    const orderSearch = await orderIndexService.execute({name_user, bestSellingDish});
+    response.json(orderSearch);
+
+  }
   
-  // async delete(request, response){
-  //   const {id} = request.params;
+  async delete(request, response){
+    const {id} = request.params;
 
-  //   const usersDeleteRepository = new UsersDeleteRepository();
-  //   const usersDeleteService = new UsersDeleteService(usersDeleteRepository);
-  //   await usersDeleteService.execute({id});
+    const orderDeleteRepository = new OrderDeleteRepository();
+    const orderDeleteService = new OrderDeleteService(orderDeleteRepository);
+    await orderDeleteService.execute({id});
 
-  //   return response.json();
-  // }
+    return response.json();
+  }
 }
 
 module.exports = OrderController;

@@ -1,11 +1,11 @@
-const {Router} = require("express");
-const OrderedItemController = require("../controllers/OrderedItemController");
-const orderedItemController = new OrderedItemController();
+// const {Router} = require("express");
+// const OrderedItemController = require("../controllers/OrderedItemController");
+// const orderedItemController = new OrderedItemController();
 
-const orderedItemRoutes = Router();
+// const orderedItemRoutes = Router();
 
-orderedItemRoutes.post("/", orderedItemController.create);
-// orderedItemRoutes.put("/:id", orderedItemController.update);
-// orderedItemRoutes.delete("/:id", orderedItemController.delete);
+// orderedItemRoutes.post("/", orderedItemController.create);
+// // orderedItemRoutes.put("/:id", orderedItemController.update);
+// // orderedItemRoutes.delete("/:id", orderedItemController.delete);
 
-module.exports = orderedItemRoutes;
+// module.exports = orderedItemRoutes;

@@ -63,21 +63,30 @@ class OrderRepository{
             await knex.transaction(async trans => {
                     [order] = await trans("order").insert({status, qtdeOfItems, totalOrderValue, user_id}).returning('id');
                     const order_id = order.id;
-                    const item1 = insertOrderedItem.map(a => {
-                        return{
-                            ...a,
-                            order_id: order_id
+                    
+                    
+                     if(insertOrderedItem===undefined){
+                        console.log("deu certo")
+                     }else{
+                            if(insertOrderedItem.length>=1){
+                                const item1 = insertOrderedItem.map(a => {
+                                    return{
+                                        ...a,
+                                        order_id: order_id
+                                    }
+                                });
+                                await trans("orderedItem").insert(item1);
+                            }
                         }
-                    });
-                    const item2 = insertOrderedItem2.map(a => {
-                        return{
-                            ...a,
-                            order_id: order_id
-                        }
-                    })
-                       
-                    await trans("orderedItem").insert(item1);
-                    await trans("orderedItem").insert(item2);
+                    if(insertOrderedItem2.length>=1){
+                        const item2 = insertOrderedItem2.map(a => {
+                            return{
+                                ...a,
+                                order_id: order_id
+                            }
+                        })
+                        await trans("orderedItem").insert(item2);
+                    }
                         
                     const ord = await trans('order').where({"id": order_id});
                     const handleItems = await trans("orderedItem").where({order_id}).count({sum: 'id'});
