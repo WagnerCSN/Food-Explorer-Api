@@ -56,9 +56,10 @@ class OrderCreateService{
 
 
 
-        const order = await this.orderRepository.createOrder({status, qtdeOfItems, totalOrderValue, user_id});
-        let order_id = order.id;
-        const ord = await knex('order').where({"id": order.id});
+        // const order = await this.orderRepository.createOrder({status, qtdeOfItems, totalOrderValue, user_id});
+        // let order_id = order.id;
+        // console.log(order_id)
+        // const ord = await knex('order').where({"id": order.id});
        /// console.log(ord.map(a =>a))
         
        
@@ -94,8 +95,7 @@ class OrderCreateService{
     // })
     // const result = t.map(t =>t)
     // console.log(result)
-    let result;
-    let result2;
+    let order_id;
     let insertOrderedItem;
     let insertOrderedItem2;  
     let promotions = await this.orderRepository.findByPromotion(plate_id)//platos com promoção
@@ -108,9 +108,9 @@ class OrderCreateService{
   
     console.log("plato sem promoção", plateWithOutPromotion.map(a =>a))
           
-    //         if(promotions){
-    //         const a = promotions.map(d =>d.discount)
-    //         const b = parseInt(a)
+   
+            const a = promotions.map(d =>d.discount)
+            const b = parseInt(a)
         
     //    // const checkPlateExist = await this.promotionRepository.findByPlate(plate_id);
       
@@ -131,48 +131,56 @@ class OrderCreateService{
             let d3 = new Date(D_3[2], parseInt(D_3[1]) - 1, D_3[0]);
           
         
+            let amounts = orderedItem.map(a =>a)
+            
             if(d1<=d2&&d1>=d3) {
-               result = "este plato está em promoção";
-               console.log("id do plato em promoção:", promotion.plate_id)
-            //    insertOrderedItem = promotions.map(OrderItens => {
-            //        const value = ((OrderItens.value*(100 - parseInt(a)))/100)*amount;//valorTotalComDesconto
-            //        const valueWithDiscount = ((OrderItens.value*(100 - parseInt(a)))/100)
-                  
-            //     return{
-            //         order_id,
-            //         plate_id: OrderItens.id,
-            //         unitary_value: valueWithDiscount,
-            //         total_value: value,
-            //         amount,
-            //         discount: parseInt(a)
-            //     }
-                
+            //    result = "este plato está em promoção";
+            //    console.log("id do plato em promoção:", promotion.plate_id)
+               insertOrderedItem = promotions.map(OrderItens => {
+                   const handleAmount = amounts.filter(amount =>amount.plate_id ===OrderItens.plate_id);
+                   
+                   const value = ((parseInt(OrderItens.value)*(100 - parseInt(a)))/100)*handleAmount.map(a =>a.amount).toString();//valorTotalComDesconto
+                   const valueWithDiscount = ((OrderItens.value*(100 - parseInt(a)))/100)
+                        return{
+                            order_id,
+                            plate_id: OrderItens.id,
+                            unitary_value: valueWithDiscount,
+                            total_value: value,
+                            amount: handleAmount.map(a =>a.amount).toString(),
+                            discount: parseInt(a)
+                        }
+                    });
             }
+         
+        insertOrderedItem2 = plateWithOutPromotion.map(OrderItens => {//sem promoção
+            const handleAmount = amounts.filter(amount =>amount.plate_id ===OrderItens.id)
             
+            const value = parseInt(OrderItens.value)*handleAmount.map(a =>a.amount).toString();
+            return{
+                order_id,
+                plate_id: OrderItens.id,
+                unitary_value: OrderItens.value,
+                total_value: value,
+                amount: handleAmount.map(a =>a.amount).toString(),
+            }
+        });
+    })
         
-      
-            result2 = "este plato está sem promoção";
-           
-        // insertOrderedItem2 = k.map(OrderItens => {//sem promoção
-            // const value = OrderItens.value*amount;
-            // return{
-            //     order_id,
-            //     plate_id: OrderItens.id,
-            //     unitary_value: OrderItens.value,
-            //     total_value: value,
-            //     amount,
-            // }
-        // });
-        
-        if(result){
-            console.log(result)
-            //await this.orderRepository.insertOrderItem(insertOrderedItem)
-        }else{
-            
-            console.log(result2)
-            //await this.orderRepository.insertOrderItem(insertOrderedItem2)
-        }
-    });//});
+    const order = await this.orderRepository.createOrder({status, qtdeOfItems, totalOrderValue, user_id, insertOrderedItem, insertOrderedItem2});
+       // let order_id = order.id;
+        // console.log(order_id)
+        // const ord = await knex('order').where({"id": order.id});
+        // if(insertOrderedItem){
+        //    await this.orderRepository.insertOrderItem(insertOrderedItem)
+        // }
+        // // else{
+        // //     await this.orderRepository.insertOrderItem(insertOrderedItem2)
+        // // }
+
+        // if(insertOrderedItem2){
+        //     await this.orderRepository.insertOrderItem2(insertOrderedItem2)
+        // }
+    
 
     //console.log("platos sem promoção", sempromotion)
     //     handleQtdeOfItems = await this.orderRepository.findByQtdeOfItems(order_id);//consultar a quantidade de intens no pedido

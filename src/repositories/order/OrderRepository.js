@@ -34,7 +34,7 @@ class OrderRepository{
     
 
     async findByPromotion(plate_id){
-        const promotion = await knex("promotionItem").whereIn('plate_id', plate_id).join("promotion", "promotion.id", "=", "promotionItem.promotion_id").select('*');
+        const promotion = await knex("promotionItem").whereIn('plate_id', plate_id).join("promotion", "promotion.id", "=", "promotionItem.promotion_id").join("plates", "plates.id", "=", "promotionItem.plate_id").select('*');
 
         return promotion;
     }
@@ -45,21 +45,57 @@ class OrderRepository{
         return orderItemCreated;
     }
 
+    async insertOrderItem2(insertOrderedItem2){
+        const orderItemCreated2 = await knex("orderedItem").insert(insertOrderedItem2);
+
+        return orderItemCreated2;
+    }
+
     async findByOrder(order_id){
         const order = await knex("order").where({"id": order_id});
 
         return order;
     }
 
-    async createOrder({status, qtdeOfItems, totalOrderValue, user_id}){
+    async createOrder({status, qtdeOfItems, totalOrderValue, user_id, insertOrderedItem, insertOrderedItem2}){
         let order;
     try{
                  await knex.transaction(async trans => {
                         
         
                         [order] = await trans("order").insert({status, qtdeOfItems, totalOrderValue, user_id}).returning('id');
+                        const order_id = order.id;
+                      
+                        const b = insertOrderedItem.map(a => {
+                            return{
+                                ...a,
+                                order_id: order_id
+                            }});
+
+                        const c = insertOrderedItem2.map(a => {
+                            return{
+                                ...a,
+                                order_id: order_id
+                            }})
+                       
+                        await trans("orderedItem").insert(b);
+                        await trans("orderedItem").insert(c);
+                       
                         
+                        const ord = await trans('order').where({"id": order_id});
+                        const handleItems = await trans("orderedItem").where({order_id}).count({sum: 'id'});
+                        const handleTotalOrderValue = await trans("orderedItem").where({order_id});
+                        const qtdeOfItem = handleItems.map(handleItem =>handleItem.sum).toString();
                         
+                        const totalOrder = handleTotalOrderValue.reduce((acc, item) => {
+                            return acc + parseInt(item.total_value);
+                          }, 0);
+                       
+                        ord.status = status;
+                        ord.qtdeOfItems = qtdeOfItems; 
+                        ord.totalOrderValue = totalOrderValue; 
+                        ord.user_id = user_id;
+                    const update = await trans('order').where({"id": order_id}).update({status: 'concluido', qtdeOfItems: qtdeOfItem, totalOrderValue: totalOrder })
                        
                         
                        await trans.commit();
