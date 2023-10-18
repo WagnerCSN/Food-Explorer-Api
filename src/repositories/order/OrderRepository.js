@@ -25,11 +25,11 @@ class OrderRepository{
         return plateWithOutPromotion ;
     }
 
-    async findByQtdeOfItems(order_id){
-        const handleQtdeOfItems = await knex("orderedItem").where({order_id}).count({sum: 'id'});
+    // async findByQtdeOfItems(order_id){
+    //     const handleQtdeOfItems = await knex("orderedItem").where({order_id}).count({sum: 'id'});
 
-        return handleQtdeOfItems;
-    }
+    //     return handleQtdeOfItems;
+    // }
 
     
 
@@ -39,17 +39,17 @@ class OrderRepository{
         return promotion;
     }
 
-    async insertOrderItem(insertOrderedItem){
-        const orderItemCreated = await knex("orderedItem").insert(insertOrderedItem);
+    // async insertOrderItem(insertOrderedItem){
+    //     const orderItemCreated = await knex("orderedItem").insert(insertOrderedItem);
 
-        return orderItemCreated;
-    }
+    //     return orderItemCreated;
+    // }
 
-    async insertOrderItem2(insertOrderedItem2){
-        const orderItemCreated2 = await knex("orderedItem").insert(insertOrderedItem2);
+    // async insertOrderItem2(insertOrderedItem2){
+    //     const orderItemCreated2 = await knex("orderedItem").insert(insertOrderedItem2);
 
-        return orderItemCreated2;
-    }
+    //     return orderItemCreated2;
+    // }
 
     async findByOrder(order_id){
         const order = await knex("order").where({"id": order_id});
