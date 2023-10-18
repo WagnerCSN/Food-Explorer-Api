@@ -18,7 +18,7 @@ class PromotionController{
         const promotionCreateService = new PromotionCreateService(promotionRepository);
         await promotionCreateService.execute({initialDate, finalDate, name, promotionItens, plate_id});
 
-        response.json();
+        return response.json();
 
     }
   
@@ -28,7 +28,8 @@ class PromotionController{
       const promotionShowRepository = new PromotionShowRepository();
       const promotionShowService = new PromotionShowService(promotionShowRepository);
       const promotionShow = await promotionShowService.execute({id});
-      response.json(promotionShow);
+      
+      return response.json(promotionShow);
   
     }
   
@@ -38,7 +39,8 @@ class PromotionController{
       const promotionIndexRepository = new PromotionIndexRepository();
       const promotionIndexService = new PromotionIndexService(promotionIndexRepository);
       const promotionSearch = await promotionIndexService.execute({ name_promotion, name_dish});
-      response.json(promotionSearch);
+      
+      return response.json(promotionSearch);
   
     }
 
@@ -51,7 +53,7 @@ class PromotionController{
         const promotionUpdateService = new PromotionUpdateService(promotionUpdateRepository);
         await promotionUpdateService.execute({name, promotionItens, id});
     
-        response.json();
+        return response.json();
       }
       
       async delete(request, response){

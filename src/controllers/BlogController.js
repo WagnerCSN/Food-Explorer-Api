@@ -16,7 +16,7 @@ class BlogController{
         const blogCreateService = new BlogCreateService(blogRepository);
         await blogCreateService.execute({name, email, comments, rating, plate_id});
 
-        response.json();
+        return response.json();
 
     }
 
@@ -26,7 +26,8 @@ class BlogController{
       const blogIndexRepository = new BlogIndexRepository();
       const blogIndexService = new BlogIndexService(blogIndexRepository);
       const blogSearch = await blogIndexService.execute({plate_name, rating});
-      response.json(blogSearch);
+      
+      return response.json(blogSearch);
   
     }
   
@@ -38,7 +39,7 @@ class BlogController{
         const blogUpdateService = new BlogUpdateService(blogUpdateRepository);
         await blogUpdateService.execute({name, email, comments, rating, id});
     
-        response.json();
+        return response.json();
       }
       
       async delete(request, response){

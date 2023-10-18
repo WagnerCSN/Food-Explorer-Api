@@ -17,7 +17,7 @@ class TypeOfPlatesController{
         const typeOfPlatesCreateService = new TypeOfPlatesCreateService(typeOfPlatesRepository);
         await typeOfPlatesCreateService.execute({name});
 
-        response.json();
+        return response.json();
 
     }
     
@@ -27,7 +27,8 @@ class TypeOfPlatesController{
         const typeOfPlatesShowRepository = new TypeOfPlatesShowRepository();
         const typeOfPlatesShowService = new TypeOfPlatesShowService(typeOfPlatesShowRepository);
         const typeOfPlateShow = await typeOfPlatesShowService.execute({id});
-        response.json(typeOfPlateShow);
+        
+        return response.json(typeOfPlateShow);
     
       }
     
@@ -37,7 +38,8 @@ class TypeOfPlatesController{
         const typeOfPlatesIndexRepository = new TypeOfPlatesIndexRepository();
         const typeOfPlatesIndexService = new TypeOfPlatesIndexService(typeOfPlatesIndexRepository);
         const typeOfPlateSearch = await typeOfPlatesIndexService.execute({id, name});
-        response.json(typeOfPlateSearch);
+        
+        return response.json(typeOfPlateSearch);
     
       }
 
@@ -49,7 +51,7 @@ class TypeOfPlatesController{
         const typeOfPlatesUpdateService = new TypeOfPlatesUpdateService(typeOfPlatesUpdateRepository);
         await typeOfPlatesUpdateService.execute({name, id});
     
-        response.json();
+        return response.json();
       }
       
       async delete(request, response){

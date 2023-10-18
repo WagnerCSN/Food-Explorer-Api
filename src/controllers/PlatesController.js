@@ -18,7 +18,7 @@ class PlatesController {
     const platesCreateService = new PlatesCreateService(platesRepository);
     await platesCreateService.execute({ name, description, cost, value, image, typeOfPlate_id, ingredient_id });
 
-    response.json();
+    return response.json();
 
   }
 
@@ -28,7 +28,8 @@ class PlatesController {
     const platesShowRepository = new PlatesShowRepository();
     const platesShowService = new PlatesShowService(platesShowRepository);
     const plateShow = await platesShowService.execute({id});
-    response.json(plateShow);
+    
+    return response.json(plateShow);
 
   }
 
@@ -38,7 +39,8 @@ class PlatesController {
     const platesIndexRepository = new PlatesIndexRepository();
     const platesIndexService = new PlatesIndexService(platesIndexRepository);
     const platesSearch = await platesIndexService.execute({name, typeOfPlate_name, ingredients_name});
-    response.json(platesSearch);
+    
+    return response.json(platesSearch);
 
   }
 
@@ -50,7 +52,7 @@ class PlatesController {
     const platesUpdateService = new PlatesUpdateService(platesUpdateRepository);
     await platesUpdateService.execute({name, description, cost, image, typeOfPlate_id, ingredient_id, id});
 
-    response.json();
+    return response.json();
   }
   
   async delete(request, response){

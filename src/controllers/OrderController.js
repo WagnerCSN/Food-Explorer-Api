@@ -16,7 +16,7 @@ class OrderController {
     const orderCreateService = new OrderCreateService(orderRepository);
     await orderCreateService.execute({status, orderedItem, user_id});
 
-    response.json();
+    return response.json();
   }
 
   async show(request, response){
@@ -25,7 +25,8 @@ class OrderController {
     const orderShowRepository = new OrderShowRepository();
     const orderShowService = new OrderShowService(orderShowRepository);
     const orderShow = await orderShowService.execute({id});
-    response.json(orderShow);
+    
+    return response.json(orderShow);
 
   }
 
@@ -35,7 +36,8 @@ class OrderController {
     const orderIndexRepository = new OrderIndexRepository();
     const orderIndexService = new OrderIndexService(orderIndexRepository);
     const orderSearch = await orderIndexService.execute({name_user});
-    response.json(orderSearch);
+    
+    return response.json(orderSearch);
 
   }
   

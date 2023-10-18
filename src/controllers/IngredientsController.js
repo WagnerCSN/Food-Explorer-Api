@@ -17,7 +17,7 @@ class IngredientsController{
         const ingredientsCreateService = new IngredientsCreateService(ingredientsRepository);
         await ingredientsCreateService.execute({name, image});
 
-        response.json();
+        return response.json();
     }
 
     async show(request, response){
@@ -26,7 +26,8 @@ class IngredientsController{
         const ingredientsShowRepository = new IngredientsShowRepository();
         const ingredientsShowService = new IngredientsShowService(ingredientsShowRepository);
         const ingredientShow = await ingredientsShowService.execute({id});
-        response.json(ingredientShow);
+        
+        return response.json(ingredientShow);
     
       }
     
@@ -36,7 +37,8 @@ class IngredientsController{
         const ingredientsIndexRepository = new IngredientsIndexRepository();
         const ingredientsIndexService = new IngredientsIndexService(ingredientsIndexRepository);
         const ingredientSearch = await ingredientsIndexService.execute({id, name});
-        response.json(ingredientSearch);
+        
+        return response.json(ingredientSearch);
     
       }
   
@@ -49,7 +51,7 @@ class IngredientsController{
         const ingredientsUpdateService = new IngredientsUpdateService(ingredientsUpdateRepository);
         await ingredientsUpdateService.execute({name, image, id});
     
-        response.json();
+        return response.json();
       }
       
       async delete(request, response){

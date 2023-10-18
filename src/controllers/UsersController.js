@@ -16,7 +16,8 @@ class UsersController {
     const usersRepository = new UsersRepository();
     const usersCreateService = new UsersCreateService(usersRepository);
     await usersCreateService.execute({ name, email, password });
-    response.json();
+    
+    return response.json();
   }
 
   async show(request, response){
@@ -25,7 +26,8 @@ class UsersController {
     const usersShowRepository = new UsersShowRepository();
     const usersShowService = new UsersShowService(usersShowRepository);
     const userShow = await usersShowService.execute({id});
-    response.json(userShow);
+    
+    return response.json(userShow);
 
   }
 
@@ -35,7 +37,8 @@ class UsersController {
     const usersIndexRepository = new UsersIndexRepository();
     const usersIndexService = new UsersIndexService(usersIndexRepository);
     const userSearch = await usersIndexService.execute({id, name, role});
-    response.json(userSearch);
+    
+    return response.json(userSearch);
 
   }
 
@@ -53,7 +56,7 @@ class UsersController {
       id,
     });
 
-    response.json();
+    return response.json();
   }
   
   async delete(request, response){

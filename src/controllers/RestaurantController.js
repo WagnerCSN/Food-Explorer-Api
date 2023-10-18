@@ -13,7 +13,7 @@ class RestaurantController{
         const restaurantCreateService = new RestaurantCreateService(restaurantRepository);
         await restaurantCreateService.execute({name, fone, email, address, image, cnpj, city, state});
 
-        response.json();
+        return response.json();
 
     }
 
@@ -23,7 +23,8 @@ class RestaurantController{
         const restaurantShowRepository = new RestaurantShowRepository();
         const restaurantShowService = new RestaurantShowService(restaurantShowRepository);
         const restaurantShow = await restaurantShowService.execute({id});
-        response.json(restaurantShow);
+        
+        return response.json(restaurantShow);
     
       }
   
@@ -35,7 +36,7 @@ class RestaurantController{
         const restaurantUpdateService = new RestaurantUpdateService(restaurantUpdateRepository);
         await restaurantUpdateService.execute({name, fone, email, address, image, cnpj, city, state, id});
     
-        response.json();
+        return response.json();
       }
 }
 

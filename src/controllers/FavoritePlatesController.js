@@ -15,7 +15,8 @@ class FavoritePlatesController{
         const favoritePlatesReporitory = new FavoritePlatesRepository();
         const favoritePlatesCreateService = new FavoritePlatesCreateService(favoritePlatesReporitory);
         await favoritePlatesCreateService.execute({user_id, plate_id});
-        response.json();
+        
+        return response.json();
      
     }
 
@@ -25,7 +26,8 @@ class FavoritePlatesController{
         const favoritePlatesShowRepository = new FavoritePlatesShowRepository();
         const favoritePlatesShowService = new FavoritePlatesShowService(favoritePlatesShowRepository);
         const favoritePlateshow = await favoritePlatesShowService.execute({user_id});
-        response.json(favoritePlateshow);
+       
+        return response.json(favoritePlateshow);
     
       }
 
@@ -35,7 +37,8 @@ class FavoritePlatesController{
       const favoritePlatesIndexRepository = new FavoritePlatesIndexRepository();
       const favoritePlatesIndexService = new FavoritePlatesIndexService(favoritePlatesIndexRepository);
       const favoritePlatesSearch = await favoritePlatesIndexService.execute({name_plates});
-      response.json(favoritePlatesSearch);
+      
+      return response.json(favoritePlatesSearch);
   
     }
   
