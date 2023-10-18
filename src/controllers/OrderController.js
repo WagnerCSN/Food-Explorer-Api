@@ -30,11 +30,11 @@ class OrderController {
   }
 
   async index(request, response){
-    const { name_user, bestSellingDish } = request.query;
+    const { name_user} = request.query;
 
     const orderIndexRepository = new OrderIndexRepository();
     const orderIndexService = new OrderIndexService(orderIndexRepository);
-    const orderSearch = await orderIndexService.execute({name_user, bestSellingDish});
+    const orderSearch = await orderIndexService.execute({name_user});
     response.json(orderSearch);
 
   }

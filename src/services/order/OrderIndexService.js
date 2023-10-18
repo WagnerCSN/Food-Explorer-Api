@@ -5,17 +5,15 @@ class OrderIndexService{
         this.orderIndexRepository = orderIndexRepository;
     }
 
-    async execute({name_user, bestSellingDish}){
+    async execute({name_user}){
         if(name_user){
             const orderIndexNameUser = await this.orderIndexRepository.indexByName(name_user);
             if(orderIndexNameUser.length ===0){
                 throw new AppError("Enter a valid user name!");
             }
             return orderIndexNameUser;
-        }
-
-        if(bestSellingDish){
-            const orderBestSellingDish = await this.orderIndexRepository.indexByNameDish(bestSellingDish);
+        }else{
+            const orderBestSellingDish = await this.orderIndexRepository.bestSellingDish();
             if(orderBestSellingDish.length ===0){
                 throw new AppError("Enter a valid dish name!");
             }
