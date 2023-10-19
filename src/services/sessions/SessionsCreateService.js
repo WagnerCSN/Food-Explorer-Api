@@ -30,11 +30,16 @@ class SessionsCreateService{
             expiresIn   
         });
 
-        const result = {
-            token, user
-        }
-    
-        return (result);
+        response.cookie("token", token, {
+            httpOnly: true,
+            sameSite: "none",
+            secure: true,
+            maxAge: 15*60*1000,
+        })
+
+        delete user.password;
+
+        return (user);
     }
 }
 module.exports = SessionsCreateService;
