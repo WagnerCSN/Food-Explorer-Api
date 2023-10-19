@@ -10,8 +10,8 @@ const FavoritePlatesIndexService = require("../services/favoritePlates/FavoriteP
 class FavoritePlatesController{
     async create(request, response) {
      
-        const {user_id, plate_id} = request.query;
-    
+        const { plate_id } = request.query;
+        const user_id = request.user.id;
         const favoritePlatesReporitory = new FavoritePlatesRepository();
         const favoritePlatesCreateService = new FavoritePlatesCreateService(favoritePlatesReporitory);
         await favoritePlatesCreateService.execute({user_id, plate_id});
@@ -21,7 +21,7 @@ class FavoritePlatesController{
     }
 
     async show(request, response){
-        const { user_id } = request.params;
+        const user_id = request.user.id;
     
         const favoritePlatesShowRepository = new FavoritePlatesShowRepository();
         const favoritePlatesShowService = new FavoritePlatesShowService(favoritePlatesShowRepository);

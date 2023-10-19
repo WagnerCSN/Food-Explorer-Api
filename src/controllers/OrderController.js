@@ -10,7 +10,7 @@ const OrderIndexService = require("../services/order/OrderIndexService");
 class OrderController {
   async create(request, response) {
     const {status, orderedItem} = request.body;
-    const { user_id } = request.params;
+    const  user_id  = request.user.id;
 
     const orderRepository = new OrderRepository();
     const orderCreateService = new OrderCreateService(orderRepository);

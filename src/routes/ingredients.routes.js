@@ -1,11 +1,11 @@
 const {Router} = require("express");
 const IngredientsController = require("../controllers/IngredientsController");
 const ingredientsController = new IngredientsController();
-const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
+const verifyUserAuthorization = require("../middlewares/verifyUserAuthorization");
 
 const ingredientsRoutes = Router();
 
-ingredientsRoutes.use(ensureAuthenticated);
+ingredientsRoutes.use(verifyUserAuthorization(["admin"]));
 ingredientsRoutes.post("/", ingredientsController.create);
 ingredientsRoutes.put("/:id", ingredientsController.update);
 ingredientsRoutes.delete("/:id", ingredientsController.delete);
