@@ -1,3 +1,4 @@
+require("dotenv/config");
 require("express-async-errors");
 const AppError = require("./utils/AppError");
 const cookieParser = require("cookie-parser");
@@ -29,7 +30,7 @@ app.use((error, request, response, next) => {
   });
 });
 
-const Port = 3000;
+const Port = process.env.SERVER_PORT || 3000;
 app.listen(Port, () => {
   console.log(`Server is running in Port ${Port}`);
 });
