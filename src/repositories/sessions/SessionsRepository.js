@@ -1,13 +1,10 @@
 const knex = require("../../database/knex");
 
-class SessionsRepository{
+class SessionsRepository {
+  async findByUser(email) {
+    const user = await knex("users").where({ email }).first();
 
-    async findByUser(email){
-        const user = await knex("users").where({email}).first();
-
-        return user
-    }
-
-    
+    return user;
+  }
 }
 module.exports = SessionsRepository;

@@ -10,59 +10,101 @@ const PlatesIndexRepository = require("../repositories/plates/PlatesIndexReposit
 const PlatesIndexService = require("../services/plates/PlatesIndexService");
 
 class PlatesController {
-  async create(request, response) {
-    const { name, description, cost, value, image } = request.body;
-    const { typeOfPlate_id, ingredient_id } = request.query;
+  async create(request, response, next) {
+    try {
+      const { name, description, cost, value, image } = request.body;
+      const { typeOfPlate_id, ingredient_id } = request.query;
 
-    const platesRepository = new PlatesRepository();
-    const platesCreateService = new PlatesCreateService(platesRepository);
-    await platesCreateService.execute({ name, description, cost, value, image, typeOfPlate_id, ingredient_id });
+      const platesRepository = new PlatesRepository();
+      const platesCreateService = new PlatesCreateService(platesRepository);
+      await platesCreateService.execute({
+        name,
+        description,
+        cost,
+        value,
+        image,
+        typeOfPlate_id,
+        ingredient_id,
+      });
 
-    return response.json();
-
+      return response.json();
+    } catch (error) {
+      next(error);
+    }
   }
 
-  async show(request, response){
-    const { id } = request.params;
+  async show(request, response, next) {
+    try {
+      const { id } = request.params;
 
-    const platesShowRepository = new PlatesShowRepository();
-    const platesShowService = new PlatesShowService(platesShowRepository);
-    const plateShow = await platesShowService.execute({id});
-    
-    return response.json(plateShow);
+      const platesShowRepository = new PlatesShowRepository();
+      const platesShowService = new PlatesShowService(platesShowRepository);
+      const plateShow = await platesShowService.execute({ id });
 
+      return response.json(plateShow);
+    } catch (error) {
+      next(error);
+    }
   }
 
-  async index(request, response){
-    const { name, typeOfPlate_name, ingredients_name} = request.query;
+  async index(request, response, next) {
+    try {
+      const { name, typeOfPlate_name, ingredients_name } = request.query;
 
-    const platesIndexRepository = new PlatesIndexRepository();
-    const platesIndexService = new PlatesIndexService(platesIndexRepository);
-    const platesSearch = await platesIndexService.execute({name, typeOfPlate_name, ingredients_name});
-    
-    return response.json(platesSearch);
+      const platesIndexRepository = new PlatesIndexRepository();
+      const platesIndexService = new PlatesIndexService(platesIndexRepository);
+      const platesSearch = await platesIndexService.execute({
+        name,
+        typeOfPlate_name,
+        ingredients_name,
+      });
 
+      return response.json(platesSearch);
+    } catch (error) {
+      next(error);
+    }
   }
 
-  async update(request, response) {
-    const { name, description, cost, image, typeOfPlate_id, ingredient_id } = request.body;
-    const { id } = request.params;
+  async update(request, response, next) {
+    try {
+      const { name, description, cost, image, typeOfPlate_id, ingredient_id } =
+        request.body;
+      const { id } = request.params;
 
-    const platesUpdateRepository = new PlatesUpdateRepository();
-    const platesUpdateService = new PlatesUpdateService(platesUpdateRepository);
-    await platesUpdateService.execute({name, description, cost, image, typeOfPlate_id, ingredient_id, id});
+      const platesUpdateRepository = new PlatesUpdateRepository();
+      const platesUpdateService = new PlatesUpdateService(
+        platesUpdateRepository
+      );
+      await platesUpdateService.execute({
+        name,
+        description,
+        cost,
+        image,
+        typeOfPlate_id,
+        ingredient_id,
+        id,
+      });
 
-    return response.json();
+      return response.json();
+    } catch (error) {
+      next(error);
+    }
   }
-  
-  async delete(request, response){
-    const {id} = request.params;
 
-    const platesDeleteRepository = new PlatesDeleteRepository();
-    const platesDeleteService = new PlatesDeleteService(platesDeleteRepository);
-    await platesDeleteService.execute({id});
+  async delete(request, response, next) {
+    try {
+      const { id } = request.params;
 
-    return response.json();
+      const platesDeleteRepository = new PlatesDeleteRepository();
+      const platesDeleteService = new PlatesDeleteService(
+        platesDeleteRepository
+      );
+      await platesDeleteService.execute({ id });
+
+      return response.json();
+    } catch (error) {
+      next(error);
+    }
   }
 }
 

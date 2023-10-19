@@ -10,63 +10,81 @@ const UsersIndexRepository = require("../repositories/users/UsersIndexRepository
 const UsersIndexService = require("../services/users/UsersIndexService");
 
 class UsersController {
-  async create(request, response) {
-    const { name, email, password } = request.body;
+  async create(request, response, next) {
+    try {
+      const { name, email, password } = request.body;
 
-    const usersRepository = new UsersRepository();
-    const usersCreateService = new UsersCreateService(usersRepository);
-    await usersCreateService.execute({ name, email, password });
-    
-    return response.json();
+      const usersRepository = new UsersRepository();
+      const usersCreateService = new UsersCreateService(usersRepository);
+      await usersCreateService.execute({ name, email, password });
+
+      return response.json();
+    } catch (error) {
+      next(error);
+    }
   }
 
-  async show(request, response){
-    const { id } = request.params;
+  async show(request, response, next) {
+    try {
+      const { id } = request.params;
 
-    const usersShowRepository = new UsersShowRepository();
-    const usersShowService = new UsersShowService(usersShowRepository);
-    const userShow = await usersShowService.execute({id});
-    
-    return response.json(userShow);
+      const usersShowRepository = new UsersShowRepository();
+      const usersShowService = new UsersShowService(usersShowRepository);
+      const userShow = await usersShowService.execute({ id });
 
+      return response.json(userShow);
+    } catch (error) {
+      next(error);
+    }
   }
 
-  async index(request, response){
-    const { id, name, role } = request.query;
+  async index(request, response, next) {
+    try {
+      const { id, name, role } = request.query;
 
-    const usersIndexRepository = new UsersIndexRepository();
-    const usersIndexService = new UsersIndexService(usersIndexRepository);
-    const userSearch = await usersIndexService.execute({id, name, role});
-    
-    return response.json(userSearch);
+      const usersIndexRepository = new UsersIndexRepository();
+      const usersIndexService = new UsersIndexService(usersIndexRepository);
+      const userSearch = await usersIndexService.execute({ id, name, role });
 
+      return response.json(userSearch);
+    } catch (error) {
+      next(error);
+    }
   }
 
-  async update(request, response) {
-    const { name, email, password, old_password } = request.body;
-    const id = request.user.id;
-    
-    const usersUpdateRepository = new UsersUpdateRepository();
-    const usersUpdateService = new UsersUpdateService(usersUpdateRepository);
-    await usersUpdateService.execute({
-      name,
-      email,
-      password,
-      old_password,
-      id,
-    });
+  async update(request, response, next) {
+    try {
+      const { name, email, password, old_password } = request.body;
+      const id = request.user.id;
 
-    return response.json();
+      const usersUpdateRepository = new UsersUpdateRepository();
+      const usersUpdateService = new UsersUpdateService(usersUpdateRepository);
+      await usersUpdateService.execute({
+        name,
+        email,
+        password,
+        old_password,
+        id,
+      });
+
+      return response.json();
+    } catch (error) {
+      next(error);
+    }
   }
-  
-  async delete(request, response){
-    const {id} = request.params;
 
-    const usersDeleteRepository = new UsersDeleteRepository();
-    const usersDeleteService = new UsersDeleteService(usersDeleteRepository);
-    await usersDeleteService.execute({id});
+  async delete(request, response, next) {
+    try {
+      const { id } = request.params;
 
-    return response.json();
+      const usersDeleteRepository = new UsersDeleteRepository();
+      const usersDeleteService = new UsersDeleteService(usersDeleteRepository);
+      await usersDeleteService.execute({ id });
+
+      return response.json();
+    } catch (error) {
+      next(error);
+    }
   }
 }
 module.exports = UsersController;
