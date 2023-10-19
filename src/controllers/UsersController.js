@@ -44,8 +44,8 @@ class UsersController {
 
   async update(request, response) {
     const { name, email, password, old_password } = request.body;
-    // const id = request.user.id;
-    const { id } = request.params;
+    const id = request.user.id;
+    
     const usersUpdateRepository = new UsersUpdateRepository();
     const usersUpdateService = new UsersUpdateService(usersUpdateRepository);
     await usersUpdateService.execute({
