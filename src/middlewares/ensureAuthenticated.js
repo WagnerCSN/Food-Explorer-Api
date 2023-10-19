@@ -6,7 +6,7 @@ function ensureAuthenticated(request, response, next) {
     const authReader = request.headers;
 
     if(!authReader.cookie){
-        throw new AppEror("JWT token não informado", 401);
+        throw new AppEror("JWT token not informed!", 401);
     }
 
     const [, token] = authReader.cookie.split("token="); //Bearer xxxxx
@@ -20,7 +20,7 @@ function ensureAuthenticated(request, response, next) {
       };
       return next();
     }catch{
-        throw new AppEror("JWT token inválido", 401);
+        throw new AppEror("Unauthorized", 401);
     }
 }
 

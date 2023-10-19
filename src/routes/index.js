@@ -1,5 +1,6 @@
 const {Router} = require("express");
 const usersRoutes = require("./users.routes");
+const usersValidatedRoutes = require("./usersValidated.routes");
 const sessionsRoutes = require("./sessions.routes");
 const ingredientsRoutes = require("./ingredients.routes");
 const blogRoutes = require("./blog.routes");
@@ -12,6 +13,7 @@ const typeOfPlatesRoutes = require("./typeOfPlates.routes");
 
 const routes = Router();
 routes.use("/users", usersRoutes);
+routes.use("/users", usersValidatedRoutes);
 routes.use("/sessions", sessionsRoutes);
 routes.use("/ingredients", ingredientsRoutes);
 routes.use("/blog", blogRoutes);
