@@ -11,8 +11,15 @@ class SessionsController {
         sessionsRepository
       );
       const result = await sessionsCreateService.execute({ email, password });
+     
+      response.cookie("token", result.token, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+        maxAge: 15*60*1000
+      });
 
-      return response.json(result);
+      return response.json({user: result.user});
     } catch (error) {
       next(error);
     }

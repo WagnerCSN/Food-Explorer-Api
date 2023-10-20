@@ -6,7 +6,7 @@ const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
 
 const typeOfPlatesRoutes = Router();
 
-typeOfPlatesRoutes.post("/", verifyUserAuthorization(["admin"]), typeOfPlatesController.create);
+typeOfPlatesRoutes.post("/", ensureAuthenticated, typeOfPlatesController.create);
 typeOfPlatesRoutes.put("/:id", verifyUserAuthorization(["admin"]), typeOfPlatesController.update);
 typeOfPlatesRoutes.delete("/:id", verifyUserAuthorization(["admin"]), typeOfPlatesController.delete);
 typeOfPlatesRoutes.get("/", ensureAuthenticated, typeOfPlatesController.index);

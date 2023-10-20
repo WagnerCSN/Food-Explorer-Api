@@ -10,7 +10,6 @@ class PlatesCreateService {
     description,
     cost,
     value,
-    image,
     typeOfPlate_id,
     ingredient_id,
   }) {
@@ -39,7 +38,6 @@ class PlatesCreateService {
       description,
       cost,
       value,
-      image,
       typeOfPlate_id,
       ingredient_id,
     });

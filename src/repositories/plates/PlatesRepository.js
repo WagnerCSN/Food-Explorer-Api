@@ -19,8 +19,8 @@ class PlatesRepository{
         return checkExistIngredient;
     }
     
-    async create({name, description, cost, value, image, typeOfPlate_id, ingredient_id}){
-        const plateCreated = await knex("plates").insert({name, description, cost, image, value, typeOfPlate_id, ingredient_id})
+    async create({name, description, cost, value, typeOfPlate_id, ingredient_id}){
+        const plateCreated = await knex("plates").insert({name, description, cost, value, typeOfPlate_id, ingredient_id})
 
         return plateCreated;
    }

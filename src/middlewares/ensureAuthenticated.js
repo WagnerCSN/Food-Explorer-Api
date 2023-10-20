@@ -8,9 +8,7 @@ function ensureAuthenticated(request, response, next) {
     if(!authReader.cookie){
         throw new AppEror("JWT token not informed!", 401);
     }
-
     const [, token] = authReader.cookie.split("token="); //Bearer xxxxx
-
     try{
       const {role, sub: user_id} = verify(token, authConfig.jwt.secret);
 

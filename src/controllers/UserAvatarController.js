@@ -1,5 +1,5 @@
-const UserAvatarRepository = require("../repositories/userAvatar/UserAvatarRepository");
-const UserAvatarCreateService = require("../services/userAvatar/UserAvatarUpdateService");
+const UserAvatarUpdateRepository = require("../repositories/userAvatar/UserAvatarUpdateRepository");
+const UserAvatarUpdateService = require("../services/userAvatar/UserAvatarUpdateService");
 
 class UserAvatarController{
 async update(request, response, next) {

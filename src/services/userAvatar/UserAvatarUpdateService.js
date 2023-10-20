@@ -1,5 +1,5 @@
 const AppError = require("../../utils/AppError");
-const DiskStorage = require("../providers/DiskStorage");
+const DiskStorage = require("../../providers/DiskStorage");
 
 class UserAvatarUpdateService {
   constructor(userAvatarUpdateRepository) {

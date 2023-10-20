@@ -12,7 +12,7 @@ class OrderController {
     try {
       const { status, orderedItem } = request.body;
       const user_id = request.user.id;
-
+      
       const orderRepository = new OrderRepository();
       const orderCreateService = new OrderCreateService(orderRepository);
       await orderCreateService.execute({ status, orderedItem, user_id });
