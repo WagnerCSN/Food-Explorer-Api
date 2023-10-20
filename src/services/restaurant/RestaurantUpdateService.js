@@ -5,18 +5,13 @@ class RestaurantUpdateService {
     this.restaurantUpdateRepository = restaurantUpdateRepository;
   }
 
-  async execute({ name, fone, email, address, image, cnpj, city, state, id }) {
-    const restaurant = await this.restaurantUpdateRepository.findByrestaurant(id);
-
-    if (!restaurant) {
-      throw new AppError("Type Of Plates not found!");
-    }
+  async execute({ name, fone, email, address, cnpj, city, state, id }) {
+    const restaurant = await this.restaurantUpdateRepository.findByRestaurant(id);
 
     restaurant.name = name;
     restaurant.fone = fone;
     restaurant.email = email;
     restaurant.address = address;
-    restaurant.image = image;
     restaurant.cnpj = cnpj;
     restaurant.city = city;
     restaurant.state = state;

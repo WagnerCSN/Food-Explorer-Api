@@ -8,8 +8,7 @@ const RestaurantShowService = require("../services/restaurant/RestaurantShowServ
 class RestaurantController {
   async create(request, response, next) {
     try {
-      const { name, fone, email, address, image, cnpj, city, state } =
-        request.body;
+      const { name, fone, email, address, cnpj, city, state } = request.body;
 
       const restaurantRepository = new RestaurantRepository();
       const restaurantCreateService = new RestaurantCreateService(
@@ -20,7 +19,6 @@ class RestaurantController {
         fone,
         email,
         address,
-        image,
         cnpj,
         city,
         state,
@@ -50,9 +48,7 @@ class RestaurantController {
 
   async update(request, response, next) {
     try {
-      const { name, fone, email, address, image, cnpj, city, state } =
-        request.body;
-      // const id = request.user.id;
+      const { name, fone, email, address, cnpj, city, state } = request.body;
       const { id } = request.params;
       const restaurantUpdateRepository = new RestaurantUpdateRepository();
       const restaurantUpdateService = new RestaurantUpdateService(
@@ -63,7 +59,6 @@ class RestaurantController {
         fone,
         email,
         address,
-        image,
         cnpj,
         city,
         state,
