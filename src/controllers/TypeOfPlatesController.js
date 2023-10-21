@@ -1,6 +1,6 @@
 const TypeOfPlatesRepository = require("../repositories/typeOfPlates/typeOfPlatesRepository");
 const TypeOfPlatesCreateService = require("../services/typeOfPlates/TypeOfPlatesCreateService");
-const TypeOfPlatesUpdateService = require("../services/TypeOfPlates/TypeOfPlatesUpdateService");
+const TypeOfPlatesUpdateService = require("../services/typeOfPlates/TypeOfPlatesUpdateService");
 const TypeOfPlatesUpdateRepository = require("../repositories/typeOfPlates/TypeOfPlatesUpdateRepository");
 const TypeOfPlatesDeleteRepository = require("../repositories/typeOfPlates/TypeOfPlatesDeleteRepository");
 const TypeOfPlatesDeleteService = require("../services/typeOfPlates/TypeOfPlatesDeleteService");
