@@ -44,6 +44,7 @@ class PlatesIndexService{
                 const platesType = typeid.filter(type => type.id ===plate.typeOfPlate_id);
                 const platesIngredient = ingredient.filter(ingredient => ingredient.id ===plate.ingredient_id);
             return{
+                id: plate.id,
                 name: plate.name, 
                 description: plate.description, 
                 cost: plate.cost, 

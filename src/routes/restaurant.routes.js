@@ -10,7 +10,7 @@ const restaurantImageController = new RestaurantImageController();
 const restaurantRoutes = Router();
 const upload = multer(uploadConfig.Multer);
 
-//restaurantRoutes.use(verifyUserAuthorization(["admin"]));
+restaurantRoutes.use(verifyUserAuthorization(["admin"]));
 restaurantRoutes.post("/", restaurantController.create);
 restaurantRoutes.get("/:id", restaurantController.show);
 restaurantRoutes.put("/:id", restaurantController.update);

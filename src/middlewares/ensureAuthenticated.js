@@ -1,12 +1,12 @@
 const { verify } = require("jsonwebtoken");
 const authConfig = require("../configs/auth");
-const AppEror = require("../utils/AppError");
+const AppError = require("../utils/AppError");
 
 function ensureAuthenticated(request, response, next) {
     const authReader = request.headers;
 
     if(!authReader.cookie){
-        throw new AppEror("JWT token not informed!", 401);
+        throw new AppError("JWT token not informed!", 401);
     }
     const [, token] = authReader.cookie.split("token="); //Bearer xxxxx
     try{
@@ -18,7 +18,7 @@ function ensureAuthenticated(request, response, next) {
       };
       return next();
     }catch{
-        throw new AppEror("Unauthorized", 401);
+        throw new AppError("Unauthorized", 401);
     }
 }
 

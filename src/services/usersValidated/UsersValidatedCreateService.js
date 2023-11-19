@@ -9,7 +9,7 @@ class UsersValidatedCreateService {
     const checkUserExist = await this.usersRepository.findByUser(user);
 
     if (checkUserExist.length === 0) {
-        throw new AppEror("Unauthorized", 401);
+        throw new AppError("Unauthorized", 401);
       }
     }
 }
