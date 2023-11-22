@@ -8,7 +8,7 @@ const orderRoutes = Router();
 
 orderRoutes.post("/", ensureAuthenticated, orderController.create);
 orderRoutes.get("/:id", ensureAuthenticated, orderController.show);
-orderRoutes.get("/", verifyUserAuthorization(["admin", "sale"]), orderController.index);
-orderRoutes.delete("/:id", verifyUserAuthorization(["admin", "sale"]), orderController.delete);
+orderRoutes.get("/", ensureAuthenticated, verifyUserAuthorization(["admin", "sale"]), orderController.index);
+orderRoutes.delete("/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "sale"]), orderController.delete);
 
 module.exports = orderRoutes;
