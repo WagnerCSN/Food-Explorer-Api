@@ -6,10 +6,10 @@ const verifyUserAuthorization = require("../middlewares/verifyUserAuthorization"
 
 const favoritePlatesRoutes = Router();
 
-favoritePlatesRoutes.use(ensureAuthenticated);
-favoritePlatesRoutes.post("/", verifyUserAuthorization(["admin", "sale", "customer"]), favoritePlatesController.create);
+//favoritePlatesRoutes.use(ensureAuthenticated);
+favoritePlatesRoutes.post("/", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), favoritePlatesController.create);
 favoritePlatesRoutes.get("/:user_id", favoritePlatesController.show);
 favoritePlatesRoutes.get("/", favoritePlatesController.index);
-favoritePlatesRoutes.delete("/:id", verifyUserAuthorization(["admin", "sale", "customer"]), favoritePlatesController.delete);
+favoritePlatesRoutes.delete("/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), favoritePlatesController.delete);
 
 module.exports = favoritePlatesRoutes;
