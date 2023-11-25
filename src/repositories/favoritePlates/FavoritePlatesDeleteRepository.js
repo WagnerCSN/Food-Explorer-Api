@@ -1,13 +1,14 @@
 const knex = require("../../database/knex")
 
 class FavoritePlatesDeleteRepository{
-    async findByFavorite(id){
-        const checkFavoriteExist = await knex("favorites").where({id}).first();
+    async findByPlatesWithUser(user_id){
+        const platesWithUser = await knex("favorites").where("favorites.user_id", user_id).select("*");
 
-        return checkFavoriteExist;
+        return platesWithUser;
     }
 
-    async deleteFavorite(id){
+    async deleteFavorite({id}){
+        
         const deletedFavorite = await knex("favorites").where({id}).delete();
 
         return deletedFavorite;

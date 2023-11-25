@@ -8,8 +8,8 @@ const favoritePlatesRoutes = Router();
 
 //favoritePlatesRoutes.use(ensureAuthenticated);
 favoritePlatesRoutes.post("/", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), favoritePlatesController.create);
-favoritePlatesRoutes.get("/:user_id", favoritePlatesController.show);
-favoritePlatesRoutes.get("/", favoritePlatesController.index);
-favoritePlatesRoutes.delete("/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), favoritePlatesController.delete);
+favoritePlatesRoutes.get("/", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), favoritePlatesController.show);
+favoritePlatesRoutes.get("/", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), favoritePlatesController.index);
+favoritePlatesRoutes.delete("/", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), favoritePlatesController.delete);
 
 module.exports = favoritePlatesRoutes;

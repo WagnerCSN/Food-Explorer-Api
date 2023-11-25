@@ -37,7 +37,7 @@ class PlatesIndexService{
             const platesIndexTypeOfPlate = await this.platesIndexRepository.indexByTypeOfPlates(typeOfPlate_name);
            
             if(platesIndexTypeOfPlate.length ===0){
-                throw new AppError("Enter a valid type Of Plate!");
+               // throw new AppError("Enter a valid type Of Plate!");
             }
 
             const platesWithType = platesIndexTypeOfPlate.map(plate => {

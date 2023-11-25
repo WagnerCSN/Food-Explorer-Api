@@ -5,4 +5,4 @@ exports.up = knex => knex.schema.createTable("favorites", table => {
 });
 
 
-exports.down = knex => knex.schema.dropTable("favorite");
+exports.down = knex => knex.schema.dropTable("favorites");

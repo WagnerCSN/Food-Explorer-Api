@@ -62,14 +62,14 @@ class FavoritePlatesController {
 
   async delete(request, response, next) {
     try {
-      const { id } = request.params;
+      const { plate_id } = request.query;
+      const user_id = request.user.id;
 
-      const favoritePlatesDeleteRepository =
-        new FavoritePlatesDeleteRepository();
+      const favoritePlatesDeleteRepository = new FavoritePlatesDeleteRepository();
       const favoritePlatesDeleteService = new FavoritePlatesDeleteService(
         favoritePlatesDeleteRepository
       );
-      await favoritePlatesDeleteService.execute({ id });
+      await favoritePlatesDeleteService.execute({ plate_id, user_id });
 
       return response.json();
     } catch (error) {

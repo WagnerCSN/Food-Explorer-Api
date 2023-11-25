@@ -5,17 +5,17 @@ class FavoritePlatesDeleteService{
         this.favoritePlatesDeleteRepository = favoritePlatesDeleteRepository;
     }
 
-    async execute({id}){
-        const checkFavoriteExist = await this.favoritePlatesDeleteRepository.findByFavorite(id);
+    async execute({plate_id, user_id}){
+        const platesWithUser = await this.favoritePlatesDeleteRepository.findByPlatesWithUser(user_id);
+        const result = platesWithUser.filter(a =>a.plate_id===parseInt(plate_id))
+        
+        const plateRemoved = result[0];
 
-        if(!checkFavoriteExist){
-            throw new AppError("This Favorite does not have!");
+        const deletedFavorite = await this.favoritePlatesDeleteRepository.deleteFavorite({id: plateRemoved.id});
+
+        if(deletedFavorite){
+           throw new AppError("Successfully deleted");
         }
-
-        await this.favoritePlatesDeleteRepository.deleteFavorite(id);
-
-       
-
     }
 }
 module.exports = FavoritePlatesDeleteService;

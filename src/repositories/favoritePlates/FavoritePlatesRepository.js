@@ -2,11 +2,11 @@ const knex = require("../../database/knex");
 
 class FarovitePlatesRepository{
    
-    async findByFavoritePlate(plate_id){
-        const checkFavoritePlatesExist = await knex("favorites").where({plate_id}).first();
+    // async findByFavoritePlate(plate_id){
+    //     const checkFavoritePlatesExist = await knex("favorites").where({plate_id}).first();
 
-        return checkFavoritePlatesExist;
-    }
+    //     return checkFavoritePlatesExist;
+    // }
 
     async findByUser(user_id){
         const checkUserExist = await knex("users").where("id", user_id).first();
