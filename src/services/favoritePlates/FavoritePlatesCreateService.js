@@ -7,13 +7,14 @@ class FavoritePlatesCreateService{
 
     async execute({user_id, plate_id}){
      
-       // const checkFavoritePlatesExist = await this.favoritePlatesRepository.findByFavoritePlate(plate_id);
+        const checkFavoritePlatesExist = await this.favoritePlatesRepository.findByFavoritePlate(user_id);
         const checkUserExist = await this.favoritePlatesRepository.findByUser(user_id);
         const checkPlateExist = await this.favoritePlatesRepository.findByPlate(plate_id);
+        const plateFavorited = checkFavoritePlatesExist.find(plates => plates.plate_id===parseInt(plate_id))
 
-        // if(checkFavoritePlatesExist){
-        //     throw new AppError("This dish is already a favorite!")
-        // }
+        if(plateFavorited){
+            throw new AppError("This dish is already a favorite!");
+        }
 
         if (!checkUserExist) {
             throw new AppError("User does not exist!");
@@ -26,10 +27,7 @@ class FavoritePlatesCreateService{
         const favoritePlatesCreated = await this.favoritePlatesRepository.create({user_id, plate_id});
         
         return favoritePlatesCreated;
-        
-
     }
-
 }
 
 module.exports = FavoritePlatesCreateService;

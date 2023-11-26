@@ -11,7 +11,13 @@ class FavoritePlatesDeleteService{
         
         const plateRemoved = result[0];
 
-        await this.favoritePlatesDeleteRepository.deleteFavorite({id: plateRemoved.id});
+        const deletedFavorite = await this.favoritePlatesDeleteRepository.deleteFavorite({id: plateRemoved.id});
+
+        if(deletedFavorite){
+            console.log("Successfully deleted");
+        }
+       
+
     }
 }
 module.exports = FavoritePlatesDeleteService;
