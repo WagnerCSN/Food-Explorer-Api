@@ -11,9 +11,9 @@ class FavoritePlatesShowService{
         const result = checkFavoritePlatesWithUser.length;
         
             
-        if(result===0){
-            throw new AppError("There is no favorite Plates with this user!");
-        }
+        // if(result===0){
+        //     throw new AppError("There is no favorite Plates with this user!");
+        // }
         return checkFavoritePlatesWithUser;
     }
 
