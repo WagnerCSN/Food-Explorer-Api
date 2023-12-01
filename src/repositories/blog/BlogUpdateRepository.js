@@ -1,14 +1,14 @@
 const knex = require("../../database/knex");
 
 class BlogUpdateRepository {
-  async findByBlog(id) {
-    const blog = await knex("blog").select("*").where("id", id).first();
+  async findByBlogWithUser(user_id) {
+    const blogs = await knex("blog").select("*").where({user_id});
 
-    return blog;
+    return blogs;
   }
 
-  async update({ comments, rating, id }) {
-    const blogUpdated = await knex("blog").where({ id }).update({comments, rating});
+  async update({ title, comments, rating, id }) {
+    const blogUpdated = await knex("blog").where({ id }).update({title, comments, rating});
 
     return blogUpdated;
   }

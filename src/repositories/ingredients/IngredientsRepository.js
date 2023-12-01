@@ -1,17 +1,14 @@
 const knex = require("../../database/knex");
 
 class IngredientsRepository{
-    async findByName(name){
-        const checkIngredientExist = await knex("ingredients").where({name}).first();
+    async findByName(){
+        const checkIngredientExist = await knex("ingredients").select('*');
 
         return checkIngredientExist;
     }
 
-    async create({name, image}){
-        const ingredientCreated = await knex("ingredients").insert({
-            name,
-            image
-        })
+    async create(insertIngredient){
+        const ingredientCreated = await knex("ingredients").insert(insertIngredient);
 
         return ingredientCreated;
     }

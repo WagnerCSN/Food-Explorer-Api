@@ -5,21 +5,26 @@ class IngredientsCreateService{
         this.ingredientsRepository = ingredientsRepository;
     }
 
-    async execute({name, image}){
-        const checkIngredientExist = await this.ingredientsRepository.findByName(name);
-
-        if(checkIngredientExist){
-            throw new AppError("Existing ingredient!")
+    async execute({ingredients}){
+        if(ingredients){
+            const handleIngredients = ingredients;
+            const selectIngredientExist = await this.ingredientsRepository.findByName();
+            const insertIngredient = handleIngredients.map(ingredient => {
+                const checkIngredientExist = selectIngredientExist.find(ingredientExist => ingredientExist.name === ingredient.name);
+                if(checkIngredientExist!==undefined){
+                    throw new AppError("Existing ingredient!");
+                }else{
+                    return{
+                        name: ingredient.name
+                    }
+                }
+            });
+    
+            const ingredientCreated = await this.ingredientsRepository.create(insertIngredient);
+            
+            return ingredientCreated;
         }
-
-        const ingredientCreated = await this.ingredientsRepository.create({
-            name,
-            image
-        })
-
-        return ingredientCreated;
     }
-
 }
 
 module.exports = IngredientsCreateService;

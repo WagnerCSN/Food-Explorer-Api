@@ -10,14 +10,15 @@ const BlogIndexService = require("../services/blog/BlogIndexService");
 class BlogController {
   async create(request, response, next) {
     try {
-      const { name, email, comments, rating } = request.body;
+      const { title, comments, rating } = request.body;
       const { plate_id } = request.params;
+      const { user_id } = request.user;
 
       const blogRepository = new BlogRepository();
       const blogCreateService = new BlogCreateService(blogRepository);
       await blogCreateService.execute({
-        name,
-        email,
+        user_id,
+        title,
         comments,
         rating,
         plate_id,
@@ -45,12 +46,12 @@ class BlogController {
 
   async update(request, response, next) {
     try {
-      const { name, email, comments, rating } = request.body;
-
+      const { title, comments, rating } = request.body;
+      const {user_id} = request.user;
       const { id } = request.params;
       const blogUpdateRepository = new BlogUpdateRepository();
       const blogUpdateService = new BlogUpdateService(blogUpdateRepository);
-      await blogUpdateService.execute({ name, email, comments, rating, id });
+      await blogUpdateService.execute({ user_id, title, comments, rating, id });
 
       return response.json();
     } catch (error) {

@@ -5,7 +5,7 @@ class BlogCreateService{
         this.blogRepository = blogRepository;
     }
 
-    async execute({name, email, comments, plate_id, rating}){
+    async execute({user_id, title, comments, rating, plate_id}){
         const checkPlateExist = await this.blogRepository.findByPlate(plate_id);
         const checkCommentByPlates = await this.blogRepository.findByCommentByPlate(plate_id);
 
@@ -16,14 +16,14 @@ class BlogCreateService{
         
         if(checkCommentByPlates){
             checkPlateWithCommentsByUser =checkCommentByPlates.map(checkCommentByPlate => {
-                if(checkCommentByPlate.email===email){
+                if(checkCommentByPlate.user_id===user_id){
                     throw new AppError("This dish has already been reviewed by this user!");
                 }});
         }
        
         const postCreated = await this.blogRepository.create({
-            name, 
-            email, 
+            user_id, 
+            title, 
             comments,
             rating,
             plate_id

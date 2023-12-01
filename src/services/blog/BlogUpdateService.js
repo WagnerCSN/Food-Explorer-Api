@@ -5,19 +5,22 @@ class BlogUpdateService {
     this.blogUpdateRepository = blogUpdateRepository;
   }
 
-  async execute({ comments, rating, id }) {
-    const blog = await this.blogUpdateRepository.findByBlog(id);
+  async execute({ user_id, title, comments, rating, id }) {
+    const blogs = await this.blogUpdateRepository.findByBlogWithUser(user_id);
+    const findBlog = blogs.find(blog => blog.id ===id)
     
-    if (!blog) {
+    if (!findBlog) {
       throw new AppError("Blog not found!");
     }
 
-    blog.comments = comments;
-    blog.rating = rating;
+    findBlog.title = title;
+    findBlog.comments = comments;
+    findBlog.rating = rating;
 
     const blogUpdated = await this.blogUpdateRepository.update({
-      comments: blog.comments,
-      rating: blog.rating,
+      title: findBlog.title,
+      comments: findBlog.comments,
+      rating: findBlog.rating,
       id,
     });
 
