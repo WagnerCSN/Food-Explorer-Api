@@ -8,6 +8,7 @@ function verifyUserAuthorization(roleToVerify){
             throw new AppError("Unauthorized", 401);
         }
         return next();
+        
     }
 }
 

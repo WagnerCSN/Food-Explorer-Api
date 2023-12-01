@@ -18,6 +18,12 @@ class PromotionIndexRepository{
       
         return promotionIndexPromotionWithNameDish;
     }
+
+    async viewProductsWithPromotion(){
+        const viewProductsWithPromotion = await knex("promotionItem").join("plates", "plates.id", "=", "promotionItem.plate_id").orderBy("plates.name").select('*');
+      
+        return viewProductsWithPromotion;
+    }
 }
 
 module.exports = PromotionIndexRepository;

@@ -4,7 +4,7 @@ const AppError = require("../utils/AppError");
 
 function ensureAuthenticated(request, response, next) {
     const authReader = request.headers;
-
+    
     if(!authReader.cookie){
         throw new AppError("JWT token not informed!", 401);
     }
