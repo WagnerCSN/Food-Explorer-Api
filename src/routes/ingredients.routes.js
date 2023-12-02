@@ -16,7 +16,7 @@ ingredientsRoutes.post("/", ensureAuthenticated, verifyUserAuthorization(["admin
 ingredientsRoutes.put("/:id", ingredientsController.update);
 ingredientsRoutes.delete("/:id", ingredientsController.delete);
 ingredientsRoutes.get("/:id", ingredientsController.show);
-ingredientsRoutes.get("/", ingredientsController.index);
+ingredientsRoutes.get("/", ensureAuthenticated, verifyUserAuthorization(["admin", "customer"]), ingredientsController.index);
 ingredientsRoutes.patch("/image/:id", upload.single("image"), ingredientsImageController.update)
 
 module.exports = ingredientsRoutes;

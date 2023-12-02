@@ -2,6 +2,7 @@ exports.up = knex => knex.schema.createTable("ingredients", table => {
     table.increments("id");
     table.text("name").notNullable().unique();
     table.text("image").Null;
+    table.integer("plate_id").references("id").inTable("plates").onDelete("CASCADE");
 });
 
 

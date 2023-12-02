@@ -11,14 +11,11 @@ class PlatesCreateService {
     cost,
     value,
     typeOfPlate_id,
-    ingredient_id,
+    ingredients,
   }) {
     const checkExistPlate = await this.platesRepository.findByName(name);
     const checkExistTypeOfPlate = await this.platesRepository.findByTypePlate(
       typeOfPlate_id
-    );
-    const checkExistIngredient = await this.platesRepository.findByIngredient(
-      ingredient_id
     );
 
     if (checkExistPlate) {
@@ -29,21 +26,26 @@ class PlatesCreateService {
       throw new AppError("No type of plate registered!");
     }
 
-    if (!checkExistIngredient) {
-      throw new AppError("No ingredient registered!");
-    }
-
-    const plateCreated = await this.platesRepository.create({
+    const [plate_id] = await this.platesRepository.create({
       name,
       description,
       cost,
       value,
       typeOfPlate_id,
-      ingredient_id,
     });
 
-    return plateCreated;
-  }
+      const handleIngredients = ingredients;
+      const insertIngredient = handleIngredients.map(ingredient => {
+              return{
+                  name: ingredient.name,
+                  plate_id: plate_id
+              }
+          });
+
+      const ingredientCreated = await this.platesRepository.insertIngredients(insertIngredient);
+
+      return {plate_id, ingredientCreated};
+    }
 }
 
 module.exports = PlatesCreateService;

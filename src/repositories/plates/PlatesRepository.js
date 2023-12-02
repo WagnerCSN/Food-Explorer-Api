@@ -13,16 +13,22 @@ class PlatesRepository{
         return checkExistTypeOfPlate;
     }    
         
-    async findByIngredient(ingredient_id){
-        const checkExistIngredient = await knex("ingredients").select("*").where("id", ingredient_id).first();
+    async findByIngredients(){
+        const selectIngredients = await knex("ingredients").select("*");
 
-        return checkExistIngredient;
+        return selectIngredients;
     }
     
-    async create({name, description, cost, value, typeOfPlate_id, ingredient_id}){
-        const plateCreated = await knex("plates").insert({name, description, cost, value, typeOfPlate_id, ingredient_id})
+    async create({name, description, cost, value, typeOfPlate_id}){
+        const plateCreated = await knex("plates").insert({name, description, cost, value, typeOfPlate_id})
 
         return plateCreated;
    }
+
+   async insertIngredients(insertIngredient){ 
+    const ingredientCreated = await knex("ingredients").insert(insertIngredient);
+
+    return ingredientCreated;
+}
 }
 module.exports = PlatesRepository;
