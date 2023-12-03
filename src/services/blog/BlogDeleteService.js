@@ -5,18 +5,14 @@ class BlogDeleteService{
         this.blogDeleteRepository = blogDeleteRepository;
     }
 
-    async execute({id}){
-        const checkBlogExist = await this.blogDeleteRepository.findByBlog(id);
+    async execute({id_blog}){
+        const checkBlogExist = await this.blogDeleteRepository.findByBlog(id_blog);
 
         if(!checkBlogExist){
             throw new AppError("This blog does not have!");
         }
 
-        const deletedBlog = await this.blogDeleteRepository.deleteBlog(id);
-
-        if(deletedBlog){
-            throw new AppError("Successfully deleted");
-        }
+        await this.blogDeleteRepository.deleteBlog(id_blog);
 
     }
 }

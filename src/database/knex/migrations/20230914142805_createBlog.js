@@ -1,5 +1,5 @@
 exports.up = knex => knex.schema.createTable("blog", table => {
-    table.increments("id");
+    table.increments("id_blog");
     table.text("title").notNullable();
     table.text("comments").notNullable();
     table.text("rating").notNullable();

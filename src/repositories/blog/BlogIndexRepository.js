@@ -14,6 +14,13 @@ class BlogIndexRepository{
          return plate;
     }
 
+    async selectByblog(id_blog){
+       
+        const blog = await knex("blog").where({id_blog}).first();
+       
+        return blog;
+   }
+
 }
 
 module.exports = BlogIndexRepository;

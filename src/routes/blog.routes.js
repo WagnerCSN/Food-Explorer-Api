@@ -8,8 +8,8 @@ const blogRoutes = Router();
 
 
 blogRoutes.post("/:plate_id", ensureAuthenticated, verifyUserAuthorization(["admin", "customer"]), blogController.create);
-blogRoutes.put("/:id",ensureAuthenticated, verifyUserAuthorization(["admin", "customer"]), blogController.update);
-blogRoutes.delete("/:id",ensureAuthenticated, verifyUserAuthorization(["admin", "customer"]), blogController.delete);
+blogRoutes.put("/:id_blog", ensureAuthenticated, verifyUserAuthorization(["admin", "customer"]), blogController.update);
+blogRoutes.delete("/:id_blog",ensureAuthenticated, verifyUserAuthorization(["admin", "customer"]), blogController.delete);
 blogRoutes.get("/",ensureAuthenticated, verifyUserAuthorization(["admin", "customer"]), blogController.index);
 
 module.exports = blogRoutes;

@@ -32,11 +32,11 @@ class BlogController {
 
   async index(request, response, next) {
     try {
-      const { plate_id, rating } = request.query;
+      const { plate_id, rating, id_blog } = request.query;
 
       const blogIndexRepository = new BlogIndexRepository();
       const blogIndexService = new BlogIndexService(blogIndexRepository);
-      const blogSearch = await blogIndexService.execute({ plate_id, rating });
+      const blogSearch = await blogIndexService.execute({ plate_id, rating, id_blog });
 
       return response.json(blogSearch);
     } catch (error) {
@@ -47,11 +47,10 @@ class BlogController {
   async update(request, response, next) {
     try {
       const { title, comments, rating } = request.body;
-      const user_id = request.user;
-      const { id } = request.params;
+      const { id_blog } = request.params;
       const blogUpdateRepository = new BlogUpdateRepository();
       const blogUpdateService = new BlogUpdateService(blogUpdateRepository);
-      await blogUpdateService.execute({ user_id, title, comments, rating, id });
+      await blogUpdateService.execute({ title, comments, rating, id_blog });
 
       return response.json();
     } catch (error) {
@@ -61,11 +60,10 @@ class BlogController {
 
   async delete(request, response, next) {
     try {
-      const { id } = request.params;
-
+      const { id_blog } = request.params;
       const blogDeleteRepository = new BlogDeleteRepository();
       const blogDeleteService = new BlogDeleteService(blogDeleteRepository);
-      await blogDeleteService.execute({ id });
+      await blogDeleteService.execute({ id_blog });
 
       return response.json();
     } catch (error) {
