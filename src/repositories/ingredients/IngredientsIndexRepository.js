@@ -6,5 +6,11 @@ class IngredientsIndexRepository{
 
         return ingredientsIndexName;
     }
+
+    async indexByPlateWithIngredients(id){
+        const ingredientsIndexPlate_id = await knex("ingredients").where({plate_id: id});
+
+        return ingredientsIndexPlate_id;
+    }
 }
 module.exports = IngredientsIndexRepository;

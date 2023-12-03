@@ -5,7 +5,7 @@ class BlogIndexService{
         this.blogIndexRepository = blogIndexRepository;
     }
 
-    async execute({rating, plate_name}){
+    async execute({rating, plate_id}){
 
         if(rating){
             const blogIndexName = await this.blogIndexRepository.indexByRating(rating);
@@ -17,14 +17,24 @@ class BlogIndexService{
         }
             
        
-        if(plate_name){
-            const blogIndexWithPlate = await this.blogIndexRepository.selectByPlate(plate_name);
-           
+        if(plate_id){
+            const blogIndexWithPlate = await this.blogIndexRepository.selectByPlate(plate_id);
+           const result = blogIndexWithPlate.map(blog =>{
+                return{
+                    id: blog.id,
+                    title: blog.title,
+                    comments: blog.comments,
+                    rating: blog.rating,
+                    created_at: blog.created_at,
+                    name: blog.name,
+                    plate_id: blog.plate_id
+                }
+           })
             if(blogIndexWithPlate.length ===0){
-                throw new AppError("Enter a valid plate!");
+                //throw new AppError("Enter a valid plate!");
             }
-
-             return blogIndexWithPlate;
+           
+             return result;
         }
     }
 }

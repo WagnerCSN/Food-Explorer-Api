@@ -7,9 +7,9 @@ class BlogIndexRepository{
         return blogIndexRating;
     }
 
-    async selectByPlate(plate_name){
+    async selectByPlate(plate_id){
        
-         const plate = await knex("blog").select('blog.id',  'blog.title', 'blog.comments', 'blog.rating').innerJoin("plates", "blog.plate_id", "plates.id").whereLike("plates.name", `%${plate_name}%`).orderBy("created_at"); 
+         const plate = await knex("blog").select('*').innerJoin("plates", "blog.plate_id", "plates.id").where("plates.id", plate_id).join("users", "users.id", "=", "blog.user_id").orderBy("created_at"); 
         
          return plate;
     }

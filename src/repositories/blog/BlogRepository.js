@@ -20,7 +20,8 @@ class BlogRepository{
             title,
             comments, 
             rating,
-            plate_id
+            plate_id,
+            user_id
         });
 
         return blogCreated;

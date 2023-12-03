@@ -12,7 +12,7 @@ class BlogController {
     try {
       const { title, comments, rating } = request.body;
       const { plate_id } = request.params;
-      const { user_id } = request.user;
+      const  user_id  = request.user.id;
 
       const blogRepository = new BlogRepository();
       const blogCreateService = new BlogCreateService(blogRepository);
@@ -32,11 +32,11 @@ class BlogController {
 
   async index(request, response, next) {
     try {
-      const { plate_name, rating } = request.query;
+      const { plate_id, rating } = request.query;
 
       const blogIndexRepository = new BlogIndexRepository();
       const blogIndexService = new BlogIndexService(blogIndexRepository);
-      const blogSearch = await blogIndexService.execute({ plate_name, rating });
+      const blogSearch = await blogIndexService.execute({ plate_id, rating });
 
       return response.json(blogSearch);
     } catch (error) {
@@ -47,7 +47,7 @@ class BlogController {
   async update(request, response, next) {
     try {
       const { title, comments, rating } = request.body;
-      const {user_id} = request.user;
+      const user_id = request.user;
       const { id } = request.params;
       const blogUpdateRepository = new BlogUpdateRepository();
       const blogUpdateService = new BlogUpdateService(blogUpdateRepository);
