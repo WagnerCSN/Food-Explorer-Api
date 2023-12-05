@@ -5,7 +5,6 @@ class UsersValidatedController {
   async index(request, response, next) {
     try {
       const { user } = request;
-
       const usersValidatedRepository = new UsersValidatedRepository();
       const usersValidatedCreateService = new UsersValidatedCreateService(
         usersValidatedRepository

@@ -5,6 +5,6 @@ const ensureAuthenticated = require("../middlewares/ensureAuthenticated")
 
 const usersValidatedRoutes = Router();
 
-usersValidatedRoutes.get("/validated", ensureAuthenticated, usersValidatedController.index);
+usersValidatedRoutes.get("/", ensureAuthenticated, usersValidatedController.index);
 
 module.exports = usersValidatedRoutes;

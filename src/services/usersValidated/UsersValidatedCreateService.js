@@ -6,7 +6,7 @@ class UsersValidatedCreateService {
   }
   async execute({ user }) {
 
-    const checkUserExist = await this.usersRepository.findByUser(user);
+    const checkUserExist = await this.usersValidatedRepository.findByUser(user);
 
     if (checkUserExist.length === 0) {
         throw new AppError("Unauthorized", 401);

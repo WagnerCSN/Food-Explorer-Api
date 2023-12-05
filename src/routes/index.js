@@ -13,7 +13,7 @@ const typeOfPlatesRoutes = require("./typeOfPlates.routes");
 
 const routes = Router();
 routes.use("/users", usersRoutes);
-routes.use("/users", usersValidatedRoutes);
+routes.use("/validated", usersValidatedRoutes);
 routes.use("/sessions", sessionsRoutes);
 routes.use("/ingredients", ingredientsRoutes);
 routes.use("/blog", blogRoutes);
