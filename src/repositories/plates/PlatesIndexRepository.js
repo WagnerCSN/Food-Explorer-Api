@@ -28,7 +28,7 @@ class PlatesIndexRepository{
 
     async indexByIngredients(ingredients_name){
         
-        const platesIndexIngredients = await knex("ingredients").select().innerJoin("plates", "plates.ingredient_id", "ingredients.id").whereLike("ingredients.name", `%${ingredients_name}%`);
+        const platesIndexIngredients = await knex("ingredients").select().innerJoin("plates", "plates.id", "ingredients.plate_id").whereLike("ingredients.name", `%${ingredients_name}%`);
 
         return platesIndexIngredients;
     }

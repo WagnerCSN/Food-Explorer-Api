@@ -65,15 +65,15 @@ class PlatesIndexService{
             }
 
             const platesWithIngredients = platesIndexIngredient.map(plate => {
-                const platesType = typeid.filter(type => type.id ===plate.typeOfPlate_id);
-                const platesIngredient = ingredient.filter(ingredient => ingredient.id ===plate.ingredient_id);
+                
+                const platesIngredient = ingredient.filter(ingredient => ingredient.plate_id ===plate.id);
                 return{
                     name: plate.name, 
                     description: plate.description, 
                     cost: plate.cost, 
                     image: plate.image,
-                    typeOfPlate: platesType.map(platesType => platesType.name).toString(),
-                    ingredients: platesIngredient.map(platesIngredient => platesIngredient.name).toString()
+                    typeOfPlate: plate.typeOfPlate_id,
+                    ingredients: platesIngredient.map(ingredient => ingredient.name)
                 }
             });
            
