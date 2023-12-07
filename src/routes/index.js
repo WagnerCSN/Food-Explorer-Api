@@ -10,6 +10,7 @@ const platesRoutes = require("./plates.routes");
 const promotionRoutes = require("./promotion.routes");
 const restaurantRoutes = require("./restaurant.routes");
 const typeOfPlatesRoutes = require("./typeOfPlates.routes");
+const checkoutSessionRoutes = require("./checkoutSession.routes");
 
 const routes = Router();
 routes.use("/users", usersRoutes);
@@ -23,5 +24,7 @@ routes.use("/plates", platesRoutes);
 routes.use("/promotion", promotionRoutes);
 routes.use("/restaurant", restaurantRoutes);
 routes.use("/typeOfPlates", typeOfPlatesRoutes);
+routes.use("/create-checkout-session", checkoutSessionRoutes);
+
 
 module.exports = routes;
