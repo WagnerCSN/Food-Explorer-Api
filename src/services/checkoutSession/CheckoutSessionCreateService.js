@@ -8,6 +8,7 @@ class CheckoutSessionCreateService{
     }
 
     async execute({cartItems}){
+        console.log("aaaaa", cartItems)
     const stripe = Stripe(process.env.STRIPE_KEY)
 
     //"orderedItem": [ {"plate_id":5, "amount": 3}, {"plate_id":5, "amount": 3}] 
@@ -24,18 +25,19 @@ class CheckoutSessionCreateService{
     // })
 
     const line_items= cartItems.map((item) => {
+
         return{
                 price_data: {
                     currency: 'usd',
                     product_data: {
-                        name: item.data.name,
-                        image: [item.data.image],
-                        description: item.data.description,
-                        metadata:{
-                            id: item.data.id
-                        }
+                        name: 'T-shirt',//item.data.name,
+                        //image: [item.data.image],
+                        //description: item.data.description,
+                        // metadata:{
+                        //     id: item.data.id
+                        // }
                     },
-                    unit_amount: item.data.value * 100,
+                    unit_amount: 2000,//item.data.value * 100,
                 },
                 //price: '{{PRICE_ID}}',
                 quantity: item.qtde,            
@@ -45,13 +47,30 @@ class CheckoutSessionCreateService{
     });
 
     const session = await stripe.checkout.sessions.create({
-        line_items,
+        // line_items,
+        line_items: [ {price_data: {
+            currency: 'usd',
+            product_data: {
+                name: item.data.name,
+                //image: [item.data.image],
+                //description: item.data.description,
+                // metadata:{
+                //     id: item.data.id
+                // }
+            },
+            unit_amount: 2000,//item.data.value * 100,
+        },
+        //price: '{{PRICE_ID}}',
+        quantity: 1,//item.qtde,            
+        
+        //table.text("totalOrderValue");
+      },],
         mode: 'payment',
         success_url: `${process.env.CLIENT_URL}/checkout-success`,
         cancel_url: `${process.env.CLIENT_URL}/cart`,
       });
       
-    const response= res.send({url: session.url});
+    const response= {url: session.url}
 
     return response;
     }    

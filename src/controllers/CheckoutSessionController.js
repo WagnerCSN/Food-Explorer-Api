@@ -18,7 +18,7 @@ class CheckoutSessionController {
       const checkoutSessionCreateService = new CheckoutSessionCreateService(checkoutSessionRepository);
       const result = await checkoutSessionCreateService.execute({cartItems});
 
-      return response(result);
+      return response.send({result});
     } catch (error) {
       next(error);
     }
