@@ -1,5 +1,6 @@
 const express = require("express");
 const Stripe = require('stripe');
+const AppError = require("../../utils/AppError");
 require("dotenv/config");
 
 class CheckoutSessionCreateService{
@@ -7,9 +8,16 @@ class CheckoutSessionCreateService{
         this.checkoutSessionRepository = checkoutSessionRepository;
     }
 
-    async execute({cartItems}){
-        console.log("aaaaa", cartItems)
-    const stripe = Stripe(process.env.STRIPE_KEY)
+    async execute({cartItems, user_id}){
+    
+    const stripe = Stripe(process.env.STRIPE_KEY);
+
+    const customer = await stripe.customers.create({
+      metadata: {
+        userId: user_id,
+        cart: JSON.stringify(cartItems)
+      }
+    })
 
     //"orderedItem": [ {"plate_id":5, "amount": 3}, {"plate_id":5, "amount": 3}] 
  
@@ -23,57 +31,43 @@ class CheckoutSessionCreateService{
     //           cartItems
     //     }
     // })
-
+    if(cartItems.length===0){
+        throw new AppError("There are no items in the cart!");
+    }
     const line_items= cartItems.map((item) => {
 
         return{
                 price_data: {
-                    currency: 'usd',
+                    currency: 'brl',
                     product_data: {
-                        name: 'T-shirt',//item.data.name,
-                        //image: [item.data.image],
-                        //description: item.data.description,
-                        // metadata:{
-                        //     id: item.data.id
-                        // }
+                        name: item.data.name,
+                        //image: item.data.image,
+                        description: item.data.description,
+                        metadata:{
+                             id: item.data.id
+                         }
                     },
-                    unit_amount: 2000,//item.data.value * 100,
+                    unit_amount: item.data.value * 100,
                 },
                 //price: '{{PRICE_ID}}',
                 quantity: item.qtde,            
                 
-                //table.text("totalOrderValue");
+                
               };
     });
 
     const session = await stripe.checkout.sessions.create({
-        // line_items,
-        line_items: [ {price_data: {
-            currency: 'usd',
-            product_data: {
-                name: item.data.name,
-                //image: [item.data.image],
-                //description: item.data.description,
-                // metadata:{
-                //     id: item.data.id
-                // }
-            },
-            unit_amount: 2000,//item.data.value * 100,
-        },
-        //price: '{{PRICE_ID}}',
-        quantity: 1,//item.qtde,            
-        
-        //table.text("totalOrderValue");
-      },],
+        customer: customer.id,
+        line_items,
         mode: 'payment',
-        success_url: `${process.env.CLIENT_URL}/checkout-success`,
-        cancel_url: `${process.env.CLIENT_URL}/cart`,
+        success_url: `http://localhost:5173/checkout-success`,
+        cancel_url: `http://localhost:5173/Pagamento`
+        
       });
       
-    const response= {url: session.url}
-
-    return response;
-    }    
+    
+    return {url: session.url};
+    } 
 }
 
 module.exports = CheckoutSessionCreateService;

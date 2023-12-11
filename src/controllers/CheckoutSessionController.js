@@ -13,12 +13,13 @@ class CheckoutSessionController {
   async create(request, response, next) {
     try {
       const { cartItems } = request.body;
+      const user_id = request.user.id;
 
       const checkoutSessionRepository = new CheckoutSessionRepository();
       const checkoutSessionCreateService = new CheckoutSessionCreateService(checkoutSessionRepository);
-      const result = await checkoutSessionCreateService.execute({cartItems});
-
-      return response.send({result});
+      
+      
+      return response.send(await checkoutSessionCreateService.execute({cartItems, user_id})).end();
     } catch (error) {
       next(error);
     }

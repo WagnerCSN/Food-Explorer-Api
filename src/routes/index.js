@@ -11,8 +11,10 @@ const promotionRoutes = require("./promotion.routes");
 const restaurantRoutes = require("./restaurant.routes");
 const typeOfPlatesRoutes = require("./typeOfPlates.routes");
 const checkoutSessionRoutes = require("./checkoutSession.routes");
+const webhookRoutes = require("./webhook.routes");
 
 const routes = Router();
+
 routes.use("/users", usersRoutes);
 routes.use("/validated", usersValidatedRoutes);
 routes.use("/sessions", sessionsRoutes);
@@ -25,6 +27,7 @@ routes.use("/promotion", promotionRoutes);
 routes.use("/restaurant", restaurantRoutes);
 routes.use("/typeOfPlates", typeOfPlatesRoutes);
 routes.use("/create-checkout-session", checkoutSessionRoutes);
+routes.use("/webhook",  webhookRoutes);
 
 
 module.exports = routes;

@@ -13,11 +13,11 @@ class OrderRepository{
         return checkUserExist ;
     }
 
-    async findByOrderedItem(plate_id){
-        const selectOrderedItem = await knex("plates").whereIn('id', plate_id).select('*');
+    // async findByOrderedItem(plate_id){
+    //     const selectOrderedItem = await knex("plates").whereIn('id', plate_id).select('*');
 
-        return selectOrderedItem ;
-    } 
+    //     return selectOrderedItem ;
+    // } 
 
     async findByPlatesWithOutPromotion(plate_idWithOutPromotion){
         const plateWithOutPromotion = await knex("plates").whereIn("id", plate_idWithOutPromotion).select('*')

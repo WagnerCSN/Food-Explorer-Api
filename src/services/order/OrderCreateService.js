@@ -6,6 +6,14 @@ class OrderCreateService{
     }
 
     async execute({status, orderedItem, user_id}){
+       
+        orderedItem = orderedItem.map(item => {
+            return{
+                plate_id: item.data.id,
+                amount: item.qtde
+            }
+        })
+        console.log("aaaaaaaaa", orderedItem);
        // const checkOrderedItemExist = await this.orderRepository.findByOrderedItem(orderedItem_id);
         const checkUserExist = await this.orderRepository.findByUser(user_id);
         var handleQtdeOfItems;
@@ -46,13 +54,14 @@ class OrderCreateService{
 
 
         const plate_id = orderedItem.map(a =>a.plate_id)
-     const selectOrderedItem = await this.orderRepository.findByOrderedItem(plate_id);
+     //const selectOrderedItem = await this.orderRepository.findByOrderedItem(plate_id);
 
     let order_id;
     let insertOrderedItem;
     let insertOrderedItem2;  
     let promotions = await this.orderRepository.findByPromotion(plate_id)//platos com promoção
 
+    
     const promotions_id = promotions.map( promotion => promotion.plate_id)
     
     let plate_idWithOutPromotion = plate_id.filter( a => !promotions_id.includes( a ) );//compara os platos adicionados com os platos com promoção
@@ -122,7 +131,8 @@ class OrderCreateService{
     });
 
     const order = await this.orderRepository.createOrder({status, qtdeOfItems, totalOrderValue, user_id, insertOrderedItem, insertOrderedItem2});
-    }
+    return order    
+}
 }
 
 module.exports = OrderCreateService;

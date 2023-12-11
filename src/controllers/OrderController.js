@@ -6,18 +6,20 @@ const OrderShowRepository = require("../repositories/order/OrderShowRepository")
 const OrderShowService = require("../services/order/OrderShowService");
 const OrderIndexRepository = require("../repositories/order/OrderIndexRepository");
 const OrderIndexService = require("../services/order/OrderIndexService");
+// const OrderUpdateService = require("../services/order/OrderUpdateService");
+// const OrderUpdateRepository = require("../repositories/order/OrderUpdateRepository");
 
 class OrderController {
   async create(request, response, next) {
     try {
       const { status, orderedItem } = request.body;
       const user_id = request.user.id;
-      
+//      console.log("oderedItem", orderedItem);
       const orderRepository = new OrderRepository();
       const orderCreateService = new OrderCreateService(orderRepository);
-      await orderCreateService.execute({ status, orderedItem, user_id });
+      const result = await orderCreateService.execute({ status, orderedItem, user_id });
 
-      return response.json();
+      return response.json(result);
     } catch (error) {
       next(error);
     }
@@ -50,6 +52,26 @@ class OrderController {
       next(error);
     }
   }
+
+  // async update(request, response, next) {
+  //   try {
+  //     const { status } = request.body;
+  //     const user_id = request.user.id;
+
+  //     const orderUpdateRepository = new OrderUpdateRepository();
+  //     const orderUpdateService = new OrderUpdateService(
+  //       orderUpdateRepository
+  //     );
+  //     await orderUpdateService.execute({
+  //       status,
+  //       user_id,
+  //     });
+
+  //     return response.json();
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
 
   async delete(request, response, next) {
     try {
