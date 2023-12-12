@@ -9,19 +9,19 @@ class WebhookCreateService {
     constructor(webhookRepository) {
         this.webhookRepository = webhookRepository;
     }
-    async execute({ sig, endpointSecret, buf }) {
+    async execute({ sig, endpointSecret, request }) {
         // This is your Stripe CLI webhook secret for testing your endpoint locally.
         const stripe = Stripe(process.env.STRIPE_KEY);
         
-        endpointSecret = "1mwhsec_5f2702022bb538be3393f81e114d54b3ddb9cc13f1b5137b7dabbdc97e2df163";
+       // endpointSecret = "1mwhsec_5f2702022bb538be3393f81e114d54b3ddb9cc13f1b5137b7dabbdc97e2df163";
 
                                
-        // let data;
-        // let eventType;
+         let data;
+         let eventType;
         
-        // if (endpointSecret) {
+         if (endpointSecret) {
 
-        //     let event;
+             let event;
             // if(buf.body.data.object.object==='checkout.session' && buf.body.data.object.status=== 'complete'){//payment_intent.succeeded
             //     console.log('pagamento efetuado');
             //     //console.log("Dados do cliente:", buf.body.data.object.customer_details);
@@ -60,37 +60,32 @@ class WebhookCreateService {
 //type: 'payment_intent.payment_failed'
 //type: 'checkout.session.completed'            
     
-        //     try {
+            try {
+                event = await stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
                 
-        //         //JSON.stringify(sig);
-        //         //JSON.stringify(endpointSecret);
-        //         event = stripe.webhooks.constructEvent(buf.body, sig, endpointSecret);
-        //         console.log('Webhook verified.');
-        //     } catch (error) {
-        //         console.log(`Webhook Error: ${error.message}`);
-        //         //return response.status(400).send(`Webhook Error: ${err.message}`);
-                
-        //     }
-        //     data = event.data.object;
-        //     eventType = event.type;
-        // }else{
-        //         data = buf.data.object;
-        //         eventType = buf.type
-        //     }
+            } catch (error) {
+                console.log(`Webhook Error: ${error.message}`);
+            }
+            data = event.data.object;
+            eventType = event.type;
+        }else{
+            data = request.body.data.object;
+            eventType = request.body.type;
+            }
 
-        // if(eventType === "checkout.session.completed"){
-        //     stripe.customers.retrieve(data.customer)
-        //     .then((customer) => {
-        //         console.log(customer);
-        //         console.log("data", data);
-        //     })
-        //     .catch((error) => console.log(error.message));
-        //  }
+        if(eventType === "checkout.session.completed"){
+            stripe.customers.retrieve(data.customer)
+            .then(async (customer) => {
+                
+                    await knex("order").where({id: customer.metadata.orderId}).update({status: "Preparando"});
+            })
+            .catch((error) => console.log(error.message));
+         }
         
         
 
         
-        // }
+        }
 
 
         // Handle the event
@@ -112,5 +107,5 @@ class WebhookCreateService {
     //     throw new AppError("Unauthorized", 401);
     //   }
     // }
-}}
+}
 module.exports = WebhookCreateService;

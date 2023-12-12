@@ -14,7 +14,6 @@ class OrderController {
     try {
       const { status, orderedItem } = request.body;
       const user_id = request.user.id;
-//      console.log("oderedItem", orderedItem);
       const orderRepository = new OrderRepository();
       const orderCreateService = new OrderCreateService(orderRepository);
       const result = await orderCreateService.execute({ status, orderedItem, user_id });
@@ -53,25 +52,25 @@ class OrderController {
     }
   }
 
-  // async update(request, response, next) {
-  //   try {
-  //     const { status } = request.body;
-  //     const user_id = request.user.id;
+  async update(request, response, next) {
+    try {
+      const { status } = request.body;
+      const id = request.query;
 
-  //     const orderUpdateRepository = new OrderUpdateRepository();
-  //     const orderUpdateService = new OrderUpdateService(
-  //       orderUpdateRepository
-  //     );
-  //     await orderUpdateService.execute({
-  //       status,
-  //       user_id,
-  //     });
+      const orderUpdateRepository = new OrderUpdateRepository();
+      const orderUpdateService = new OrderUpdateService(
+        orderUpdateRepository
+      );
+      await orderUpdateService.execute({
+        status,
+        id,
+      });
 
-  //     return response.json();
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
+      return response.json();
+    } catch (error) {
+      next(error);
+    }
+  }
 
   async delete(request, response, next) {
     try {

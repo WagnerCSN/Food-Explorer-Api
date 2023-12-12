@@ -12,14 +12,14 @@ const CheckoutSessionCreateService = require("../services/checkoutSession/Checko
 class CheckoutSessionController {
   async create(request, response, next) {
     try {
-      const { cartItems } = request.body;
+      const { cartItems, order_id } = request.body;
       const user_id = request.user.id;
 
       const checkoutSessionRepository = new CheckoutSessionRepository();
       const checkoutSessionCreateService = new CheckoutSessionCreateService(checkoutSessionRepository);
       
       
-      return response.send(await checkoutSessionCreateService.execute({cartItems, user_id})).end();
+      return response.send(await checkoutSessionCreateService.execute({cartItems, order_id, user_id})).end();
     } catch (error) {
       next(error);
     }

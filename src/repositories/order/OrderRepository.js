@@ -101,7 +101,7 @@ class OrderRepository{
                     ord.qtdeOfItems = qtdeOfItems; 
                     ord.totalOrderValue = totalOrderValue; 
                     ord.user_id = user_id;
-                    const update = await trans('order').where({"id": order_id}).update({status: 'concluido', qtdeOfItems: qtdeOfItem, totalOrderValue: totalOrder })
+                    const update = await trans('order').where({"id": order_id}).update({status, qtdeOfItems: qtdeOfItem, totalOrderValue: totalOrder })
                     await trans.commit();
             });
         }catch(err) {

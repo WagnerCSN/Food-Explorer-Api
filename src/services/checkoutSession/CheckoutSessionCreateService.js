@@ -8,29 +8,17 @@ class CheckoutSessionCreateService{
         this.checkoutSessionRepository = checkoutSessionRepository;
     }
 
-    async execute({cartItems, user_id}){
-    
+    async execute({cartItems, order_id, user_id}){
     const stripe = Stripe(process.env.STRIPE_KEY);
-
     const customer = await stripe.customers.create({
       metadata: {
         userId: user_id,
-        cart: JSON.stringify(cartItems)
+        cart: JSON.stringify(cartItems),
+        orderId: order_id.id
       }
     })
 
-    //"orderedItem": [ {"plate_id":5, "amount": 3}, {"plate_id":5, "amount": 3}] 
- 
-    //fazer uma pesquisa para retornar os produtos e as respectivas quantidades
-    // const selectProducts = await this.checkoutSessionRepository.selectProducts()
-    // orderedItem.map(item => {
-    //     const cartItems = selectProducts.filter( product => product.id ===item.plate_id);
-
-    //     return{
-    //           amount: item.amount,
-    //           cartItems
-    //     }
-    // })
+    
     if(cartItems.length===0){
         throw new AppError("There are no items in the cart!");
     }
@@ -57,9 +45,9 @@ class CheckoutSessionCreateService{
     });
 
     const session = await stripe.checkout.sessions.create({
-        customer: customer.id,
-        line_items,
-        mode: 'payment',
+      line_items,
+      mode: 'payment',
+      customer: customer.id,
         success_url: `http://localhost:5173/checkout-success`,
         cancel_url: `http://localhost:5173/Pagamento`
         
