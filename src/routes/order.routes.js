@@ -7,7 +7,7 @@ const verifyUserAuthorization = require("../middlewares/verifyUserAuthorization"
 const orderRoutes = Router();
 
 orderRoutes.post("/", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), orderController.create);
-orderRoutes.get("/:id", ensureAuthenticated, orderController.show);
+orderRoutes.get("/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), orderController.show);
 orderRoutes.get("/", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), orderController.index);
 orderRoutes.delete("/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "sale"]), orderController.delete);
 orderRoutes.put("/", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), orderController.update);

@@ -41,10 +41,10 @@ class OrderController {
   async index(request, response, next) {
     try {
       const { name_user } = request.query;
-
+      const user_id = request.user.id;
       const orderIndexRepository = new OrderIndexRepository();
       const orderIndexService = new OrderIndexService(orderIndexRepository);
-      const orderSearch = await orderIndexService.execute({ name_user });
+      const orderSearch = await orderIndexService.execute({ name_user, user_id });
 
       return response.json(orderSearch);
     } catch (error) {

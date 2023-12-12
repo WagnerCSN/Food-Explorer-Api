@@ -7,6 +7,12 @@ class OrderIndexRepository{
         return orderIndexNameUser;
     }
 
+    async indexByUser_id(user_id){
+        const orderIndexUser = await knex("order").innerJoin("orderedItem", "orderedItem.order_id", "=", "order.id").join("plates", "plates.id", "=", "orderedItem.plate_id").where("order.user_id", user_id).select('*');
+
+        return orderIndexUser;
+    }
+
     async bestSellingDish(){
         const orderBestSellingDish = await knex("orderedItem").select('*').count('plate_id',{as: 'total '}).groupBy('plate_id').orderBy('total', 'desc').limit(4).join("plates", "plates.id", "=", "orderedItem.plate_id");
 
