@@ -5,7 +5,7 @@ class OrderIndexService{
         this.orderIndexRepository = orderIndexRepository;
     }
 
-    async execute({name_user, user_id}){
+    async execute({name_user, user_id}){1
         
         if(name_user || user_id){
             if(name_user){
@@ -38,7 +38,7 @@ class OrderIndexService{
             if(orderIndexUser.length ===0){
                   throw new AppError("User not found!");
             }
-            
+
             return data;
                 
             }
