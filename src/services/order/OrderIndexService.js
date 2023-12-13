@@ -17,8 +17,8 @@ class OrderIndexService{
             }
             if(user_id){
                 const orderIndexUser = await this.orderIndexRepository.indexByUser_id(user_id);//todas ordem
-                const items = await this.orderIndexRepository.indexByItems();
-                const a = items.map(i => {
+                const items = await this.orderIndexRepository.indexByItems();//todos items
+                const handleItems = items.map(i => {
                     return{ 
                         amount: i.amount,
                         name: i.name,
@@ -26,20 +26,20 @@ class OrderIndexService{
                         id: i.id
                     }
                    })
-                const array = orderIndexUser.map(order => {
-                       const item = a.filter(item => item.order_id ===order.id) 
-
-                        return{
+                   
+                const data = orderIndexUser.map(order => {
+                    let allItemsByOrder = handleItems.filter(item => item.order_id ===order.id);
+                       return{
                             order,
-                            items: item
+                            items: allItemsByOrder.map( item => `${item.amount}` + ' x ' + `${item.name}`).join(', ')
                         }
               })
-              if(orderIndexUser.length ===0){
+
+            if(orderIndexUser.length ===0){
                   throw new AppError("User not found!");
-                }
-                console.log(array)  
-                //console.log(array.items)
-                return array;
+            }
+            
+            return data;
                 
             }
         }else{
