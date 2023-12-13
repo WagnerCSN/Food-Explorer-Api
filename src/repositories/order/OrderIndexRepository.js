@@ -8,9 +8,15 @@ class OrderIndexRepository{
     }
 
     async indexByUser_id(user_id){
-        const orderIndexUser = await knex("order").innerJoin("orderedItem", "orderedItem.order_id", "=", "order.id").join("plates", "plates.id", "=", "orderedItem.plate_id").where("order.user_id", user_id).select('*');
+        const orderIndexUser = await knex("order").where({user_id}).select('*');
 
         return orderIndexUser;
+    }
+
+    async indexByItems(){
+        const indexByItems = await knex("orderedItem").innerJoin("plates", "plates.id", "=", "orderedItem.plate_id").select('*');
+
+        return indexByItems;
     }
 
     async bestSellingDish(){

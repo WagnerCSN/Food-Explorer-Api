@@ -16,15 +16,31 @@ class OrderIndexService{
                 return orderIndexNameUser;
             }
             if(user_id){
-                const orderIndexUser = await this.orderIndexRepository.indexByUser_id(user_id);
+                const orderIndexUser = await this.orderIndexRepository.indexByUser_id(user_id);//todas ordem
+                const items = await this.orderIndexRepository.indexByItems();
+                const a = items.map(i => {
+                    return{ 
+                        amount: i.amount,
+                        name: i.name,
+                        order_id: i.order_id,
+                        id: i.id
+                    }
+                   })
+                const array = orderIndexUser.map(order => {
+                       const item = a.filter(item => item.order_id ===order.id) 
 
-                const orderitem = await this.orderIndexRepository.indexByUser_id(user_id);
-                console.log(orderIndexUser)
-                if(orderIndexUser.length ===0){
-                    throw new AppError("User not found!");
+                        return{
+                            order,
+                            items: item
+                        }
+              })
+              if(orderIndexUser.length ===0){
+                  throw new AppError("User not found!");
                 }
-                return orderIndexUser;
-    
+                console.log(array)  
+                //console.log(array.items)
+                return array;
+                
             }
         }else{
             const orderBestSellingDish = await this.orderIndexRepository.bestSellingDish();
