@@ -5,7 +5,7 @@ class OrderIndexService{
         this.orderIndexRepository = orderIndexRepository;
     }
 
-    async execute({name_user, user_id}){1
+    async execute({name_user, user_id}){
         
         if(name_user || user_id){
             if(name_user){
