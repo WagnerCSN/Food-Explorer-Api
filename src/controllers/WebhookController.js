@@ -5,12 +5,12 @@ class WebhookController {
   async create(request, response, next) {
     try {
       await request;
-      const sig = request.headers['stripe-signature'];
+      let sig = request.headers['stripe-signature'];
       let endpointSecret;
       
       const webhookRepository = new WebhookRepository();
       const webhookCreateService = new WebhookCreateService(webhookRepository);
-      await webhookCreateService.execute({sig, endpointSecret, request});
+       webhookCreateService.execute({sig, endpointSecret, request});
       return response.end();
       
     } catch (error) {

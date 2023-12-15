@@ -12,9 +12,9 @@ class CheckoutSessionCreateService{
     const stripe = Stripe(process.env.STRIPE_KEY);
     const customer = await stripe.customers.create({
       metadata: {
-        userId: user_id,
-        cart: JSON.stringify(cartItems),
-        orderId: order_id.id
+        userId: user_id.toString(),
+        cart: JSON.stringify(cartItems.toString()),
+        orderId: order_id.id.toString()
       }
     })
 

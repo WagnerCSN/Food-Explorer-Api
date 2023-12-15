@@ -13,11 +13,11 @@ class WebhookCreateService {
         // This is your Stripe CLI webhook secret for testing your endpoint locally.
         const stripe = Stripe(process.env.STRIPE_KEY);
         
-       // endpointSecret = "1mwhsec_5f2702022bb538be3393f81e114d54b3ddb9cc13f1b5137b7dabbdc97e2df163";
-
-                               
-         let data;
+        //endpointSecret = "whsec_KOwU7BbwmTPSGnjXU9ub6ss12mT4Q178";
+        
+        let data;
          let eventType;
+        //console.log(request.body);//.data.object.last_payment_error.code
         
          if (endpointSecret) {
 
@@ -62,7 +62,7 @@ class WebhookCreateService {
     
             try {
                 event = await stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
-                
+                console.log("evento", event)
             } catch (error) {
                 console.log(`Webhook Error: ${error.message}`);
             }
@@ -81,31 +81,10 @@ class WebhookCreateService {
             })
             .catch((error) => console.log(error.message));
          }
-        
-        
-
-        
+         const code = request.body.data.object.failure_code;
+         if(code!=='undefined'){
+          return code
+         }
         }
-
-
-        // Handle the event
-        // switch (event.type) {
-        //     case 'payment_intent.succeeded':
-        //     const paymentIntentSucceeded = event.data.object;
-        //     // Then define and call a function to handle the event payment_intent.succeeded
-        //     break;
-        //     // ... handle other event types
-        //     default:
-        //     console.log(`Unhandled event type ${event.type}`);
-        // }
-
-        // Return a 200 response to acknowledge receipt of the event
-     
-    // const checkUserExist = await this.webhookRepository.findByUser(user);
-
-    // if (checkUserExist.length === 0) {
-    //     throw new AppError("Unauthorized", 401);
-    //   }
-    // }
 }
 module.exports = WebhookCreateService;

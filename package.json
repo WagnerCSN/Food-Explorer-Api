@@ -5,6 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "pm2-runtime start ecosystem.config.js --env production",
+    "stripe": "C:/Users/users./stripe listen --forward-to localhost:3000/webhook",
+    "stripe-payment": "C:/Users/users./stripe trigger payment_intent.succeeded",
     "dev": "nodemon ./src/server.js",
     "test": "jest --watch"
   },
