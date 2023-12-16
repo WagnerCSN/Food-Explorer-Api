@@ -22,7 +22,7 @@ class PlatesIndexService{
                 return{
                     name: plate.name, 
                     description: plate.description, 
-                    cost: plate.cost, 
+                    value: plate.value, 
                     image: plate.image,
                     typeOfPlate: platesWithType.map(platesWithType => platesWithType.name).toString(),
                     ingredients: platesWithIngredient.map(ingredient => ingredient.name)
