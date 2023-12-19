@@ -73,12 +73,13 @@ class PlatesIndexService{
                     name: plate.name, 
                     description: plate.description, 
                     cost: plate.cost, 
+                    value: plate.value,
                     image: plate.image,
                     typeOfPlate: plate.typeOfPlate_id,
                     ingredients: platesIngredient.map(ingredient => ingredient.name)
                 }
             });
-           
+            console.log(platesWithIngredients)
              return platesWithIngredients;
         }
     }
