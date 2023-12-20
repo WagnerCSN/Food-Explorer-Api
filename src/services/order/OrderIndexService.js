@@ -47,6 +47,8 @@ class OrderIndexService{
             if(orderBestSellingDish.length ===0){
                 throw new AppError("Enter a valid dish name!");
             }
+
+            console.log("melhores",orderBestSellingDish)
             return orderBestSellingDish;
         }
     }

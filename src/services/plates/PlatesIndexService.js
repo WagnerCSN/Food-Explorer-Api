@@ -79,7 +79,6 @@ class PlatesIndexService{
                     ingredients: platesIngredient.map(ingredient => ingredient.name)
                 }
             });
-            console.log(platesWithIngredients)
              return platesWithIngredients;
         }
     }
