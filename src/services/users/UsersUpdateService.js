@@ -6,7 +6,7 @@ class UsersUpdateService {
     this.usersUpdateRepository = usersUpdateRepository;
   }
 
-  async execute({ name, email, password, old_password, id }) {
+  async execute({ name, email, password, old_password, role, id }) {
     const user = await this.usersUpdateRepository.findByUser(id);
 
     if (!user) {
@@ -21,6 +21,7 @@ class UsersUpdateService {
     }
     user.name = name;
     user.email = email;
+    user.role = role;
 
     if (password && !old_password) {
       throw new AppError("Enter current password!");
@@ -40,6 +41,7 @@ class UsersUpdateService {
       name: user.name,
       email: user.email,
       password: user.password,
+      role: user.role,
       id,
     });
 

@@ -12,10 +12,10 @@ const platesRoutes = Router();
 const upload = multer(uploadConfig.Multer);
 
 platesRoutes.post("/", ensureAuthenticated, verifyUserAuthorization(["admin", "customer", "sale"]), platesController.create);
-platesRoutes.put("/:id", verifyUserAuthorization(["admin"]), platesController.update);
-platesRoutes.delete("/:id", verifyUserAuthorization(["admin"]), platesController.delete);
+platesRoutes.put("/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "customer", "sale"]), platesController.update);
+platesRoutes.delete("/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "customer", "sale"]), platesController.delete);
 platesRoutes.get("/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "customer", "sale"]), platesController.show);
 platesRoutes.get("/", ensureAuthenticated, verifyUserAuthorization(["admin", "customer", "sale"]), platesController.index);
-platesRoutes.patch("/image/:id", upload.single("image"), platesImageController.update)
+platesRoutes.patch("/image/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "customer", "sale"]), upload.single("image"), platesImageController.update)
 
 module.exports = platesRoutes;

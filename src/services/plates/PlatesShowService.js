@@ -6,13 +6,17 @@ class PlatesShowService{
     }
 
     async execute({id}){
+        const selectIngredients = await this.platesShowRepository.searchIngredients(id);
+        
         const checkPlatesWithId = await this.platesShowRepository.show(id);
 
         if(!checkPlatesWithId){
             throw new AppError("There is no plates with this id!");
         }
 
-        return checkPlatesWithId;
+        const result = [checkPlatesWithId, selectIngredients ];
+       
+         return result;
     }
 
 }

@@ -35,7 +35,6 @@ class PlatesController {
   async show(request, response, next) {
     try {
       const { id } = request.params;
-
       const platesShowRepository = new PlatesShowRepository();
       const platesShowService = new PlatesShowService(platesShowRepository);
       const plateShow = await platesShowService.execute({ id });

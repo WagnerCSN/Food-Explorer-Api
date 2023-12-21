@@ -13,11 +13,11 @@ class UsersUpdateRepository {
     return userWithEamilExist;
   }
 
-  async update({ name, email, password, id }) {
+  async update({ name, email, password, role, id }) {
     const userUpdated = await knex("users").where({ id }).update({
       name,
       email,
-      password,
+      password,role
     });
 
     return userUpdated;

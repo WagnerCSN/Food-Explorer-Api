@@ -54,7 +54,7 @@ class UsersController {
 
   async update(request, response, next) {
     try {
-      const { name, email, password, old_password } = request.body;
+      const { name, email, password, old_password, role } = request.body;
       const id = request.user.id;
 
       const usersUpdateRepository = new UsersUpdateRepository();
@@ -64,7 +64,7 @@ class UsersController {
         email,
         password,
         old_password,
-        id,
+        id, role
       });
 
       return response.json();
