@@ -20,7 +20,7 @@ class OrderIndexRepository{
     }
 
     async bestSellingDish(){
-        const orderBestSellingDish = await knex("orderedItem").select('*').count('plate_id',{as: 'total '}).groupBy('plate_id').orderBy('total', 'desc').limit(4).join("plates", "plates.id", "=", "orderedItem.plate_id");
+        const orderBestSellingDish = await knex("orderedItem").select('*').groupBy('plate_id').count('amount',{as: 'total '}).orderBy('total', 'desc').limit(8).innerJoin("plates", "plates.id", "=", "orderedItem.plate_id");
 
         return orderBestSellingDish;
     }

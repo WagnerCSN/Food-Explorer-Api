@@ -7,12 +7,12 @@ class OrderCreateService{
 
     async execute({status, orderedItem, user_id}){
        
-        orderedItem = orderedItem.map(item => {
-            return{
-                plate_id: item.data.id,
-                amount: item.qtde
-            }
-        })
+        // orderedItem = orderedItem.map(item => {
+        //     return{
+        //         plate_id: item.data.id,
+        //         amount: item.qtde
+        //     }
+        // })
         console.log("aaaaaaaaa", orderedItem);
        // const checkOrderedItemExist = await this.orderRepository.findByOrderedItem(orderedItem_id);
         const checkUserExist = await this.orderRepository.findByUser(user_id);

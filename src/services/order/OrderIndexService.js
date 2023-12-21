@@ -5,9 +5,9 @@ class OrderIndexService{
         this.orderIndexRepository = orderIndexRepository;
     }
 
-    async execute({name_user, user_id}){
+    async execute({name_user, user_id, bestDish}){
         
-        if(name_user || user_id){
+        
             if(name_user){
                 const orderIndexNameUser = await this.orderIndexRepository.indexByName(name_user);
                 if(orderIndexNameUser.length ===0){
@@ -15,7 +15,8 @@ class OrderIndexService{
                 }
                 return orderIndexNameUser;
             }
-            if(user_id){
+
+            if(user_id && bestDish==="false"){
                 const orderIndexUser = await this.orderIndexRepository.indexByUser_id(user_id);//todas ordem
                 const items = await this.orderIndexRepository.indexByItems();//todos items
                 const handleItems = items.map(i => {
@@ -42,14 +43,15 @@ class OrderIndexService{
             return data;
                 
             }
-        }else{
-            const orderBestSellingDish = await this.orderIndexRepository.bestSellingDish();
-            if(orderBestSellingDish.length ===0){
-                throw new AppError("Enter a valid dish name!");
-            }
-
-            console.log("melhores",orderBestSellingDish)
-            return orderBestSellingDish;
+        
+            if(user_id && bestDish==="true"){
+                const orderBestSellingDish = await this.orderIndexRepository.bestSellingDish();
+                if(orderBestSellingDish.length ===0){
+                    throw new AppError("Enter a valid dish name!");
+                }
+    
+                return orderBestSellingDish;
+            
         }
     }
 }
