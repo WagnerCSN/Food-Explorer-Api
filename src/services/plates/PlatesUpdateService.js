@@ -5,11 +5,10 @@ class PlatesUpdateService {
     this.platesUpdateRepository = platesUpdateRepository;
   }
 
-  async execute({ name, description, cost, image, typeOfPlate_id, ingredient_id, id }) {
+  async execute({ name, description, cost, value, image, typeOfPlate_id, id }) {
     const plates = await this.platesUpdateRepository.findByPlates(id);
     const checkExistTypeOfPlate = await this.platesUpdateRepository.findByTypePlate(typeOfPlate_id);
-    const checkExistIngredient = await this.platesUpdateRepository.findByIngredient(ingredient_id);
-
+    console.log(plates)
     if (!plates) {
       throw new AppError("Plates not found");
     }
@@ -18,10 +17,6 @@ class PlatesUpdateService {
         throw new AppError("No type of plate registered!");
     }
   
-    if (!checkExistIngredient) {
-        throw new AppError("No ingredient registered!");
-    }
-
     const platesWithNameExist = await this.platesUpdateRepository.findByPlatesWithNameExist();
     const result = platesWithNameExist.find((plate) => plate.name === name);
 
@@ -32,17 +27,17 @@ class PlatesUpdateService {
     plates.name = name;
     plates.description = description; 
     plates.cost = cost; 
+    plates.value = value; 
     plates.image = image; 
     plates.typeOfPlate_id = typeOfPlate_id; 
-    plates.ingredient_id = ingredient_id;
 
     const updatePlates = await this.platesUpdateRepository.update({
       name: plates.name,
       description: plates.description,
       cost: plates.cost,
+      value: plates.value,
       image: plates.image,
       typeOfPlate_id: plates.typeOfPlate_id,
-      ingredient_id: plates.ingredient_id,
       id,
     });
 

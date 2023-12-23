@@ -5,7 +5,7 @@ class IngredientsCreateService{
         this.ingredientsRepository = ingredientsRepository;
     }
 
-    async execute({ingredients}){
+    async execute({ingredients, plate_id}){
         if(ingredients){
             const handleIngredients = ingredients;
             const selectIngredientExist = await this.ingredientsRepository.findByName();
@@ -15,13 +15,13 @@ class IngredientsCreateService{
                     throw new AppError("Existing ingredient!");
                 }else{
                     return{
-                        name: ingredient.name
+                        name: ingredient.name,
+                        plate_id
                     }
                 }
             });
     
-            const ingredientCreated = await this.ingredientsRepository.create(insertIngredient);
-            
+            const ingredientCreated = await this.ingredientsRepository.create(insertIngredient, plate_id);
             return ingredientCreated;
         }
     }

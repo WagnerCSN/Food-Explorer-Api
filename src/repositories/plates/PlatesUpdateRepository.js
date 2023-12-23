@@ -18,23 +18,17 @@ class PlatesUpdateRepository {
 
     return checkExistTypeOfPlate;
     }    
-    
-    async findByIngredient(ingredient_id){
-    const checkExistIngredient = await knex("ingredients").select("*").where("id", ingredient_id).first();
 
-    return checkExistIngredient;
-    }
-
-  async update({ name, description, cost, image, typeOfPlate_id, ingredient_id, id }) {
+  async update({ name, description, cost, value, image, typeOfPlate_id, id }) {
     const plateUpdated = await knex("plates")
       .where({ id })
       .update({
         name,
         description,
         cost,
+        value,
         image,
         typeOfPlate_id,
-        ingredient_id,
       });
 
     return plateUpdated;

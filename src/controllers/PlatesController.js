@@ -65,10 +65,12 @@ class PlatesController {
 
   async update(request, response, next) {
     try {
-      const { name, description, cost, image, typeOfPlate_id, ingredient_id } =
+      const { name, description, cost, value, image, typeOfPlate_id } =
         request.body;
+        console.log("name",name);
+        console.log("description", description);
+        
       const { id } = request.params;
-
       const platesUpdateRepository = new PlatesUpdateRepository();
       const platesUpdateService = new PlatesUpdateService(
         platesUpdateRepository
@@ -78,8 +80,8 @@ class PlatesController {
         description,
         cost,
         image,
+        value,
         typeOfPlate_id,
-        ingredient_id,
         id,
       });
 
@@ -92,7 +94,6 @@ class PlatesController {
   async delete(request, response, next) {
     try {
       const { id } = request.params;
-
       const platesDeleteRepository = new PlatesDeleteRepository();
       const platesDeleteService = new PlatesDeleteService(
         platesDeleteRepository

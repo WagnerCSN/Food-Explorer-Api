@@ -7,8 +7,8 @@ class IngredientsRepository{
         return checkIngredientExist;
     }
 
-    async create(insertIngredient){
-        const ingredientCreated = await knex("ingredients").insert(insertIngredient);
+    async create(insertIngredient, plate_id){
+        const ingredientCreated = await knex("ingredients").insert(insertIngredient, plate_id);
 
         return ingredientCreated;
     }

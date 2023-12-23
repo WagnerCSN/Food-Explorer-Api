@@ -7,16 +7,11 @@ class PlatesDeleteService{
 
     async execute({id}){
         const checkPlatesExist = await this.platesDeleteRepository.findByPlates(id);
-
         if(!checkPlatesExist){
             throw new AppError("This plates does not have!");
         }
 
-        const deletedPlates = await this.platesDeleteRepository.deletePlates(id);
-
-        if(deletedPlates){
-            throw new AppError("Successfully deleted");
-        }
+        await this.platesDeleteRepository.deletePlates(id);
 
     }
 }

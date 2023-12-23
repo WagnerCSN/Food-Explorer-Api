@@ -13,10 +13,10 @@ const upload = multer(uploadConfig.Multer);
 
 //ingredientsRoutes.use(verifyUserAuthorization(["admin", "customer"]));
 ingredientsRoutes.post("/", ensureAuthenticated, verifyUserAuthorization(["admin", "customer"]), ingredientsController.create);
-ingredientsRoutes.put("/:id", ingredientsController.update);
-ingredientsRoutes.delete("/:id", ingredientsController.delete);
-ingredientsRoutes.get("/:id", ingredientsController.show);
+ingredientsRoutes.put("/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "customer"]), ingredientsController.update);
+ingredientsRoutes.delete("/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "customer"]), ingredientsController.delete);
+ingredientsRoutes.get("/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "customer"]), ingredientsController.show);
 ingredientsRoutes.get("/", ensureAuthenticated, verifyUserAuthorization(["admin", "customer"]), ingredientsController.index);
-ingredientsRoutes.patch("/image/:id", upload.single("image"), ingredientsImageController.update)
+ingredientsRoutes.patch("/image/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "customer"]), upload.single("image"), ingredientsImageController.update)
 
 module.exports = ingredientsRoutes;

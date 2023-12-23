@@ -12,13 +12,13 @@ const IngredientsIndexService = require("../services/ingredients/IngredientsInde
 class IngredientsController {
   async create(request, response, next) {
     try {
-      const { ingredients } = request.body;
+      const { ingredients, plate_id } = request.body;
 
       const ingredientsRepository = new IngredientsRepository();
       const ingredientsCreateService = new IngredientsCreateService(
         ingredientsRepository
       );
-      await ingredientsCreateService.execute({ ingredients });
+      await ingredientsCreateService.execute({ ingredients, plate_id });
 
       return response.json();
     } catch (error) {
