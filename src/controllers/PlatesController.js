@@ -67,8 +67,6 @@ class PlatesController {
     try {
       const { name, description, cost, value, image, typeOfPlate_id } =
         request.body;
-        console.log("name",name);
-        console.log("description", description);
         
       const { id } = request.params;
       const platesUpdateRepository = new PlatesUpdateRepository();
