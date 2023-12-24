@@ -5,27 +5,20 @@ class IngredientsUpdateService {
     this.ingredientsUpdateRepository = ingredientsUpdateRepository;
   }
 
-  async execute({ name, id }) {
-    const ingredients = await this.ingredientsUpdateRepository.findByIngredients(id);
+  async execute({ ingredients, plate_id }) {
+    const deleted = await this.ingredientsUpdateRepository.deletedIngredients(plate_id);
 
-    if (!ingredients) {
-      throw new AppError("Ingredients not found!");
-    }
+    const insertIngredient = ingredients.map(ingredient => {
+              return{
+                  name: ingredient.name,
+                  plate_id: plate_id
+              }
+          });
 
-    const ingredientsWithNameExist = await this.ingredientsUpdateRepository.findByIngredientsWithNameExist();
-    const result = ingredientsWithNameExist.find((ingredients) => ingredients.name === name);
 
-    if (result && result.id !== ingredients.id) {
-      throw new AppError("This name is already in use!");
-    }
-    ingredients.name = name;
+    const ingredientCreated=  await this.ingredientsUpdateRepository.insertIngredients(insertIngredient);
 
-    const ingredientsUpdated = await this.ingredientsUpdateRepository.update({
-      name: ingredients.name,
-      id,
-    });
-
-    return ingredientsUpdated;
+      return ingredientCreated;
   }
 }
 

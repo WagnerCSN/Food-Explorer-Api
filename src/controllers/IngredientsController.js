@@ -63,17 +63,15 @@ class IngredientsController {
 
   async update(request, response, next) {
     try {
-      const { name, image } = request.body;
-
-      const { id } = request.params;
+      const { ingredients, plate_id } = request.body;
 
       const ingredientsUpdateRepository = new IngredientsUpdateRepository();
       const ingredientsUpdateService = new IngredientsUpdateService(
         ingredientsUpdateRepository
       );
-      await ingredientsUpdateService.execute({ name, image, id });
+      
 
-      return response.json();
+      return response.json(await ingredientsUpdateService.execute({ ingredients, plate_id }));
     } catch (error) {
       next(error);
     }

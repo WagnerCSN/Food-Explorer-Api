@@ -7,17 +7,17 @@ class IngredientsUpdateRepository {
     return ingredients;
   }
 
-  async findByIngredientsWithNameExist() {
-    const ingredientsWithNameExist = await knex("ingredients").select("*");
+  async deletedIngredients(plate_id) {
+    const deleted = await knex("ingredients").where({plate_id}).delete();
 
-    return ingredientsWithNameExist;
+    return deleted;
   }
 
-  async update({ name, id }) {
-    const ingredientsUpdated = await knex("ingredients").where({ id }).update({name});
+  async insertIngredients(insertIngredient){ 
+    const ingredientCreated = await knex("ingredients").insert(insertIngredient);
 
-    return ingredientsUpdated;
   }
+
 }
 
 module.exports = IngredientsUpdateRepository;
