@@ -6,7 +6,7 @@ class PlatesImageUpdateService {
     this.platesImageUpdateRepository = platesImageUpdateRepository;
   }
 
-  async execute({ id, imageFileName }) {
+  async execute({imageFileName, id }) {
     const diskStorage = new DiskStorage();
     const dish = await this.platesImageUpdateRepository.findByDish(id);
 

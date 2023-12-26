@@ -5,11 +5,10 @@ class PlatesImageController{
 async update(request, response, next) {
     try {
         const {id} = request.params;
-        const imageFileName = request.file.filename;
-
-      const platesImageUpdateRepository = new PlatesImageUpdateRepository();
-      const platesImageUpdateService = new PlatesImageUpdateService(platesImageUpdateRepository);
-      await platesImageUpdateService.execute({id, imageFileName
+        const imageFileName = request.file.filename; 
+        const platesImageUpdateRepository = new PlatesImageUpdateRepository();
+        const platesImageUpdateService = new PlatesImageUpdateService(platesImageUpdateRepository);
+        await platesImageUpdateService.execute({id, imageFileName
        
       });
 

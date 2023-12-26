@@ -19,8 +19,8 @@ class PlatesRepository{
         return selectIngredients;
     }
     
-    async create({name, description, cost, value, typeOfPlate_id}){
-        const plateCreated = await knex("plates").insert({name, description, cost, value, typeOfPlate_id})
+    async create({name, description, cost, value, image, typeOfPlate_id}){
+        const plateCreated = await knex("plates").insert({name, description, cost, value, typeOfPlate_id, image})
 
         return plateCreated;
    }

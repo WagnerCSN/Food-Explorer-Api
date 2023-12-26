@@ -17,16 +17,15 @@ class PlatesController {
 
       const platesRepository = new PlatesRepository();
       const platesCreateService = new PlatesCreateService(platesRepository);
-      await platesCreateService.execute({
+
+      return response.json(await platesCreateService.execute({
         name,
         description,
         cost,
         value,
         typeOfPlate_id,
         ingredients,
-      });
-
-      return response.json();
+      }));
     } catch (error) {
       next(error);
     }

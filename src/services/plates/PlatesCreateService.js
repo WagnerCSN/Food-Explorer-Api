@@ -32,7 +32,7 @@ class PlatesCreateService {
       cost,
       value,
       typeOfPlate_id,
-    });
+    })
 
       const handleIngredients = ingredients;
       const insertIngredient = handleIngredients.map(ingredient => {
@@ -42,9 +42,9 @@ class PlatesCreateService {
               }
           });
 
-      const ingredientCreated = await this.platesRepository.insertIngredients(insertIngredient);
+      await this.platesRepository.insertIngredients(insertIngredient);
 
-      return {plate_id, ingredientCreated};
+      return {plate_id};
     }
 }
 
