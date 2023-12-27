@@ -8,7 +8,7 @@ class PlatesUpdateService {
   async execute({ name, description, cost, value, image, typeOfPlate_id, id }) {
     const plates = await this.platesUpdateRepository.findByPlates(id);
     const checkExistTypeOfPlate = await this.platesUpdateRepository.findByTypePlate(typeOfPlate_id);
-    console.log(plates)
+
     if (!plates) {
       throw new AppError("Plates not found");
     }
