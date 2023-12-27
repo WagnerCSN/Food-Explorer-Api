@@ -18,7 +18,7 @@ class PlatesImageUpdateService {
     }
 
     if (dish.image) {
-      await diskStorage.deleteFile(imageFileName);
+      await diskStorage.deleteFile(dish.image);
     }
 
     const filename = await diskStorage.saveFile(imageFileName);
