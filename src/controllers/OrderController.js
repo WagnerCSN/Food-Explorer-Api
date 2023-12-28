@@ -6,8 +6,8 @@ const OrderShowRepository = require("../repositories/order/OrderShowRepository")
 const OrderShowService = require("../services/order/OrderShowService");
 const OrderIndexRepository = require("../repositories/order/OrderIndexRepository");
 const OrderIndexService = require("../services/order/OrderIndexService");
-// const OrderUpdateService = require("../services/order/OrderUpdateService");
-// const OrderUpdateRepository = require("../repositories/order/OrderUpdateRepository");
+const OrderUpdateService = require("../services/order/OrderUpdateService");
+const OrderUpdateRepository = require("../repositories/order/OrderUpdateRepository");
 
 class OrderController {
   async create(request, response, next) {
@@ -40,11 +40,11 @@ class OrderController {
 
   async index(request, response, next) {
     try {
-      const { name_user, bestDish } = request.query;
+      const { name_user, bestDish, from, to } = request.query;
       const user_id = request.user.id;
       const orderIndexRepository = new OrderIndexRepository();
       const orderIndexService = new OrderIndexService(orderIndexRepository);
-      const orderSearch = await orderIndexService.execute({ name_user, user_id, bestDish });
+      const orderSearch = await orderIndexService.execute({ name_user, user_id, bestDish, from, to });
 
       return response.json(orderSearch);
     } catch (error) {
@@ -55,8 +55,8 @@ class OrderController {
   async update(request, response, next) {
     try {
       const { status } = request.body;
-      const id = request.query;
-
+      const id = request.params;
+      
       const orderUpdateRepository = new OrderUpdateRepository();
       const orderUpdateService = new OrderUpdateService(
         orderUpdateRepository

@@ -6,17 +6,19 @@ class OrderUpdateService {
   }
 
   async execute({ status, id }) {
-    const order = await this.orderUpdateRepository.findByOrder(id);
+    const order_id = id.id;
+    const order = await this.orderUpdateRepository.findByOrder(order_id);
+    console.log(order)
 
     if (!order) {
       throw new AppError("order not found!");
     }
 
     order.status = status;
-    order.orderedItem = orderedItem;
+    
     const orderUpdated = await this.orderUpdateRepository.update({
       status: order.status,
-      id,
+      order_id,
     });
 
     return orderUpdated;

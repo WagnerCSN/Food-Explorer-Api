@@ -10,5 +10,5 @@ orderRoutes.post("/", ensureAuthenticated, verifyUserAuthorization(["admin", "sa
 orderRoutes.get("/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), orderController.show);
 orderRoutes.get("/", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), orderController.index);
 orderRoutes.delete("/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "sale"]), orderController.delete);
-orderRoutes.put("/", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), orderController.update);
+orderRoutes.put("/:id", ensureAuthenticated, verifyUserAuthorization(["admin", "sale", "customer"]), orderController.update);
 module.exports = orderRoutes;

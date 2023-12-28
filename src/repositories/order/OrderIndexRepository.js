@@ -15,7 +15,7 @@ class OrderIndexRepository{
 
     async indexByItems(){
         const indexByItems = await knex("orderedItem").innerJoin("plates", "plates.id", "=", "orderedItem.plate_id").select('*');
-
+        
         return indexByItems;
     }
 
@@ -23,6 +23,12 @@ class OrderIndexRepository{
         const orderBestSellingDish = await knex("orderedItem").select('*').groupBy('plate_id').count('amount',{as: 'total '}).orderBy('total', 'desc').limit(8).innerJoin("plates", "plates.id", "=", "orderedItem.plate_id");
 
         return orderBestSellingDish;
+    }
+
+    async orderCreated(from, to){
+        const orderCreated = await knex("order").whereBetween('created_at', [from, to]).select('*').orderBy('created_at', 'desc').innerJoin("orderedItem", "orderedItem.order_id", "=", "order.id");
+
+        return orderCreated;
     }
 }
 module.exports = OrderIndexRepository;
