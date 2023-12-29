@@ -13,7 +13,6 @@ class WebhookCreateService {
         // This is your Stripe CLI webhook secret for testing your endpoint locally.
         const stripe = Stripe(process.env.STRIPE_KEY);
         
-        //endpointSecret = "whsec_KOwU7BbwmTPSGnjXU9ub6ss12mT4Q178";
         
         let data;
          let eventType;
