@@ -66,7 +66,6 @@ class OrderRepository{
                     
                     
                      if(insertOrderedItem===undefined){
-                        console.log("deu certo")
                      }else{
                             if(insertOrderedItem.length>=1){
                                 const item1 = insertOrderedItem.map(a => {

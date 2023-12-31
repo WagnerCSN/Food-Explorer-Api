@@ -131,7 +131,7 @@ class OrderCreateService{
     });
 
     const order = await this.orderRepository.createOrder({status, qtdeOfItems, totalOrderValue, user_id, insertOrderedItem, insertOrderedItem2});
-    return order    
+    return order, insertOrderedItem  
 }
 }
 
