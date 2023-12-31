@@ -15,7 +15,7 @@ app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER));
 app.use(cookieParser());
 
 app.use(cors({
-  origin: 'https://foodexplorer-wagner.netlify.app/',
+  origin: '*',
   methods: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
   headers: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization',
   credentials:true
