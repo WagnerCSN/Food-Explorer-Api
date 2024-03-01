@@ -12,8 +12,8 @@ const OrderUpdateRepository = require("../repositories/order/OrderUpdateReposito
 class OrderController {
   async create(request, response, next) {
     try {
-      const { status, orderedItem } = request.body;
-      const user_id = request.user.id;
+      const { status, orderedItem, user_id } = request.body;
+      // const user_id = request.user.id;
       console.log(user_id);
       const orderRepository = new OrderRepository();
       const orderCreateService = new OrderCreateService(orderRepository);
