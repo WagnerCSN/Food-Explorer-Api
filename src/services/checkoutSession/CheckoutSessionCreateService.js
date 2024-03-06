@@ -48,7 +48,7 @@ class CheckoutSessionCreateService{
       line_items,
       mode: 'payment',
       customer: customer.id,
-        success_url: `https://foodexplorer-wagner.netlify.app/checkoutsuccess`,
+        success_url: `https://foodexplorer-wagner.netlify.app`,
         cancel_url: `https://foodexplorer-wagner.netlify.app/Pagamento`
         
       });
