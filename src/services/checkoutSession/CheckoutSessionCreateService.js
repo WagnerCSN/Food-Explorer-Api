@@ -48,8 +48,8 @@ class CheckoutSessionCreateService{
       line_items,
       mode: 'payment',
       customer: customer.id,
-        success_url: `http://localhost:5173/checkout-success`,
-        cancel_url: `http://localhost:5173/Pagamento`
+        success_url: `https://foodexplorer-wagner.netlify.app/checkout-success`,
+        cancel_url: `https://foodexplorer-wagner.netlify.app/Pagamento`
         
       });
       
