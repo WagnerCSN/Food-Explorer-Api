@@ -14,7 +14,7 @@ class CheckoutSessionCreateService{
       metadata: {
         userId: user_id.toString(),
         cart: JSON.stringify(cartItems.toString()),
-        orderId: order_id.id
+        orderId: order_id.id.toString()
       }
     })
 
