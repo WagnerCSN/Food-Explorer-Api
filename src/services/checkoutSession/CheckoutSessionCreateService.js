@@ -14,7 +14,7 @@ class CheckoutSessionCreateService{
       metadata: {
         userId: user_id.toString(),
         cart: JSON.stringify(cartItems.toString()),
-        orderId: JSON.stringify(order_id.id.toString()),
+        orderId: order_id.id
       }
     })
 
@@ -48,7 +48,7 @@ class CheckoutSessionCreateService{
       line_items,
       mode: 'payment',
       customer: customer.id,
-        success_url: `http://foodexplorer-wagner.netlify.app`,
+        success_url: `https://foodexplorer-wagner.netlify.app`,
         cancel_url: `https://foodexplorer-wagner.netlify.app/Pagamento`
         
       });
