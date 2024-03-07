@@ -73,10 +73,10 @@ class WebhookCreateService {
             }
 
         if(eventType === "checkout.session.completed"){
-            stripe.customers.retrieve(data.customer)
-            .then(async (customer) => {
-                    console.log("customer", customer)
-                    await knex("order").where({id: parseInt(customer.metadata.orderId)}).update({status: "Preparando"});
+            stripe.customers.retrieve(data.id)
+            .then(async (id) => {
+                    console.log("customer", id)
+                    await knex("order").where({id: id}).update({status: "Preparando"});
             })
             .catch((error) => console.log(error.message));
          }
