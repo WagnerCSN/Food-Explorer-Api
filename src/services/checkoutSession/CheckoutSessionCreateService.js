@@ -18,6 +18,13 @@ class CheckoutSessionCreateService{
       }
     })
 
+    const order_id = await stripe.order.create({
+      
+        
+        orderId: order_id.id
+      
+    })
+
     
     if(cartItems.length===0){
         throw new AppError("There are no items in the cart!");
@@ -48,6 +55,7 @@ class CheckoutSessionCreateService{
       line_items,
       mode: 'payment',
       customer: customer.id,
+      order_id: order_id,
         success_url: `https://foodexplorer-wagner.netlify.app`,
         cancel_url: `https://foodexplorer-wagner.netlify.app/Pagamento`
         
